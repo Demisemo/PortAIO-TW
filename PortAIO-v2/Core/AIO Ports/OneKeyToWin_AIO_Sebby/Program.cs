@@ -47,15 +47,15 @@ namespace OneKeyToWin_AIO_Sebby
             W = new Spell(SpellSlot.W);
             R = new Spell(SpellSlot.R);
 
-            Config = new Menu("OneKeyToWin 一鍵獲勝", "OneKeyToWin_AIO" + ObjectManager.Player.ChampionName, true).SetFontStyle(System.Drawing.FontStyle.Bold, Color.DeepSkyBlue);
+            Config = new Menu("OneKeyToWin AIO", "OneKeyToWin_AIO" + ObjectManager.Player.ChampionName, true).SetFontStyle(System.Drawing.FontStyle.Bold, Color.DeepSkyBlue);
 
-            Config.AddItem(new MenuItem("AIOmode", "合集模式", true).SetValue(new StringList(new[] { "功能腳本和英雄腳本", "只有英雄腳本", "只有功能腳本" }, 1)));
+            Config.AddItem(new MenuItem("AIOmode", "AIO mode", true).SetValue(new StringList(new[] { "Utility and champion", "Only Champion", "Only Utility" }, 1)));
 
             AIOmode = Config.Item("AIOmode", true).GetValue<StringList>().SelectedIndex;
 
             if (AIOmode != 2)
             {
-                Config.AddSubMenu(new Menu("走砍", "Orbwalking"));
+                Config.AddSubMenu(new Menu("Orbwalking", "Orbwalking"));
                 Orbwalker = new Orbwalking.Orbwalker(Config.SubMenu("Orbwalking"));
             }
 
@@ -200,28 +200,28 @@ namespace OneKeyToWin_AIO_Sebby
             #endregion
 
 
-            Config.SubMenu("Prediction MODE").AddItem(new MenuItem("Qpred", "Q 預判 模式", true).SetValue(new StringList(new[] { "官方預判", "OKTW© 預判", "SP預判 請按F5重新注入才有效果", "SDK預判", "Exory 預判" }, 0)));
-            Config.SubMenu("Prediction MODE").AddItem(new MenuItem("QHitChance", "Q 命中機率", true).SetValue(new StringList(new[] { "非常高", "高", "正常" }, 0)));
-            Config.SubMenu("Prediction MODE").AddItem(new MenuItem("Wpred", "W 預判 模式", true).SetValue(new StringList(new[] { "官方預判", "OKTW© 預判", "SP預判 請按F5重新注入才有效果", "SDK預判", "Exory 預判" }, 0)));
-            Config.SubMenu("Prediction MODE").AddItem(new MenuItem("WHitChance", "W 命中機率", true).SetValue(new StringList(new[] { "非常高", "高", "正常" }, 0)));
-            Config.SubMenu("Prediction MODE").AddItem(new MenuItem("Epred", "E 預判 模式", true).SetValue(new StringList(new[] { "官方預判", "OKTW© 預判", "SP預判 請按F5重新注入才有效果", "SDK預判", "Exory 預判" }, 0)));
-            Config.SubMenu("Prediction MODE").AddItem(new MenuItem("EHitChance", "E 命中機率", true).SetValue(new StringList(new[] { "非常高", "高", "正常" }, 0)));
-            Config.SubMenu("Prediction MODE").AddItem(new MenuItem("Rpred", "R 預判 模式", true).SetValue(new StringList(new[] { "官方預判", "OKTW© 預判", "SP預判 請按F5重新注入才有效果", "SDK預判", "Exory 預判" }, 0)));
-            Config.SubMenu("Prediction MODE").AddItem(new MenuItem("RHitChance", "R 命中機率", true).SetValue(new StringList(new[] { "非常高", "高", "正常" }, 0)));
+            Config.SubMenu("Prediction MODE").AddItem(new MenuItem("Qpred", "Q Prediction MODE", true).SetValue(new StringList(new[] { "EB prediction", "OKTW© PREDICTION", "SPediction press F5 if not loaded", "SDK", "Exory prediction", "L# prediction" }, 0)));
+            Config.SubMenu("Prediction MODE").AddItem(new MenuItem("QHitChance", "Q Hit Chance", true).SetValue(new StringList(new[] { "Very High", "High", "Medium" }, 0)));
+            Config.SubMenu("Prediction MODE").AddItem(new MenuItem("Wpred", "W Prediction MODE", true).SetValue(new StringList(new[] { "EB prediction", "OKTW© PREDICTION", "SPediction press F5 if not loaded", "SDK", "Exory prediction", "L# prediction" }, 0)));
+            Config.SubMenu("Prediction MODE").AddItem(new MenuItem("WHitChance", "W Hit Chance", true).SetValue(new StringList(new[] { "Very High", "High", "Medium" }, 0)));
+            Config.SubMenu("Prediction MODE").AddItem(new MenuItem("Epred", "E Prediction MODE", true).SetValue(new StringList(new[] { "EB prediction", "OKTW© PREDICTION", "SPediction press F5 if not loaded", "SDK", "Exory prediction", "L# prediction" }, 0)));
+            Config.SubMenu("Prediction MODE").AddItem(new MenuItem("EHitChance", "E Hit Chance", true).SetValue(new StringList(new[] { "Very High", "High", "Medium" }, 0)));
+            Config.SubMenu("Prediction MODE").AddItem(new MenuItem("Rpred", "R Prediction MODE", true).SetValue(new StringList(new[] { "EB prediction", "OKTW© PREDICTION", "SPediction press F5 if not loaded", "SDK", "Exory prediction", "L# prediction" }, 0)));
+            Config.SubMenu("Prediction MODE").AddItem(new MenuItem("RHitChance", "R Hit Chance", true).SetValue(new StringList(new[] { "Very High", "High", "Medium" }, 0)));
 
-            Config.SubMenu("Prediction MODE").AddItem(new MenuItem("debugPred", "顯示 OKTW© 預判").SetValue(false));
+            Config.SubMenu("Prediction MODE").AddItem(new MenuItem("debugPred", "Draw Aiming OKTW© PREDICTION").SetValue(false));
 
             if (Config.Item("Qpred", true).GetValue<StringList>().SelectedIndex == 2 || Config.Item("Wpred", true).GetValue<StringList>().SelectedIndex == 2
                 || Config.Item("Epred", true).GetValue<StringList>().SelectedIndex == 2 || Config.Item("Rpred", true).GetValue<StringList>().SelectedIndex == 2)
             {
-                SPrediction.Prediction.Initialize(Config.SubMenu("預測模式"));
+                SPrediction.Prediction.Initialize(Config.SubMenu("Prediction MODE"));
                 SPredictionLoad = true;
-                Config.SubMenu("Prediction MODE").AddItem(new MenuItem("322", "裝載"));
+                Config.SubMenu("Prediction MODE").AddItem(new MenuItem("322", "SPREDICTION LOADED"));
             }
             else
-                Config.SubMenu("Prediction MODE").AddItem(new MenuItem("322", "禁止裝載"));
+                Config.SubMenu("Prediction MODE").AddItem(new MenuItem("322", "SPREDICTION NOT LOADED"));
 
-            Config.AddItem(new MenuItem("aiomodes", "謝謝！ 按F5重新啟動模式"));
+            Config.AddItem(new MenuItem("aiomodes", "!!! PRESS F5 TO RELOAD MODE !!!"));
             new Core.OKTWward().LoadOKTW();
 
             Config.AddToMainMenu();
@@ -538,6 +538,60 @@ namespace OneKeyToWin_AIO_Sebby
                 else
                 {
                     QWER.CastIfHitchanceEquals(target, HitChance.High);
+                }
+            }
+            else if (predIndex == 5)
+            {
+
+                PortAIO.SkillshotType CoreType2 = PortAIO.SkillshotType.SkillshotLine;
+                bool aoe2 = false;
+
+                if (QWER.Type == SkillshotType.SkillshotCircle)
+                {
+                    CoreType2 = PortAIO.SkillshotType.SkillshotCircle;
+                    aoe2 = true;
+                }
+
+                if (QWER.Width > 80 && !QWER.Collision)
+                    aoe2 = true;
+
+                var predInput2 = new PortAIO.PredictionInput
+                {
+                    Aoe = aoe2,
+                    Collision = QWER.Collision,
+                    Speed = QWER.Speed,
+                    Delay = QWER.Delay,
+                    Range = QWER.Range,
+                    From = Player.ServerPosition,
+                    Radius = QWER.Width,
+                    Unit = target,
+                    Type = CoreType2
+                };
+                var poutput2 = PortAIO.Prediction.GetPrediction(predInput2);
+
+                if (QWER.Speed != float.MaxValue && OktwCommon.CollisionYasuo(Player.ServerPosition, poutput2.CastPosition))
+                    return;
+
+                if ((int)hitchance == 6)
+                {
+                    if (poutput2.Hitchance >= PortAIO.HitChance.VeryHigh)
+                        QWER.Cast(poutput2.CastPosition);
+                    else if (predInput2.Aoe && poutput2.AoeTargetsHitCount > 1 && poutput2.Hitchance >= PortAIO.HitChance.High)
+                    {
+                        QWER.Cast(poutput2.CastPosition);
+                    }
+
+                }
+                else if ((int)hitchance == 5)
+                {
+                    if (poutput2.Hitchance >= PortAIO.HitChance.High)
+                        QWER.Cast(poutput2.CastPosition);
+
+                }
+                else if ((int)hitchance == 4)
+                {
+                    if (poutput2.Hitchance >= PortAIO.HitChance.Medium)
+                        QWER.Cast(poutput2.CastPosition);
                 }
             }
         }

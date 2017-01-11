@@ -51,11 +51,11 @@ using EloBuddy;
             W = new Spell(SpellSlot.W);
             R = new Spell(SpellSlot.R);
 
-            Config.SubMenu("AutoWard OKTW©").AddItem(new MenuItem("AutoWard", "自動插眼").SetValue(true));
-            Config.SubMenu("AutoWard OKTW©").AddItem(new MenuItem("autoBuy", "等級9自動購買鷹眼晶球").SetValue(false));
-            Config.SubMenu("AutoWard OKTW©").AddItem(new MenuItem("AutoWardBlue", "自動使用鷹眼晶球").SetValue(true));
-            Config.SubMenu("AutoWard OKTW©").AddItem(new MenuItem("AutoWardCombo", "只在連招時使用").SetValue(true));
-            Config.SubMenu("AutoWard OKTW©").AddItem(new MenuItem("AutoWardPink", "自動控域守衛, 先知透視鏡").SetValue(true));
+            Config.SubMenu("AutoWard OKTW©").AddItem(new MenuItem("AutoWard", "Auto Ward").SetValue(true));
+            Config.SubMenu("AutoWard OKTW©").AddItem(new MenuItem("autoBuy", "Auto buy blue trinket after lvl 9").SetValue(false));
+            Config.SubMenu("AutoWard OKTW©").AddItem(new MenuItem("AutoWardBlue", "Auto Blue Trinket").SetValue(true));
+            Config.SubMenu("AutoWard OKTW©").AddItem(new MenuItem("AutoWardCombo", "Only combo mode").SetValue(true));
+            Config.SubMenu("AutoWard OKTW©").AddItem(new MenuItem("AutoWardPink", "Auto VisionWard, OracleLens").SetValue(true));
 
             foreach (var hero in HeroManager.Enemies)
             {

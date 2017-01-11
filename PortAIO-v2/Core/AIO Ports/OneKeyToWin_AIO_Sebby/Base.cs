@@ -35,11 +35,11 @@ using EloBuddy;
             Console.WriteLine("BASE");
             TextBold = new Font(Drawing.Direct3DDevice, new FontDescription
             { FaceName = "Impact", Height = 30, Weight = FontWeight.Normal, OutputPrecision = FontPrecision.Default, Quality = FontQuality.ClearType });
-            Config.SubMenu("Extra settings OKTW©").AddItem(new MenuItem("supportMode", "輔助模式", true).SetValue(false));
-            Config.SubMenu("Extra settings OKTW©").AddItem(new MenuItem("comboDisableMode", "禁止自動攻擊的連招模式", true).SetValue(false));
-            Config.SubMenu("Extra settings OKTW©").AddItem(new MenuItem("manaDisable", "禁止魔量管理的連招", true).SetValue(false));
-            Config.SubMenu("Extra settings OKTW©").AddItem(new MenuItem("collAA", "如果犽宿放風牆禁止自動攻擊", true).SetValue(true));           
-            Config.SubMenu("Extra settings OKTW©").AddItem(new MenuItem("harassMixed", "只有在混合模式下使用技能騷擾").SetValue(false));
+            Config.SubMenu("Extra settings OKTW©").AddItem(new MenuItem("supportMode", "Support Mode", true).SetValue(false));
+            Config.SubMenu("Extra settings OKTW©").AddItem(new MenuItem("comboDisableMode", "Disable auto-attack in combo mode", true).SetValue(false));
+            Config.SubMenu("Extra settings OKTW©").AddItem(new MenuItem("manaDisable", "Disable mana manager in combo", true).SetValue(false));
+            Config.SubMenu("Extra settings OKTW©").AddItem(new MenuItem("collAA", "Disable auto-attack if Yasuo wall collision", true).SetValue(true));           
+            Config.SubMenu("Extra settings OKTW©").AddItem(new MenuItem("harassMixed", "Spell-harass only in mixed mode").SetValue(false));
             Config.Item("supportMode", true).SetValue(false);
 
             foreach (var enemy in HeroManager.Enemies)

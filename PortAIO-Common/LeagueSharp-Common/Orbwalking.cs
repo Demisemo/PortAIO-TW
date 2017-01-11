@@ -508,7 +508,7 @@ namespace LeagueSharp.Common
                     }
                 }
 
-                return result + target.BoundingRadius;
+                return result + target.BoundingRadius - 50;
             }
 
             return result;
@@ -1037,8 +1037,8 @@ namespace LeagueSharp.Common
                 misc.AddItem(new MenuItem("AttackWards", "自動攻擊眼").SetShared().SetValue(false));
                 misc.AddItem(new MenuItem("AttackPetsnTraps", "攻擊其他物件(陷阱、寵物等)").SetShared().SetValue(true));
                 misc.AddItem(
-                    new MenuItem("AttackGPBarrel", "自動攻擊剛普朗克的桶子").SetShared()
-                        .SetValue(new StringList(new[] { "連招和農兵", "農兵", "No" }, 1)));
+                    new MenuItem("AttackGPBarrel", "自動攻擊GP的桶子").SetShared()
+                        .SetValue(new StringList(new[] { "連招或農兵", "農兵", "不要" }, 1)));
                 misc.AddItem(new MenuItem("Smallminionsprio", "清野時先清小隻").SetShared().SetValue(false));
                 misc.AddItem(
                     new MenuItem("FocusMinionsOverTurrets", "注重小兵超過目標").SetShared()
