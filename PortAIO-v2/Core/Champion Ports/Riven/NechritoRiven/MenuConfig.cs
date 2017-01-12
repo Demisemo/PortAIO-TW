@@ -16,7 +16,7 @@ namespace NechritoRiven
     {
         #region Constants
 
-        private const string MenuName = "Nechrito 雷玟";
+        private const string MenuName = "Nechrito-雷玟";
 
         #endregion
 
@@ -146,7 +146,7 @@ namespace NechritoRiven
 
             var combo = new Menu("連招", "Combo");
             combo.AddItem(new MenuItem("Q3Wall", "過牆").SetValue(true));
-            combo.AddItem(new MenuItem("FlashOften", "閃現順發模式").SetValue(false).SetTooltip("Will flash if killable, always."));
+            combo.AddItem(new MenuItem("FlashOften", "閃現爆發連招模式").SetValue(false).SetTooltip("Will flash if killable, always."));
             combo.AddItem(new MenuItem("OverKillCheck", "R2 最大傷害").SetValue(true));
             combo.AddItem(new MenuItem("Doublecast", "Doublecast").SetValue(true)).SetTooltip("快速連招時每秒傷害");
             combo.AddItem(new MenuItem("UltHarass", "在騷擾中使用大招 (只在擊殺時)").SetValue(false));
@@ -188,7 +188,7 @@ namespace NechritoRiven
             draw.AddItem(new MenuItem("Dind", "傷害指示器").SetValue(true));
             draw.AddItem(new MenuItem("FleeSpot", "顯示逃跑點").SetValue(true));
             draw.AddItem(new MenuItem("DrawCB", "連招").SetValue(true));
-            draw.AddItem(new MenuItem("DrawBT", "順發").SetValue(false));
+            draw.AddItem(new MenuItem("DrawBT", "爆發連招").SetValue(false));
             draw.AddItem(new MenuItem("DrawFH", "快速騷擾").SetValue(false));
             draw.AddItem(new MenuItem("DrawHS", "騷擾").SetValue(false));
             config.AddSubMenu(draw);

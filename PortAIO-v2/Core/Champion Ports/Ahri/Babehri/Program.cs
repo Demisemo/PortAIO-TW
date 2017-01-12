@@ -65,53 +65,53 @@ using EloBuddy;
                 return;
             }
 
-            Menu = new Menu("Babehri", "Babehri", true);
+            Menu = new Menu("Babehri-阿璃", "Babehri", true);
 
             Orbwalker = Menu.AddOrbwalker();
             Menu.AddTargetSelector();
 
-            var combo = Menu.AddMenu("Combo", "Combo");
-            combo.AddBool("ComboQ", "Use Q");
-            combo.AddBool("ComboW", "Use W");
-            combo.AddSlider("ComboWMinHit", "Min Fox-Fire Hits", 2, 0, 3);
-            combo.AddBool("ComboE", "Use E");
+            var combo = Menu.AddMenu("連招", "Combo");
+            combo.AddBool("ComboQ", "使用 Q");
+            combo.AddBool("ComboW", "使用 W");
+            combo.AddSlider("ComboWMinHit", "使用W命中x目標", 2, 0, 3);
+            combo.AddBool("ComboE", "使用 E");
             //combo.AddItem(new MenuItem("ComboItems", "Use Items").SetValue(true));
 
-            var harass = Menu.AddMenu("Harass", "Harass");
-            harass.AddBool("HarassQ", "Use Q");
-            harass.AddBool("HarassW", "Use W");
-            harass.AddSlider("HarassWMinHit", "Min Fox-Fire Hits", 2, 0, 3);
-            harass.AddBool("HarassE", "Use E");
-            harass.AddSlider("HarassMinMana", "Min Mana Percent", 30);
+            var harass = Menu.AddMenu("騷擾", "Harass");
+            harass.AddBool("HarassQ", "使用 Q");
+            harass.AddBool("HarassW", "使用 W");
+            harass.AddSlider("HarassWMinHit", "使用W命中x目標", 2, 0, 3);
+            harass.AddBool("HarassE", "使用 E");
+            harass.AddSlider("HarassMinMana", "魔量管理", 30);
 
-            var farm = Menu.AddMenu("Farm", "Farm");
-            farm.AddBool("FarmQ", "Smart Farm with Q");
-            farm.AddSlider("FarmQHC", "Q Min HitCount", 3, 1, 5);
-            farm.AddBool("FarmQLH", "Save Q for LH", false);
-            farm.AddBool("FarmW", "Farm W (LC)", false);
-            farm.AddSlider("FarmMana", "Minimum Mana %", 50);
+            var farm = Menu.AddMenu("農兵", "Farm");
+            farm.AddBool("FarmQ", "使用 Q");
+            farm.AddSlider("FarmQHC", "Q 到x小兵數量", 3, 1, 5);
+            farm.AddBool("FarmQLH", "疊 Q ", false);
+            farm.AddBool("FarmW", "使用 W (邏輯)", false);
+            farm.AddSlider("FarmMana", "魔量管理 %", 50);
 
-            var misc = Menu.AddMenu("Misc", "Misc");
+            var misc = Menu.AddMenu("雜項", "Misc");
             var eMisc = misc.AddMenu("E", "E");
-            eMisc.AddBool("GapcloseE", "Use E on Gapclose");
-            eMisc.AddBool("InterruptE", "Use E to Interrupt");
+            eMisc.AddBool("GapcloseE", "使用 E 防突進");
+            eMisc.AddBool("InterruptE", "使用 E 中斷技能");
             var rMisc = misc.AddMenu("R", "R");
-            rMisc.AddSlider("DamageR", "R Dmg Prediction Bolt Count", 2, 0, 3);
-            rMisc.AddKeyBind("FleeR", "Use R Flee", 'T');
+            rMisc.AddSlider("DamageR", "R 計算每秒傷害", 2, 0, 3);
+            rMisc.AddKeyBind("FleeR", "使用 R 逃跑", 'T');
 
-            var drawing = Menu.AddMenu("Drawing", "Drawing");
+            var drawing = Menu.AddMenu("顯示", "Drawing");
 
-            var damage = drawing.AddMenu("Damage Indicator", "Damage Indicator");
-            damage.AddBool("Enabled", "Enabled");
-            damage.AddCircle("HPColor", "Health Color", System.Drawing.Color.White);
-            damage.AddCircle("FillColor", "Damage Color", System.Drawing.Color.DeepPink);
-            damage.AddBool("DmgEnabled", "Killable");
+            var damage = drawing.AddMenu("Damage Indicator", "傷害指示器");
+            damage.AddBool("Enabled", "啟用");
+            damage.AddCircle("HPColor", "血量顏色", System.Drawing.Color.White);
+            damage.AddCircle("FillColor", "傷害顏色", System.Drawing.Color.DeepPink);
+            damage.AddBool("DmgEnabled", "搶頭");
 
-            drawing.AddCircle("DrawQ", "Draw Q", System.Drawing.Color.DeepPink, Spells.Q.Range);
-            drawing.AddCircle("DrawW", "Draw W", System.Drawing.Color.White, Spells.W.Range, false);
-            drawing.AddCircle("DrawE", "Draw E", System.Drawing.Color.MediumVioletRed, Spells.E.Range);
-            drawing.AddCircle("DrawR", "Draw R", System.Drawing.Color.Cyan, Spells.R.Range);
-            drawing.AddCircle("DrawPassive", "Draw Passive Stack", System.Drawing.Color.White);
+            drawing.AddCircle("DrawQ", "顯示 Q 範圍", System.Drawing.Color.DeepPink, Spells.Q.Range);
+            drawing.AddCircle("DrawW", "顯示 W 範圍", System.Drawing.Color.White, Spells.W.Range, false);
+            drawing.AddCircle("DrawE", "顯示 E 範圍", System.Drawing.Color.MediumVioletRed, Spells.E.Range);
+            drawing.AddCircle("DrawR", "顯示 R 範圍", System.Drawing.Color.Cyan, Spells.R.Range);
+            drawing.AddCircle("DrawPassive", "顯示被動的疊層", System.Drawing.Color.White);
 
             Menu.AddToMainMenu();
 

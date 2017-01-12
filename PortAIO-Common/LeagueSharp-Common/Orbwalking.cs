@@ -1079,7 +1079,7 @@ namespace LeagueSharp.Common
                  new MenuItem("Flee", "逃跑").SetShared().SetValue(new KeyBind('M', KeyBindType.Press)));
 
                 _config.AddItem(
-                   new MenuItem("Burst", "順發").SetShared().SetValue(new KeyBind('T', KeyBindType.Press)));
+                   new MenuItem("Burst", "爆發連招").SetShared().SetValue(new KeyBind('T', KeyBindType.Press)));
 
                 _config.AddItem(
                     new MenuItem("Orbwalk", "連招").SetShared().SetValue(new KeyBind(32, KeyBindType.Press)));

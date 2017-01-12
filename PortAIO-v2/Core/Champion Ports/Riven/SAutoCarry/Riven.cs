@@ -50,63 +50,63 @@ namespace SAutoCarry.Champions
 
         public override void CreateConfigMenu()
         {
-            Menu combo = new Menu("Combo", "combo");
-            combo.AddItem(new MenuItem("CDISABLER", "Disable R Usage").SetValue(new KeyBind('J', KeyBindType.Toggle)))
+            Menu combo = new Menu("連招", "combo");
+            combo.AddItem(new MenuItem("CDISABLER", "關閉 R 使用").SetValue(new KeyBind('J', KeyBindType.Toggle)))
                     .ValueChanged += (s, ar) =>
                     {
                         ConfigMenu.Item("CR1MODE").Show(!ar.GetNewValue<KeyBind>().Active);
                         ConfigMenu.Item("CR2MODE").Show(!ar.GetNewValue<KeyBind>().Active);
                     };
-            combo.AddItem(new MenuItem("CR1MODE", "R1 Mode").SetValue(new StringList(new string[] { "Always", "If Killable With R2", "Smart" }))).Show(!combo.Item("CDISABLER").GetValue<KeyBind>().Active);
-            combo.AddItem(new MenuItem("CR2MODE", "R2 Mode").SetValue(new StringList(new string[] { "Always", "If Killable", "If Out of Range", "When Can Max Damage" }, 3))).Show(!combo.Item("CDISABLER").GetValue<KeyBind>().Active);
-            combo.AddItem(new MenuItem("CEMODE", "E Mode").SetValue(new StringList(new string[] { "E to enemy", "E Cursor Pos", "E to back off", "Dont Use E" }, 0)));
-            combo.AddItem(new MenuItem("CALWAYSE", "Always Start Combo With E").SetTooltip("for better combo executing").SetValue(false));
-            combo.AddItem(new MenuItem("CUSEF", "Use Flash In Combo").SetValue(new KeyBind('G', KeyBindType.Toggle))).Permashow();
+            combo.AddItem(new MenuItem("CR1MODE", "R1 模式").SetValue(new StringList(new string[] { "總是", "當可擊殺時R2", "智能" }))).Show(!combo.Item("CDISABLER").GetValue<KeyBind>().Active);
+            combo.AddItem(new MenuItem("CR2MODE", "R2 模式").SetValue(new StringList(new string[] { "總是", "當可擊殺時", "如果超出範圍", "最大傷害" }, 3))).Show(!combo.Item("CDISABLER").GetValue<KeyBind>().Active);
+            combo.AddItem(new MenuItem("CEMODE", "E 模式").SetValue(new StringList(new string[] { "E 至敵人", "E 鼠標位置", "E 退回", "不使用 E" }, 0)));
+            combo.AddItem(new MenuItem("CALWAYSE", "連招總是使用E").SetTooltip("為更好的使用連招").SetValue(false));
+            combo.AddItem(new MenuItem("CUSEF", "使用閃現爆發連招").SetValue(new KeyBind('G', KeyBindType.Toggle))).Permashow();
 
-            Menu comboType = new Menu("Combo Methods", "combomethod");
+            Menu comboType = new Menu("連招模式", "combomethod");
             foreach (var enemy in HeroManager.Enemies)
             {
-                ComboMethodBackup.Add(String.Format("CMETHOD{0}", enemy.ChampionName), new StringList(new string[] { "Normal", "Shy Burst", "Flash Combo" }));
-                comboType.AddItem(new MenuItem(String.Format("CMETHOD{0}", enemy.ChampionName), enemy.ChampionName).SetValue(new StringList(new string[] { "Normal", "Shy Burst", "Flash Combo" })))
+                ComboMethodBackup.Add(String.Format("CMETHOD{0}", enemy.ChampionName), new StringList(new string[] { "預設", "Shy 爆發連招", "閃現爆發連招" }));
+                comboType.AddItem(new MenuItem(String.Format("CMETHOD{0}", enemy.ChampionName), enemy.ChampionName).SetValue(new StringList(new string[] { "預設", "Shy 爆發連招", "閃現爆發連招" })))
                     .ValueChanged += (s, ar) =>
                     {
                         if (!comboType.Item("CSHYKEY").GetValue<KeyBind>().Active && !comboType.Item("CFLASHKEY").GetValue<KeyBind>().Active)
                             ComboMethodBackup[((MenuItem)s).Name] = ar.GetNewValue<StringList>();
                     };
             }
-            comboType.AddItem(new MenuItem("CSHYKEY", "Set All Shy Burst While Pressing Key").SetValue(new KeyBind('T', KeyBindType.Press))).ValueChanged += (s, ar) => Orbwalker.Configuration.Combo = ar.GetNewValue<KeyBind>().Active;
-            comboType.AddItem(new MenuItem("CFLASHKEY", "Set All Flash Combo While Pressing Key").SetValue(new KeyBind('Z', KeyBindType.Press)));
+            comboType.AddItem(new MenuItem("CSHYKEY", "在按熱鍵使用Shy模式爆發連招").SetValue(new KeyBind('T', KeyBindType.Press))).ValueChanged += (s, ar) => Orbwalker.Configuration.Combo = ar.GetNewValue<KeyBind>().Active;
+            comboType.AddItem(new MenuItem("CFLASHKEY", "在按熱鍵使用閃現爆發連招").SetValue(new KeyBind('Z', KeyBindType.Press)));
             combo.AddSubMenu(comboType);
 
 
-            Menu harass = new Menu("Harass", "harass");
-            harass.AddItem(new MenuItem("HEMODE", "E Mode").SetValue(new StringList(new string[] { "E to enemy", "E Cursor Pos", "E to back off", "Dont Use E" }, 0)));
+            Menu harass = new Menu("騷擾", "harass");
+            harass.AddItem(new MenuItem("HEMODE", "E 模式:").SetValue(new StringList(new string[] { "E 至敵人", "E 鼠標位置", "E 退回", "不使用 E" }, 0)));
 
 
-            Menu laneclear = new Menu("LaneClear/JungleClear", "laneclear");
-            laneclear.AddItem(new MenuItem("LUSEQ", "Use Q").SetValue(true));
-            laneclear.AddItem(new MenuItem("LUSEW", "Use W").SetValue(true))
+            Menu laneclear = new Menu("清線/清野", "laneclear");
+            laneclear.AddItem(new MenuItem("LUSEQ", "使用 Q").SetValue(true));
+            laneclear.AddItem(new MenuItem("LUSEW", "使用 W").SetValue(true))
                 .ValueChanged += (s, ar) =>
                 {
                     laneclear.Item("LMINW").Show(ar.GetNewValue<bool>());
                 };
-            laneclear.AddItem(new MenuItem("LMINW", "Min. Minion To W").SetValue(new Slider(1, 1, 6))).Show(laneclear.Item("LUSEW").GetValue<bool>());
-            laneclear.AddItem(new MenuItem("LUSETIAMAT", "Use Tiamat/Hydra").SetValue(true));
-            laneclear.AddItem(new MenuItem("LSEMIQJUNG", "Semi-Q Jungle Clear").SetValue(true));
-            laneclear.AddItem(new MenuItem("LASTUSETIAMAT", "Use Tiamat/Hydra for Last Hitting").SetValue(true));
+            laneclear.AddItem(new MenuItem("LMINW", "x數量使用 W").SetValue(new Slider(1, 1, 6))).Show(laneclear.Item("LUSEW").GetValue<bool>());
+            laneclear.AddItem(new MenuItem("LUSETIAMAT", "使用海神斧/九頭蛇").SetValue(true));
+            laneclear.AddItem(new MenuItem("LSEMIQJUNG", "使用Q清野").SetValue(true));
+            laneclear.AddItem(new MenuItem("LASTUSETIAMAT", "使用海神斧/九頭蛇農兵").SetValue(true));
 
-            Menu misc = new Menu("Misc", "misc");
-            misc.AddItem(new MenuItem("MFLEEKEY", "Flee Key").SetValue(new KeyBind('A', KeyBindType.Press)));
-            misc.AddItem(new MenuItem("MFLEEWJ", "Use Wall Jump while flee").SetValue(true)).Permashow();
-            misc.AddItem(new MenuItem("MKEEPQ", "Keep Q Alive (To Cursor Pos)").SetValue(false));
-            misc.AddItem(new MenuItem("MMINDIST", "Min. Distance to gapclose").SetValue(new Slider(390, 250, 750)));
-            misc.AddItem(new MenuItem("MAUTOINTRW", "Interrupt Spells With W").SetValue(true));
-            misc.AddItem(new MenuItem("MAUTOINTRQ", "Try Interrupt Spells With Ward & Q3").SetValue(false));
-            misc.AddItem(new MenuItem("MANTIGAPW", "Anti Gap Closer With W").SetValue(true));
-            misc.AddItem(new MenuItem("MANTIGAPQ", "Try Anti Gap Closer With Ward & Q3").SetValue(false));
-            misc.AddItem(new MenuItem("MAUTOANIMCANCEL", "Automatic cancel animation on manuel casts").SetValue(true));
-            misc.AddItem(new MenuItem("DDRAWCOMBOMODE", "Draw Combo Mode").SetValue(true));
-            misc.AddItem(new MenuItem("DRAWULTSTATUS", "Draw Always R Status").SetValue(true));
+            Menu misc = new Menu("雜項", "misc");
+            misc.AddItem(new MenuItem("MFLEEKEY", "逃跑熱鍵").SetValue(new KeyBind('A', KeyBindType.Press)));
+            misc.AddItem(new MenuItem("MFLEEWJ", "使用過牆，而逃跑").SetValue(true)).Permashow();
+            misc.AddItem(new MenuItem("MKEEPQ", "保持 Q 靈活 (至鼠標)").SetValue(false));
+            misc.AddItem(new MenuItem("MMINDIST", "防突進(目標距離)").SetValue(new Slider(390, 250, 750)));
+            misc.AddItem(new MenuItem("MAUTOINTRW", "使用 W 中斷技能").SetValue(true));
+            misc.AddItem(new MenuItem("MAUTOINTRQ", "嘗試中斷技能使用 & Q3").SetValue(false));
+            misc.AddItem(new MenuItem("MANTIGAPW", "使用 W 防突進").SetValue(true));
+            misc.AddItem(new MenuItem("MANTIGAPQ", "嘗試防突進使用 & Q3").SetValue(false));
+            misc.AddItem(new MenuItem("MAUTOANIMCANCEL", "自動取消動畫").SetValue(true));
+            misc.AddItem(new MenuItem("DDRAWCOMBOMODE", "顯示連招模式").SetValue(true));
+            misc.AddItem(new MenuItem("DRAWULTSTATUS", "顯示 R 狀態").SetValue(true));
 
             m_targetedEvader = new TargetedSpellEvader(TargetedSpell_Evade, misc);
             //DamageIndicator.Initialize((t) => (float)CalculateComboDamage(t) + (float)CalculateDamageR2(t), misc);

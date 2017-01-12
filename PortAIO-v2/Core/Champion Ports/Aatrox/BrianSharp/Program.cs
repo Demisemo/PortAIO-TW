@@ -25,57 +25,57 @@ namespace BrianSharp.Plugin
 
             var champMenu = new Menu("Plugin", Player.ChampionName + "_Plugin");
             {
-                var comboMenu = new Menu("Combo", "Combo");
+                var comboMenu = new Menu("連招", "Combo");
                 {
-                    AddBool(comboMenu, "Q", "Use Q");
-                    AddBool(comboMenu, "W", "Use W");
-                    AddSlider(comboMenu, "WHpU", "-> Switch To Heal If Hp <", 50);
-                    AddBool(comboMenu, "E", "Use E");
-                    AddBool(comboMenu, "R", "Use R");
-                    AddSlider(comboMenu, "RHpU", "-> If Enemy Hp <", 60);
-                    AddSlider(comboMenu, "RCountA", "-> Or Enemy >=", 2, 1, 5);
+                    AddBool(comboMenu, "Q", "使用 Q");
+                    AddBool(comboMenu, "W", "使用 W");
+                    AddSlider(comboMenu, "WHpU", "切換到吸血模式血量低於 <", 50);
+                    AddBool(comboMenu, "E", "使用 E");
+                    AddBool(comboMenu, "R", "使用 R");
+                    AddSlider(comboMenu, "RHpU", "-> 當敵人血量低於 <", 60);
+                    AddSlider(comboMenu, "RCountA", "-> 敵人 >=", 2, 1, 5);
                     champMenu.AddSubMenu(comboMenu);
                 }
-                var harassMenu = new Menu("Harass", "Harass");
+                var harassMenu = new Menu("騷擾", "Harass");
                 {
-                    AddKeybind(harassMenu, "AutoE", "Auto E", "H", KeyBindType.Toggle);
-                    AddSlider(harassMenu, "AutoEHpA", "-> If Hp >=", 50);
-                    AddBool(harassMenu, "Q", "Use Q");
-                    AddSlider(harassMenu, "QHpA", "-> If Hp >=", 20);
-                    AddBool(harassMenu, "E", "Use E");
+                    AddKeybind(harassMenu, "AutoE", "自動 E", "H", KeyBindType.Toggle);
+                    AddSlider(harassMenu, "AutoEHpA", "-> 血量低於 >=", 50);
+                    AddBool(harassMenu, "Q", "使用 Q");
+                    AddSlider(harassMenu, "QHpA", "-> 血量低於 >=", 20);
+                    AddBool(harassMenu, "E", "使用 E");
                     champMenu.AddSubMenu(harassMenu);
                 }
-                var clearMenu = new Menu("Clear", "Clear");
+                var clearMenu = new Menu("清線", "Clear");
                 {
                     AddSmiteMob(clearMenu);
-                    AddBool(clearMenu, "Q", "Use Q");
-                    AddBool(clearMenu, "W", "Use W");
-                    AddBool(clearMenu, "WPriority", "-> Priority Heal");
+                    AddBool(clearMenu, "Q", "使用 Q");
+                    AddBool(clearMenu, "W", "使用 W");
+                    AddBool(clearMenu, "WPriority", "-> 吸血模式優先");
                     AddSlider(clearMenu, "WHpU", "-> Switch To Heal If Hp <", 50);
-                    AddBool(clearMenu, "E", "Use E");
-                    AddBool(clearMenu, "Item", "Use Tiamat/Hydra Item");
+                    AddBool(clearMenu, "E", "使用 E");
+                    AddBool(clearMenu, "Item", "使用海神斧/九頭蛇");
                     champMenu.AddSubMenu(clearMenu);
                 }
-                var fleeMenu = new Menu("Flee", "Flee");
+                var fleeMenu = new Menu("逃跑", "Flee");
                 {
-                    AddBool(fleeMenu, "Q", "Use Q");
-                    AddBool(fleeMenu, "E", "Use E To Slow Enemy");
+                    AddBool(fleeMenu, "Q", "使用 Q");
+                    AddBool(fleeMenu, "E", "使用 E 緩速敵人");
                     champMenu.AddSubMenu(fleeMenu);
                 }
-                var miscMenu = new Menu("Misc", "Misc");
+                var miscMenu = new Menu("雜項", "Misc");
                 {
-                    var killStealMenu = new Menu("Kill Steal", "KillSteal");
+                    var killStealMenu = new Menu("搶頭", "KillSteal");
                     {
-                        AddBool(killStealMenu, "Q", "Use Q");
-                        AddBool(killStealMenu, "E", "Use E");
-                        AddBool(killStealMenu, "R", "Use R");
-                        AddBool(killStealMenu, "Ignite", "Use Ignite");
-                        AddBool(killStealMenu, "Smite", "Use Smite");
+                        AddBool(killStealMenu, "Q", "使用 Q");
+                        AddBool(killStealMenu, "E", "使用 E");
+                        AddBool(killStealMenu, "R", "使用 R");
+                        AddBool(killStealMenu, "Ignite", "使用點燃");
+                        AddBool(killStealMenu, "Smite", "使用重擊");
                         miscMenu.AddSubMenu(killStealMenu);
                     }
-                    var antiGapMenu = new Menu("Anti Gap Closer", "AntiGap");
+                    var antiGapMenu = new Menu("防突進", "AntiGap");
                     {
-                        AddBool(antiGapMenu, "Q", "Use Q");
+                        AddBool(antiGapMenu, "Q", "使用 Q");
                         foreach (var spell in
                             AntiGapcloser.Spells.Where(
                                 i => HeroManager.Enemies.Any(a => i.ChampionName == a.ChampionName)))
@@ -86,9 +86,9 @@ namespace BrianSharp.Plugin
                         }
                         miscMenu.AddSubMenu(antiGapMenu);
                     }
-                    var interruptMenu = new Menu("Interrupt", "Interrupt");
+                    var interruptMenu = new Menu("中斷技能", "Interrupt");
                     {
-                        AddBool(interruptMenu, "Q", "Use Q");
+                        AddBool(interruptMenu, "Q", "使用 Q");
                         foreach (var spell in
                             Interrupter.Spells.Where(
                                 i => HeroManager.Enemies.Any(a => i.ChampionName == a.ChampionName)))
@@ -101,11 +101,11 @@ namespace BrianSharp.Plugin
                     }
                     champMenu.AddSubMenu(miscMenu);
                 }
-                var drawMenu = new Menu("Draw", "Draw");
+                var drawMenu = new Menu("顯示", "Draw");
                 {
-                    AddBool(drawMenu, "Q", "Q Range", false);
-                    AddBool(drawMenu, "E", "E Range", false);
-                    AddBool(drawMenu, "R", "R Range", false);
+                    AddBool(drawMenu, "Q", "顯示 Q 範圍", false);
+                    AddBool(drawMenu, "E", "顯示 E 範圍", false);
+                    AddBool(drawMenu, "R", "顯示 R 範圍", false);
                     champMenu.AddSubMenu(drawMenu);
                 }
                 MainMenu.AddSubMenu(champMenu);

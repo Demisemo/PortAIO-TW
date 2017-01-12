@@ -80,32 +80,32 @@ namespace NoobAatrox
             R = new Spell(SpellSlot.R, 550);
 
             menu = new Menu(Player.ChampionName, Player.ChampionName, true);
-            Menu orbwalkerMenu = menu.AddSubMenu(new Menu("Orbwalker", "Orbwalker"));
+            Menu orbwalkerMenu = menu.AddSubMenu(new Menu("走砍", "Orbwalker"));
             orbwalker = new Orbwalking.Orbwalker(orbwalkerMenu);
 
-            var combo = new Menu("Combo", "Combo");
+            var combo = new Menu("連招", "Combo");
             menu.AddSubMenu(combo);
             combo.AddItem(new MenuItem("Combo", "Combo"));
             combo.AddItem(new MenuItem("space", ""));
-            combo.AddItem(new MenuItem("useQ", "Use Q").SetValue(true));
-            combo.AddItem(new MenuItem("useW", "Use W").SetValue(false));
-            combo.AddItem(new MenuItem("useE", "Use E").SetValue(true));
-            combo.AddItem(new MenuItem("useR", "Use R").SetValue(true));
+            combo.AddItem(new MenuItem("useQ", "使用 Q").SetValue(true));
+            combo.AddItem(new MenuItem("useW", "使用 W").SetValue(false));
+            combo.AddItem(new MenuItem("useE", "使用 E").SetValue(true));
+            combo.AddItem(new MenuItem("useR", "使用 R").SetValue(true));
 
-            var lc = new Menu("Laneclear", "Laneclear");
+            var lc = new Menu("清線", "Laneclear");
             menu.AddSubMenu(lc);
-            lc.AddItem(new MenuItem("laneclearQ", "Use Q to LaneClear").SetValue(true));
-            lc.AddItem(new MenuItem("laneclearE", "Use E to LaneClear").SetValue(true));
+            lc.AddItem(new MenuItem("laneclearQ", "使用Q").SetValue(true));
+            lc.AddItem(new MenuItem("laneclearE", "使用E").SetValue(true));
 
-            var jc = new Menu("Laneclear", "Laneclear");
+            var jc = new Menu("清野", "Laneclear");
             menu.AddSubMenu(jc);
-            jc.AddItem(new MenuItem("jungleclearQ", "Use Q to JungleClear").SetValue(true));
-            jc.AddItem(new MenuItem("jungleclearE", "Use E to JungleClear").SetValue(true));
+            jc.AddItem(new MenuItem("jungleclearQ", "使用Q").SetValue(true));
+            jc.AddItem(new MenuItem("jungleclearE", "使用E").SetValue(true));
 
-            var ks = new Menu("KillSteal", "KillSteal");
+            var ks = new Menu("搶頭", "KillSteal");
             menu.AddSubMenu(ks);
-            ks.AddItem(new MenuItem("useQKS", "Q to KillSteal").SetValue(true));
-            ks.AddItem(new MenuItem("useEKS", "E to KillSteal").SetValue(true));
+            ks.AddItem(new MenuItem("useQKS", "使用Q").SetValue(true));
+            ks.AddItem(new MenuItem("useEKS", "使用E").SetValue(true));
 
             hydra = new Items.Item(3074, 185);
             tiamat = new Items.Item(3077, 185);

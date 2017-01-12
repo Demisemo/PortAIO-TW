@@ -259,68 +259,68 @@ namespace HoolaRiven
         }
         private static void OnMenuLoad()
         {
-            Menu = new Menu("Hoola Riven", "hoolariven", true);
-            Menu ts = Menu.AddSubMenu(new Menu("Target Selector", "Target Selector"));
+            Menu = new Menu("Hoola-雷玟", "hoolariven", true);
+            Menu ts = Menu.AddSubMenu(new Menu("目標選擇器", "Target Selector"));
             TargetSelector.AddToMenu(ts);
-            var orbwalker = new Menu("Orbwalk", "rorb");
+            var orbwalker = new Menu("走砍", "rorb");
             Orbwalker = new Orbwalking.Orbwalker(orbwalker);
             Menu.AddSubMenu(orbwalker);
-            var Combo = new Menu("Combo", "Combo");
+            var Combo = new Menu("連招", "Combo");
 
-            Combo.AddItem(new MenuItem("AlwaysR", "Always Use R (Toggle)").SetValue(new KeyBind('G', KeyBindType.Toggle)));
-            Combo.AddItem(new MenuItem("UseHoola", "Use Hoola Combo Logic (Toggle)").SetValue(new KeyBind('L', KeyBindType.Toggle)));
-            Combo.AddItem(new MenuItem("ComboW", "Always use W").SetValue(true));
-            Combo.AddItem(new MenuItem("RKillable", "Use R When Target Can Killable").SetValue(true));
+            Combo.AddItem(new MenuItem("AlwaysR", "總是使用 R (開/關)").SetValue(new KeyBind('G', KeyBindType.Toggle)));
+            Combo.AddItem(new MenuItem("UseHoola", "使用 Hoola 連招邏輯 (開/關)").SetValue(new KeyBind('L', KeyBindType.Toggle)));
+            Combo.AddItem(new MenuItem("ComboW", "總是使用 W").SetValue(true));
+            Combo.AddItem(new MenuItem("RKillable", "當可擊殺使用R").SetValue(true));
 
 
             Menu.AddSubMenu(Combo);
-            var Lane = new Menu("Lane", "Lane");
-            Lane.AddItem(new MenuItem("LaneQ", "Use Q While Laneclear").SetValue(true));
-            Lane.AddItem(new MenuItem("LaneW", "Use W X Minion (0 = Don't)").SetValue(new Slider(5, 0, 5)));
-            Lane.AddItem(new MenuItem("LaneE", "Use E While Laneclear").SetValue(true));
+            var Lane = new Menu("農兵", "Lane");
+            Lane.AddItem(new MenuItem("LaneQ", "使用 Q 清線").SetValue(true));
+            Lane.AddItem(new MenuItem("LaneW", "使用 W X 小兵 (0 = 不使用)").SetValue(new Slider(5, 0, 5)));
+            Lane.AddItem(new MenuItem("LaneE", "使用 E 清線").SetValue(true));
 
 
 
             Menu.AddSubMenu(Lane);
-            var Misc = new Menu("Misc", "Misc");
+            var Misc = new Menu("雜項", "Misc");
 
-            Misc.AddItem(new MenuItem("youmu", "Use Youmus When E").SetValue(false));
-            Misc.AddItem(new MenuItem("FirstHydra", "Flash Burst Hydra Cast before W").SetValue(false));
-            Misc.AddItem(new MenuItem("Qstrange", "Strange Q For Speed").SetValue(false));
-            Misc.AddItem(new MenuItem("Winterrupt", "W interrupt").SetValue(true));
-            Misc.AddItem(new MenuItem("AutoW", "Auto W When x Enemy").SetValue(new Slider(5, 0, 5)));
-            Misc.AddItem(new MenuItem("RMaxDam", "Use Second R Max Damage").SetValue(true));
-            Misc.AddItem(new MenuItem("killstealw", "Killsteal W").SetValue(true));
-            Misc.AddItem(new MenuItem("killstealr", "Killsteal Second R").SetValue(true));
-            Misc.AddItem(new MenuItem("AutoShield", "Auto Cast E").SetValue(true));
-            Misc.AddItem(new MenuItem("Shield", "Auto Cast E While LastHit").SetValue(true));
-            Misc.AddItem(new MenuItem("KeepQ", "Keep Q Alive").SetValue(true));
-            Misc.AddItem(new MenuItem("QD", "First,Second Q Delay").SetValue(new Slider(29, 23, 43)));
-            Misc.AddItem(new MenuItem("QLD", "Third Q Delay").SetValue(new Slider(39, 36, 53)));
+            Misc.AddItem(new MenuItem("youmu", "使用妖夢鬼刀 E").SetValue(false));
+            Misc.AddItem(new MenuItem("FirstHydra", "使用爆發連招 W").SetValue(false));
+            Misc.AddItem(new MenuItem("Qstrange", "無動畫 Q 速度").SetValue(false));
+            Misc.AddItem(new MenuItem("Winterrupt", "W 中斷技能").SetValue(true));
+            Misc.AddItem(new MenuItem("AutoW", "自動 W x 敵人").SetValue(new Slider(5, 0, 5)));
+            Misc.AddItem(new MenuItem("RMaxDam", "使用 R2 最大傷害").SetValue(true));
+            Misc.AddItem(new MenuItem("killstealw", "搶頭 W").SetValue(true));
+            Misc.AddItem(new MenuItem("killstealr", "搶頭 R").SetValue(true));
+            Misc.AddItem(new MenuItem("AutoShield", "自動 E").SetValue(true));
+            Misc.AddItem(new MenuItem("Shield", "自動使用 E 農兵").SetValue(true));
+            Misc.AddItem(new MenuItem("KeepQ", "保持 Q 靈活").SetValue(true));
+            Misc.AddItem(new MenuItem("QD", "第一,第二 Q 延遲").SetValue(new Slider(29, 23, 43)));
+            Misc.AddItem(new MenuItem("QLD", "第三 Q 延遲").SetValue(new Slider(39, 36, 53)));
 
 
             Menu.AddSubMenu(Misc);
 
-            var Draw = new Menu("Draw", "Draw");
+            var Draw = new Menu("顯示", "Draw");
 
-            Draw.AddItem(new MenuItem("DrawAlwaysR", "Draw Always R Status").SetValue(true));
-            Draw.AddItem(new MenuItem("DrawTimer1", "Draw Q Expiry Time").SetValue(true));
-            Draw.AddItem(new MenuItem("DrawTimer2", "Draw R Expiry Time").SetValue(true));
-            Draw.AddItem(new MenuItem("DrawUseHoola", "Draw Hoola Logic Status").SetValue(true));
-            Draw.AddItem(new MenuItem("Dind", "Draw Damage Indicator").SetValue(true));
-            Draw.AddItem(new MenuItem("DrawCB", "Draw Combo Engage Range").SetValue(false));
-            Draw.AddItem(new MenuItem("DrawBT", "Draw Burst Engage Range").SetValue(false));
-            Draw.AddItem(new MenuItem("DrawFH", "Draw FastHarass Engage Range").SetValue(false));
-            Draw.AddItem(new MenuItem("DrawHS", "Draw Harass Engage Range").SetValue(false));
+            Draw.AddItem(new MenuItem("DrawAlwaysR", "顯示 R 狀態").SetValue(true));
+            Draw.AddItem(new MenuItem("DrawTimer1", "顯示 Q 剩餘時間").SetValue(true));
+            Draw.AddItem(new MenuItem("DrawTimer2", "顯示 R 剩餘時間").SetValue(true));
+            Draw.AddItem(new MenuItem("DrawUseHoola", "顯示 Hoola 邏輯狀態").SetValue(true));
+            Draw.AddItem(new MenuItem("Dind", "顯示傷害指示器").SetValue(true));
+            Draw.AddItem(new MenuItem("DrawCB", "顯示 連招 範圍").SetValue(false));
+            Draw.AddItem(new MenuItem("DrawBT", "顯示 爆發連招 範圍").SetValue(false));
+            Draw.AddItem(new MenuItem("DrawFH", "顯示 快速騷擾 範圍").SetValue(false));
+            Draw.AddItem(new MenuItem("DrawHS", "顯示 騷擾 範圍").SetValue(false));
 
             Menu.AddSubMenu(Draw);
 
-            var Credit = new Menu("Credit", "Credit");
+            var Credit = new Menu("歸功於", "Credit");
 
-            Credit.AddItem(new MenuItem("hoola", "Made by Hoola :)"));
-            Credit.AddItem(new MenuItem("notfixe", "If High ping will be many buggy"));
-            Credit.AddItem(new MenuItem("notfixed", "Not Fixed Anything Yet"));
-            Credit.AddItem(new MenuItem("feedback", "So Feedback To Hoola!"));
+            Credit.AddItem(new MenuItem("hoola", "作者: by Hoola :)"));
+            Credit.AddItem(new MenuItem("notfixe", "如果Ping過高、一些BUG"));
+            Credit.AddItem(new MenuItem("notfixed", "沒有修復任何東西"));
+            Credit.AddItem(new MenuItem("feedback", "有任何問題反映給->Hoola!"));
 
             Menu.AddSubMenu(Credit);
 

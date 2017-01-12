@@ -47,70 +47,70 @@ using EloBuddy; namespace KappaSeries
             IgniteSlot = _player.GetSpellSlot("SummonerDot");
             SmiteSlot = _player.GetSpellSlot("summonersmite");
 
-            _cfg = new Menu("Aatrox","Aatrox",true);
+            _cfg = new Menu("厄薩斯","Aatrox",true);
 
-            var targetSelectorMenu = new Menu("Target Selector", "Target Selector");
+            var targetSelectorMenu = new Menu("目標選擇器", "Target Selector");
             TargetSelector.AddToMenu(targetSelectorMenu);
             _cfg.AddSubMenu(targetSelectorMenu);
 
-            _cfg.AddSubMenu(new Menu("Orbwalking", "Orbwalking"));
+            _cfg.AddSubMenu(new Menu("走砍", "Orbwalking"));
             _orbwalker = new Orbwalking.Orbwalker(_cfg.SubMenu("Orbwalking"));
 
-            _cfg.AddSubMenu(new Menu("Combo", "Combo"));
-            _cfg.SubMenu("Combo").AddItem(new MenuItem("ActiveCombo", "Combo!").SetValue(new KeyBind(32, KeyBindType.Press)));
-            _cfg.SubMenu("Combo").AddItem(new MenuItem("UseQCombo", "Use Q")).SetValue(true);
-            _cfg.SubMenu("Combo").AddItem(new MenuItem("UseWCombo", "Use W")).SetValue(true);
-            _cfg.SubMenu("Combo").AddItem(new MenuItem("UseECombo", "Use E")).SetValue(true);
-            _cfg.SubMenu("Combo").AddItem(new MenuItem("UseRCombo", "Use R")).SetValue(true);
-            _cfg.SubMenu("Combo").AddItem(new MenuItem("minW", "min HP % W")).SetValue(new Slider(50,0,100));
-            _cfg.SubMenu("Combo").AddItem(new MenuItem("maxW", "Max HP % W")).SetValue(new Slider(80, 0, 100));
-            _cfg.SubMenu("Combo").AddItem(new MenuItem("minR", "Min Enemies to R")).SetValue(new Slider(2, 0, 5));
-            _cfg.SubMenu("Combo").AddItem(new MenuItem("DontQ", "Don't Q at enemy tower")).SetValue(true);
-            _cfg.SubMenu("Combo").AddItem(new MenuItem("Dive", "Dive Tower when target HP is lower then %")).SetValue(true);
-            _cfg.SubMenu("Combo").AddItem(new MenuItem("DiveMHP", "My HP % to Towerdive")).SetValue(new Slider(60, 0, 100));
-            _cfg.SubMenu("Combo").AddItem(new MenuItem("DiveTHP", "Target HP % to Towerdive")).SetValue(new Slider(10, 0, 100));
-            _cfg.SubMenu("Combo").AddItem(new MenuItem("UseItems", "Use Items")).SetValue(true);
+            _cfg.AddSubMenu(new Menu("連招", "Combo"));
+            _cfg.SubMenu("Combo").AddItem(new MenuItem("ActiveCombo", "連招!").SetValue(new KeyBind(32, KeyBindType.Press)));
+            _cfg.SubMenu("Combo").AddItem(new MenuItem("UseQCombo", "使用 Q")).SetValue(true);
+            _cfg.SubMenu("Combo").AddItem(new MenuItem("UseWCombo", "使用 W")).SetValue(true);
+            _cfg.SubMenu("Combo").AddItem(new MenuItem("UseECombo", "使用 E")).SetValue(true);
+            _cfg.SubMenu("Combo").AddItem(new MenuItem("UseRCombo", "使用 R")).SetValue(true);
+            _cfg.SubMenu("Combo").AddItem(new MenuItem("minW", "最小血量 % W")).SetValue(new Slider(50,0,100));
+            _cfg.SubMenu("Combo").AddItem(new MenuItem("maxW", "最大血量 % W")).SetValue(new Slider(80, 0, 100));
+            _cfg.SubMenu("Combo").AddItem(new MenuItem("minR", "當敵人數量x使用 R")).SetValue(new Slider(2, 0, 5));
+            _cfg.SubMenu("Combo").AddItem(new MenuItem("DontQ", "防止使用Q敵人時進入塔下")).SetValue(true);
+            _cfg.SubMenu("Combo").AddItem(new MenuItem("Dive", "當敵人血量低於%時，進入塔殺")).SetValue(true);
+            _cfg.SubMenu("Combo").AddItem(new MenuItem("DiveMHP", "自身血量 % 塔殺")).SetValue(new Slider(60, 0, 100));
+            _cfg.SubMenu("Combo").AddItem(new MenuItem("DiveTHP", "目標血量 % 塔殺")).SetValue(new Slider(10, 0, 100));
+            _cfg.SubMenu("Combo").AddItem(new MenuItem("UseItems", "使用物品")).SetValue(true);
             
-            _cfg.AddSubMenu(new Menu("Harass", "Harass"));
-            _cfg.SubMenu("Harass").AddItem(new MenuItem("ActiveHarass", "Harass!").SetValue(new KeyBind("A".ToCharArray()[0], KeyBindType.Press)));
-            _cfg.SubMenu("Harass").AddItem(new MenuItem("HarQ", " Use Q In Harass").SetValue(false));
-            _cfg.SubMenu("Harass").AddItem(new MenuItem("HarE", "Use E In Harass").SetValue(true));
+            _cfg.AddSubMenu(new Menu("騷擾", "Harass"));
+            _cfg.SubMenu("Harass").AddItem(new MenuItem("ActiveHarass", "騷擾!").SetValue(new KeyBind("A".ToCharArray()[0], KeyBindType.Press)));
+            _cfg.SubMenu("Harass").AddItem(new MenuItem("HarQ", " 使用 Q").SetValue(false));
+            _cfg.SubMenu("Harass").AddItem(new MenuItem("HarE", "使用 E").SetValue(true));
             
 
-            _cfg.AddSubMenu(new Menu("LaneClear", "LaneClear"));
-            _cfg.SubMenu("LaneClear").AddItem(new MenuItem("ActiveLane", "LaneClear!").SetValue(new KeyBind("V".ToCharArray()[0],KeyBindType.Press)));
-            _cfg.SubMenu("LaneClear").AddItem(new MenuItem("UseQLane", "Use Q")).SetValue(false);
-            _cfg.SubMenu("LaneClear").AddItem(new MenuItem("UseWLane", "Use W")).SetValue(true);
-            _cfg.SubMenu("LaneClear").AddItem(new MenuItem("UseELane", "Use E")).SetValue(true);
+            _cfg.AddSubMenu(new Menu("清線", "LaneClear"));
+            _cfg.SubMenu("LaneClear").AddItem(new MenuItem("ActiveLane", "清線!").SetValue(new KeyBind("V".ToCharArray()[0],KeyBindType.Press)));
+            _cfg.SubMenu("LaneClear").AddItem(new MenuItem("UseQLane", "使用 Q")).SetValue(false);
+            _cfg.SubMenu("LaneClear").AddItem(new MenuItem("UseWLane", "使用 W")).SetValue(true);
+            _cfg.SubMenu("LaneClear").AddItem(new MenuItem("UseELane", "使用 E")).SetValue(true);
 
-            _cfg.AddSubMenu(new Menu("JungleClear", "JungleClear"));
-            _cfg.SubMenu("JungleClear").AddItem(new MenuItem("ActiveJungle", "JungleClear!").SetValue(new KeyBind("V".ToCharArray()[0], KeyBindType.Press)));
-            _cfg.SubMenu("JungleClear").AddItem(new MenuItem("UseQJungle", "Use Q")).SetValue(true);
-            _cfg.SubMenu("JungleClear").AddItem(new MenuItem("UseWJungle", "Use W")).SetValue(true);
-            _cfg.SubMenu("JungleClear").AddItem(new MenuItem("UseEJungle", "Use E")).SetValue(true);
+            _cfg.AddSubMenu(new Menu("清野", "JungleClear"));
+            _cfg.SubMenu("JungleClear").AddItem(new MenuItem("ActiveJungle", "清野!").SetValue(new KeyBind("V".ToCharArray()[0], KeyBindType.Press)));
+            _cfg.SubMenu("JungleClear").AddItem(new MenuItem("UseQJungle", "使用 Q")).SetValue(true);
+            _cfg.SubMenu("JungleClear").AddItem(new MenuItem("UseWJungle", "使用 W")).SetValue(true);
+            _cfg.SubMenu("JungleClear").AddItem(new MenuItem("UseEJungle", "使用 E")).SetValue(true);
 
-            _cfg.AddSubMenu(new Menu("KillSteal", "KillSteal"));
-            _cfg.SubMenu("KillSteal").AddItem(new MenuItem("SmartKS", "Smart KillSteal")).SetValue(true);
-            _cfg.SubMenu("KillSteal").AddItem(new MenuItem("RKS", "Use R in KS")).SetValue(false);
+            _cfg.AddSubMenu(new Menu("搶頭", "KillSteal"));
+            _cfg.SubMenu("KillSteal").AddItem(new MenuItem("SmartKS", "智能搶頭")).SetValue(true);
+            _cfg.SubMenu("KillSteal").AddItem(new MenuItem("RKS", "使用R搶頭")).SetValue(false);
 
 
-            _cfg.AddSubMenu(new Menu("Drawings", "Drawings"));
-            _cfg.SubMenu("Drawings").AddItem(new MenuItem("Qdraw", "Draw Q Range")).SetValue(true);
-            _cfg.SubMenu("Drawings").AddItem(new MenuItem("Edraw", "Draw E Range")).SetValue(true);
+            _cfg.AddSubMenu(new Menu("顯示", "Drawings"));
+            _cfg.SubMenu("Drawings").AddItem(new MenuItem("Qdraw", "顯示 Q 範圍")).SetValue(true);
+            _cfg.SubMenu("Drawings").AddItem(new MenuItem("Edraw", "顯示 E 範圍")).SetValue(true);
             _cfg.SubMenu("Drawings").AddItem(new MenuItem("LagFree", "Lag Free Cirlces")).SetValue(true);
-            _cfg.SubMenu("Drawings").AddItem(new MenuItem("CircleThickness", "Circles Thickness").SetValue(new Slider(1, 10, 1)));
+            _cfg.SubMenu("Drawings").AddItem(new MenuItem("CircleThickness", "圓圈密度").SetValue(new Slider(1, 10, 1)));
             
 
-            _cfg.AddSubMenu(new Menu("Misc", "Misc"));
+            _cfg.AddSubMenu(new Menu("雜項", "Misc"));
             //_cfg.SubMenu("Misc").AddItem(new MenuItem("AutoLevel", "Auto Level")).SetValue(false);
             //_cfg.SubMenu("Misc").AddItem(new MenuItem("LevelSeq", "Leveling Style").SetValue(new StringList(new[] { "Lane", "Jungle" })));
-            _cfg.SubMenu("Misc").AddItem(new MenuItem("TowerQ", "Auto Q Under Turret")).SetValue(false);
-            _cfg.SubMenu("Misc").AddItem(new MenuItem("IntQ", "Auto Interrupt with Q")).SetValue(false);
-            _cfg.SubMenu("Misc").AddItem(new MenuItem("IntMed", "Interrupt Medium Danger Spells")).SetValue(false);
-            _cfg.SubMenu("Misc").AddItem(new MenuItem("SmartW", "Smart W Logic")).SetValue(true);
+            _cfg.SubMenu("Misc").AddItem(new MenuItem("TowerQ", "自動 Q 塔下")).SetValue(false);
+            _cfg.SubMenu("Misc").AddItem(new MenuItem("IntQ", "打斷技能使用 Q")).SetValue(false);
+            _cfg.SubMenu("Misc").AddItem(new MenuItem("IntMed", "中斷危險技能時使用")).SetValue(false);
+            _cfg.SubMenu("Misc").AddItem(new MenuItem("SmartW", "智能 W 邏輯")).SetValue(true);
 
-            _cfg.AddSubMenu(new Menu("Flee", "Flee"));
-            _cfg.SubMenu("Flee").AddItem(new MenuItem("ActiveFlee", "Flee!").SetValue(new KeyBind("G".ToCharArray()[0], KeyBindType.Press)));
+            _cfg.AddSubMenu(new Menu("逃跑", "Flee"));
+            _cfg.SubMenu("Flee").AddItem(new MenuItem("ActiveFlee", "逃跑!").SetValue(new KeyBind("G".ToCharArray()[0], KeyBindType.Press)));
 
             _cfg.AddToMainMenu();
 
