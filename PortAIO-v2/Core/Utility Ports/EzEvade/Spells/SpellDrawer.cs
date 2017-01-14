@@ -32,28 +32,28 @@ using LeagueSharp.Common;
         {
             //Console.WriteLine("SpellDrawer loaded");
 
-            Menu drawMenu = new Menu("Draw", "Draw");
-            drawMenu.AddItem(new MenuItem("DrawSkillShots", "Draw SkillShots").SetValue(true));
-            drawMenu.AddItem(new MenuItem("ShowStatus", "Show Evade Status").SetValue(true));
-            drawMenu.AddItem(new MenuItem("DrawSpellPos", "Draw Spell Position").SetValue(false));
-            drawMenu.AddItem(new MenuItem("DrawEvadePosition", "Draw Evade Position").SetValue(false));
+            Menu drawMenu = new Menu("顯示", "Draw");
+            drawMenu.AddItem(new MenuItem("DrawSkillShots", "顯示投擲技能").SetValue(true));
+            drawMenu.AddItem(new MenuItem("ShowStatus", "顯示躲避狀態").SetValue(true));
+            drawMenu.AddItem(new MenuItem("DrawSpellPos", "顯示技能位置").SetValue(false));
+            drawMenu.AddItem(new MenuItem("DrawEvadePosition", "顯示躲避位置").SetValue(false));
 
-            Menu dangerMenu = new Menu("DangerLevel Drawings", "DangerLevelDrawings");
-            Menu lowDangerMenu = new Menu("Low", "LowDrawing");
-            lowDangerMenu.AddItem(new MenuItem("LowWidth", "Line Width").SetValue(new Slider(3, 1, 15)));
-            lowDangerMenu.AddItem(new MenuItem("LowColor", "Color").SetValue(new Circle(true, Color.FromArgb(60, 255, 255, 255))));
+            Menu dangerMenu = new Menu("顯示技能危險等級", "DangerLevelDrawings");
+            Menu lowDangerMenu = new Menu("低", "LowDrawing");
+            lowDangerMenu.AddItem(new MenuItem("LowWidth", "線框").SetValue(new Slider(3, 1, 15)));
+            lowDangerMenu.AddItem(new MenuItem("LowColor", "顏色").SetValue(new Circle(true, Color.FromArgb(60, 255, 255, 255))));
 
-            Menu normalDangerMenu = new Menu("Normal", "NormalDrawing");
-            normalDangerMenu.AddItem(new MenuItem("NormalWidth", "Line Width").SetValue(new Slider(3, 1, 15)));
-            normalDangerMenu.AddItem(new MenuItem("NormalColor", "Color").SetValue(new Circle(true, Color.FromArgb(140, 255, 255, 255))));
+            Menu normalDangerMenu = new Menu("普通", "NormalDrawing");
+            normalDangerMenu.AddItem(new MenuItem("NormalWidth", "線寬").SetValue(new Slider(3, 1, 15)));
+            normalDangerMenu.AddItem(new MenuItem("NormalColor", "顏色").SetValue(new Circle(true, Color.FromArgb(140, 255, 255, 255))));
 
-            Menu highDangerMenu = new Menu("High", "HighDrawing");
-            highDangerMenu.AddItem(new MenuItem("HighWidth", "Line Width").SetValue(new Slider(3, 1, 15)));
-            highDangerMenu.AddItem(new MenuItem("HighColor", "Color").SetValue(new Circle(true, Color.FromArgb(255, 255, 255, 255))));
+            Menu highDangerMenu = new Menu("高", "HighDrawing");
+            highDangerMenu.AddItem(new MenuItem("HighWidth", "線寬").SetValue(new Slider(3, 1, 15)));
+            highDangerMenu.AddItem(new MenuItem("HighColor", "顏色").SetValue(new Circle(true, Color.FromArgb(255, 255, 255, 255))));
 
-            Menu extremeDangerMenu = new Menu("Extreme", "ExtremeDrawing");
-            extremeDangerMenu.AddItem(new MenuItem("ExtremeWidth", "Line Width").SetValue(new Slider(4, 1, 15)));
-            extremeDangerMenu.AddItem(new MenuItem("ExtremeColor", "Color").SetValue(new Circle(true, Color.FromArgb(255, 255, 255, 255))));
+            Menu extremeDangerMenu = new Menu("非常高", "ExtremeDrawing");
+            extremeDangerMenu.AddItem(new MenuItem("ExtremeWidth", "線寬").SetValue(new Slider(4, 1, 15)));
+            extremeDangerMenu.AddItem(new MenuItem("ExtremeColor", "顏色").SetValue(new Circle(true, Color.FromArgb(255, 255, 255, 255))));
 
             /*
             Menu undodgeableDangerMenu = new Menu("Undodgeable", "Undodgeable");

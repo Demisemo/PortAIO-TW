@@ -37,47 +37,47 @@ using EloBuddy; namespace HumanizerSharp
 
         public static void Game_OnGameLoad()
         {
-            Menu = new Menu("Humanizer", "Humanizer", true);
+            Menu = new Menu("人性化", "Humanizer", true);
 
-            var spells = Menu.AddSubMenu(new Menu("Spells", "Spells"));
+            var spells = Menu.AddSubMenu(new Menu("技能", "Spells"));
 
             foreach (var spell in Items)
 
             {
                 var menu = spells.AddSubMenu(new Menu(spell.ToString(), spell.ToString()));
-                menu.AddItem(new MenuItem("Enabled" + spell, "Delay " + spell).SetValue(true));
-                menu.AddItem(new MenuItem("MinDelay" + spell, "Minimum Delay").SetValue(new Slider(80)));
-                menu.AddItem(new MenuItem("MaxDelay" + spell, "Maximum Delay").SetValue(new Slider(200, 100, 400)));
+                menu.AddItem(new MenuItem("Enabled" + spell, "人性化延遲 " + spell).SetValue(true));
+                menu.AddItem(new MenuItem("MinDelay" + spell, "最小延遲").SetValue(new Slider(80)));
+                menu.AddItem(new MenuItem("MaxDelay" + spell, "最大延遲").SetValue(new Slider(200, 100, 400)));
                 LastCast.Add(spell, 0);
             }
 
-            spells.AddItem(new MenuItem("DrawSpells", "Draw Blocked Spell Count").SetValue(true));
+            spells.AddItem(new MenuItem("DrawSpells", "顯示攔阻計算技能").SetValue(true));
 
-            var move = Menu.AddSubMenu(new Menu("Movement", "Movement"));
-            move.AddItem(new MenuItem("MovementEnabled", "Enabled").SetValue(true));
-            move.AddItem(new MenuItem("MovementHumanizeDistance", "Humanize Movement Distance").SetValue(true));
+            var move = Menu.AddSubMenu(new Menu("移動", "Movement"));
+            move.AddItem(new MenuItem("MovementEnabled", "啟用").SetValue(true));
+            move.AddItem(new MenuItem("MovementHumanizeDistance", "人性化移動距離").SetValue(true));
             move.Item("MovementHumanizeDistance")
                 .SetTooltip("Stops the orbwalker from moving too closely to last movement");
 
-            move.AddItem(new MenuItem("MovementHumanizeRate", "Humanize Movement Rate").SetValue(true));
+            move.AddItem(new MenuItem("MovementHumanizeRate", "人性化移動速度").SetValue(true));
             move.Item("MovementHumanizeRate").SetTooltip("Stops the orbwalker from sending too many movement requests.");
 
-            move.AddItem(new MenuItem("MinDelay", "Minimum Delay")).SetValue(new Slider(80));
-            move.AddItem(new MenuItem("MaxDelay", "Maximum Delay")).SetValue(new Slider(200, 100, 400));
-            move.AddItem(new MenuItem("DrawMove", "Draw Blocked Movement Count").SetValue(true));
+            move.AddItem(new MenuItem("MinDelay", "最小延遲")).SetValue(new Slider(80));
+            move.AddItem(new MenuItem("MaxDelay", "最大延遲")).SetValue(new Slider(200, 100, 400));
+            move.AddItem(new MenuItem("DrawMove", "顯示攔阻計算移動").SetValue(true));
 
             Menu.AddToMainMenu();
 
             BlockedSpells = new Render.Text(
                 "Blocked Spells: ", Drawing.Width - 200, Drawing.Height - 600, 28, Color.Green);
             BlockedSpells.VisibleCondition += sender => Menu.Item("DrawSpells").IsActive();
-            BlockedSpells.TextUpdate += () => "Blocked Spells: " + BlockedSpellCount;
+            BlockedSpells.TextUpdate += () => "攔阻技能: " + BlockedSpellCount;
             BlockedSpells.Add();
 
             BlockedMovement = new Render.Text(
                 "Blocked Move: ", Drawing.Width - 200, Drawing.Height - 625, 28, Color.Green);
             BlockedMovement.VisibleCondition += sender => Menu.Item("DrawMove").IsActive();
-            BlockedMovement.TextUpdate += () => "Blocked Move: " + BlockedMoveCount;
+            BlockedMovement.TextUpdate += () => "攔阻移動: " + BlockedMoveCount;
             BlockedMovement.Add();
 
 

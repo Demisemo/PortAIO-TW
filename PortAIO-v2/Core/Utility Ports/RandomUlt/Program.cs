@@ -20,11 +20,11 @@ namespace RandomUlt
 
         public static void Game_OnGameLoad()
         {
-            config = new Menu("RandomUlt Beta", "RandomUlt Beta", true);
-            Menu RandomUltM = new Menu("Options", "Options");
+            config = new Menu("敵人回城的位置", "RandomUlt Beta", true);
+            Menu RandomUltM = new Menu("選項", "Options");
             positions = new LastPositions(RandomUltM);
             config.AddSubMenu(RandomUltM);
-            config.AddItem(new MenuItem("RandomUlt ", "by Soresu"));
+            config.AddItem(new MenuItem("RandomUlt ", "製作:by Soresu"));
             config.AddToMainMenu();
             Notifications.AddNotification(new Notification("RandomUlt by Soresu", 3000, true).SetTextColor(Color.Peru));
         }

@@ -30,7 +30,7 @@ using LeagueSharp.Common;
 
             //Game.OnUpdate += Game_OnGameUpdate;
 
-            evadeSpellMenu = new Menu("Evade Spells", "EvadeSpells");
+            evadeSpellMenu = new Menu("躲避技能", "EvadeSpells");
             menu.AddSubMenu(evadeSpellMenu);
 
             LoadEvadeSpellList();
@@ -83,17 +83,17 @@ using LeagueSharp.Common;
             }
 
             Menu newSpellMenu = new Menu(menuName, spell.charName + spell.name + "EvadeSpellSettings");
-            newSpellMenu.AddItem(new MenuItem(spell.name + "UseEvadeSpell", "Use Spell").SetValue(true));
+            newSpellMenu.AddItem(new MenuItem(spell.name + "UseEvadeSpell", "使用技能").SetValue(true));
 
-            newSpellMenu.AddItem(new MenuItem(spell.name + "EvadeSpellDangerLevel", "Danger Level")
-                .SetValue(new StringList(new[] { "Low", "Normal", "High", "Extreme" }, spell.dangerlevel - 1)));
+            newSpellMenu.AddItem(new MenuItem(spell.name + "EvadeSpellDangerLevel", "等極危險")
+                .SetValue(new StringList(new[] { "低", "普通", "高", "非常高" }, spell.dangerlevel - 1)));
             //newSpellMenu.AddItem(new MenuItem(spell.name + "SpellActivationTime", "Spell Activation Time").SetValue(new Slider(0, 0, 1000)));
 
             //Menu newSpellMiscMenu = new Menu("Misc Settings", spell.charName + spell.name + "EvadeSpellMiscSettings");
             //newSpellMenu.AddSubMenu(newSpellMiscMenu);
 
-            newSpellMenu.AddItem(new MenuItem(spell.name + "EvadeSpellMode", "Spell Mode")
-                .SetValue(new StringList(new[] { "Undodgeable", "Activation Time", "Always" },
+            newSpellMenu.AddItem(new MenuItem(spell.name + "EvadeSpellMode", "技能模式")
+                .SetValue(new StringList(new[] { "不可躲避", "激活時間", "總是" },
                     GetDefaultSpellMode(spell))));
 
             evadeSpellMenu.AddSubMenu(newSpellMenu);

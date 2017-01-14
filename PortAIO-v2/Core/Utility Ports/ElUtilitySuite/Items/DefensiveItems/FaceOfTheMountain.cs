@@ -42,7 +42,7 @@ namespace ElUtilitySuite.Items.DefensiveItems
         /// <value>
         ///     The name of the item.
         /// </value>
-        public override string Name => "Face of the Mountain";
+        public override string Name => "山靈守護";
 
         #endregion
 
@@ -53,16 +53,16 @@ namespace ElUtilitySuite.Items.DefensiveItems
         /// </summary>
         public override void CreateMenu()
         {
-            this.Menu.AddItem(new MenuItem("UseFaceCombo", "Activate").SetValue(true));
-            this.Menu.AddItem(new MenuItem("Mode-face", "Activation mode: "))
-                .SetValue(new StringList(new[] { "Use always", "Use in combo" }, 1));
-            this.Menu.AddItem(new MenuItem("face-min-health", "Use on Hp %").SetValue(new Slider(50)));
-            this.Menu.AddItem(new MenuItem("face-min-damage", "Incoming damage percentage").SetValue(new Slider(50, 1)));
+            this.Menu.AddItem(new MenuItem("UseFaceCombo", "使用").SetValue(true));
+            this.Menu.AddItem(new MenuItem("Mode-face", "使用道具: "))
+                .SetValue(new StringList(new[] { "總是使用", "連招時使用" }, 1));
+            this.Menu.AddItem(new MenuItem("face-min-health", "當血量低於%時使用").SetValue(new Slider(50)));
+            this.Menu.AddItem(new MenuItem("face-min-damage", "受到多少%傷害使用").SetValue(new Slider(50, 1)));
 
             this.Menu.AddItem(new MenuItem("blank-line", ""));
             foreach (var x in ObjectManager.Get<AIHeroClient>().Where(x => x.IsAlly))
             {
-                this.Menu.AddItem(new MenuItem("Faceon" + x.ChampionName, "Use for " + x.ChampionName)).SetValue(true);
+                this.Menu.AddItem(new MenuItem("Faceon" + x.ChampionName, "使用於: " + x.ChampionName)).SetValue(true);
             }
         }
 

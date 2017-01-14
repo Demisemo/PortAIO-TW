@@ -784,15 +784,15 @@ namespace ElUtilitySuite.Summoners
         {
             var predicate = new Func<Menu, bool>(x => x.Name == "BuffTypeStyleCleanser");
             var menu = !rootMenu.Children.Any(predicate)
-                           ? rootMenu.AddSubMenu(new Menu("Summoners", "SummonersMenu"))
+                           ? rootMenu.AddSubMenu(new Menu("召喚師技能", "SummonersMenu"))
                            : rootMenu.Children.First(predicate);
 
 
-            var cleanseOldMenu = menu.AddSubMenu(new Menu("Cleanse OLD", "CleanseOLD")).SetFontStyle(FontStyle.Bold, Color.White);
+            var cleanseOldMenu = menu.AddSubMenu(new Menu("淨化-舊版", "CleanseOLD")).SetFontStyle(FontStyle.Bold, Color.White);
             {
                 foreach (var spell in Spells)
                 {
-                    cleanseOldMenu.SubMenu("Spells").AddItem(
+                    cleanseOldMenu.SubMenu("技能").AddItem(
                         new MenuItem(
                             spell.MenuName?.Replace(" ", string.Empty) ?? spell.Name,
                             string.IsNullOrEmpty(spell.MenuName) ? spell.Name : spell.MenuName).SetValue(
@@ -800,9 +800,9 @@ namespace ElUtilitySuite.Summoners
                 }
 
                 cleanseOldMenu.SubMenu("Humanizer Delay").AddItem(
-                           new MenuItem("CleanseMinDelay1", "Minimum Delay (MS)").SetValue(new Slider(0, 0, 1000)));
+                           new MenuItem("CleanseMinDelay1", "最小人性化延遲延遲(MS)").SetValue(new Slider(0, 0, 1000)));
                 cleanseOldMenu.SubMenu("Humanizer Delay").AddItem(
-                    new MenuItem("CleanseMaxDelay1", "Maximum Delay (MS)").SetValue(new Slider(0, 0, 1500)));
+                    new MenuItem("CleanseMaxDelay1", "最大人性化延遲(MS)").SetValue(new Slider(0, 0, 1500)));
 
                 cleanseOldMenu.SubMenu("Humanizer Delay").Item("CleanseMaxDelay1").ValueChanged +=
                     delegate (object sender, OnValueChangeEventArgs args)
@@ -814,14 +814,14 @@ namespace ElUtilitySuite.Summoners
                         }
                     };
 
-                cleanseOldMenu.AddItem(new MenuItem("CleanseActivatedHumanize", "Use humanizer")
+                cleanseOldMenu.AddItem(new MenuItem("CleanseActivatedHumanize", "使用人性化")
                    .SetValue(false)).SetTooltip("This can cause QSS to cast late! (Keep this disabled)", Color.Pink);
-                cleanseOldMenu.AddItem(new MenuItem("CleanseActivated", "Use Cleanse").SetValue(true))
+                cleanseOldMenu.AddItem(new MenuItem("CleanseActivated", "使用淨化").SetValue(true))
                     .SetTooltip("Settings also apply on mikael's crucible.");
                 cleanseOldMenu.AddItem(new MenuItem("seperator211", ""));
                 foreach (var x in HeroManager.Allies)
                 {
-                    cleanseOldMenu.AddItem(new MenuItem($"cleanseon{x.ChampionName}", "Use for " + x.ChampionName))
+                    cleanseOldMenu.AddItem(new MenuItem($"cleanseon{x.ChampionName}", "使用於: " + x.ChampionName))
                         .SetValue(true);
                 }
             }

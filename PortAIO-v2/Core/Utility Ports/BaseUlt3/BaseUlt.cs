@@ -84,12 +84,12 @@ The idea where the lines come from is that u can calculate how far they are from
 
         public BaseUlt()
         {
-            (Menu = new Menu("BaseUlt3", "BaseUlt3", true)).AddToMainMenu();
-            Menu.AddItem(new MenuItem("showRecalls", "Show Recalls").SetValue(true));
-            Menu.AddItem(new MenuItem("baseUlt", "Base Ult").SetValue(true));
-            Menu.AddItem(new MenuItem("checkCollision", "Check Collision").SetValue(true));
-            Menu.AddItem(new MenuItem("panicKey", "No Ult while SBTW").SetValue(new KeyBind(32, KeyBindType.Press))); //32 == space
-            Menu.AddItem(new MenuItem("regardlessKey", "No timelimit (hold)").SetValue(new KeyBind(17, KeyBindType.Press))); //17 == ctrl
+            (Menu = new Menu("[本地大招]", "BaseUlt3", true)).AddToMainMenu();
+            Menu.AddItem(new MenuItem("showRecalls", "顯示回城").SetValue(true));
+            Menu.AddItem(new MenuItem("baseUlt", "本地使用大招").SetValue(true));
+            Menu.AddItem(new MenuItem("checkCollision", "檢查碰撞").SetValue(true));
+            Menu.AddItem(new MenuItem("panicKey", "沒有大招一鍵獲勝").SetValue(new KeyBind(32, KeyBindType.Press))); //32 == space
+            Menu.AddItem(new MenuItem("regardlessKey", "沒有時間限制 (保持)").SetValue(new KeyBind(17, KeyBindType.Press))); //17 == ctrl
 
             Heroes = ObjectManager.Get<AIHeroClient>().ToList();
             Enemies = Heroes.Where(x => x.IsEnemy).ToList();
@@ -99,8 +99,8 @@ The idea where the lines come from is that u can calculate how far they are from
 
             bool compatibleChamp = IsCompatibleChamp(ObjectManager.Player.ChampionName);
 
-            TeamUlt = Menu.AddSubMenu(new Menu("Team Baseult Friends", "TeamUlt"));
-            DisabledChampions = Menu.AddSubMenu(new Menu("Disabled Champion targets", "DisabledChampions"));
+            TeamUlt = Menu.AddSubMenu(new Menu("團隊中本地大招", "TeamUlt"));
+            DisabledChampions = Menu.AddSubMenu(new Menu("禁用英雄目標", "DisabledChampions"));
 
             if (compatibleChamp)
             {
@@ -111,10 +111,10 @@ The idea where the lines come from is that u can calculate how far they are from
                     DisabledChampions.AddItem(new MenuItem(champ.ChampionName, "Don't shoot: " + champ.ChampionName).SetValue(false).DontSave());
             }
 
-            var NotificationsMenu = Menu.AddSubMenu(new Menu("Notifications", "Notifications"));
+            var NotificationsMenu = Menu.AddSubMenu(new Menu("通知警告", "Notifications"));
 
-            NotificationsMenu.AddItem(new MenuItem("notifRecFinished", "Recall finished").SetValue(true));
-            NotificationsMenu.AddItem(new MenuItem("notifRecAborted", "Recall aborted").SetValue(true));
+            NotificationsMenu.AddItem(new MenuItem("notifRecFinished", "回城完成").SetValue(true));
+            NotificationsMenu.AddItem(new MenuItem("notifRecAborted", "回程許蕭").SetValue(true));
 
             EnemySpawnPos = ObjectManager.Get<Obj_SpawnPoint>().FirstOrDefault(x => x.IsEnemy).Position; //ObjectManager.Get<GameObject>().FirstOrDefault(x => x.Type == GameObjectType.obj_SpawnPoint && x.IsEnemy).Position;
 

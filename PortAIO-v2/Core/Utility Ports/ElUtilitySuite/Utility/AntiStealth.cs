@@ -123,12 +123,12 @@ namespace ElUtilitySuite.Utility
         {
             var predicate = new Func<Menu, bool>(x => x.Name == "MiscMenu");
             var menu = !rootMenu.Children.Any(predicate)
-                           ? rootMenu.AddSubMenu(new Menu("Misc", "MiscMenu"))
+                           ? rootMenu.AddSubMenu(new Menu("雜項", "MiscMenu"))
                            : rootMenu.Children.First(predicate);
 
-            var protectMenu = menu.AddSubMenu(new Menu("Anti-Stealth", "AntiStealth"));
+            var protectMenu = menu.AddSubMenu(new Menu("反隱身", "AntiStealth"));
             {
-                protectMenu.AddItem(new MenuItem("AntiStealthActive", "Place Pink Ward on Unit Stealth").SetValue(true));
+                protectMenu.AddItem(new MenuItem("AntiStealthActive", "使用控域守衛/先知透視鏡掃隱身").SetValue(true));
             }
 
             this.Menu = protectMenu;

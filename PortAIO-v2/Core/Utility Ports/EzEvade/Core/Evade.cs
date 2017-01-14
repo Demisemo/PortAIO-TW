@@ -95,16 +95,16 @@ namespace ezEvade
 
                 Chat.Print(devModeOn ? "<b>ezEvade: Developer Mode On</b>" : "<b>ezEvade: Loaded!</b>");
 
-                menu = new Menu("ezEvade", "ezEvade", true);
+                menu = new Menu("ez躲避", "ezEvade", true);
 
-                Menu mainMenu = new Menu("Main", "Main");
-                mainMenu.AddItem(new MenuItem("DodgeSkillShots", "Dodge SkillShots").SetValue(new KeyBind('K', KeyBindType.Toggle, true)));
+                Menu mainMenu = new Menu("主要", "Main");
+                mainMenu.AddItem(new MenuItem("DodgeSkillShots", "躲避技能").SetValue(new KeyBind('K', KeyBindType.Toggle, true)));
                 mainMenu.Item("DodgeSkillShots").Permashow();
-                mainMenu.AddItem(new MenuItem("ActivateEvadeSpells", "Use Evade Spells").SetValue(new KeyBind('K', KeyBindType.Toggle, true)));
+                mainMenu.AddItem(new MenuItem("ActivateEvadeSpells", "使用躲避技能").SetValue(new KeyBind('K', KeyBindType.Toggle, true)));
                 mainMenu.Item("ActivateEvadeSpells").Permashow();
-                mainMenu.AddItem(new MenuItem("DodgeDangerous", "Dodge Only Dangerous").SetValue(false));
-                mainMenu.AddItem(new MenuItem("DodgeFOWSpells", "Dodge FOW SkillShots").SetValue(true));
-                mainMenu.AddItem(new MenuItem("DodgeCircularSpells", "Dodge Circular SkillShots").SetValue(true));
+                mainMenu.AddItem(new MenuItem("DodgeDangerous", "只躲避危險技能").SetValue(false));
+                mainMenu.AddItem(new MenuItem("DodgeFOWSpells", "躲避戰爭迷霧中的技能").SetValue(true));
+                mainMenu.AddItem(new MenuItem("DodgeCircularSpells", "躲避圓形的技能").SetValue(true));
                 menu.AddSubMenu(mainMenu);
 
                 //var keyBind = mainMenu.Item("DodgeSkillShots").GetValue<KeyBind>();
@@ -113,49 +113,49 @@ namespace ezEvade
                 spellDetector = new SpellDetector(menu);
                 evadeSpell = new EvadeSpell(menu);
 
-                Menu keyMenu = new Menu("Key Settings", "KeySettings");
-                keyMenu.AddItem(new MenuItem("DodgeDangerousKeyEnabled", "Enable Dodge Only Dangerous Keys").SetValue(false));
-                keyMenu.AddItem(new MenuItem("DodgeDangerousKey", "Dodge Only Dangerous Key").SetValue(new KeyBind(32, KeyBindType.Press)));
-                keyMenu.AddItem(new MenuItem("DodgeDangerousKey2", "Dodge Only Dangerous Key 2").SetValue(new KeyBind('V', KeyBindType.Press)));
-                keyMenu.AddItem(new MenuItem("DodgeOnlyOnComboKeyEnabled", "Enable Dodge Only On Combo Key").SetValue(false));
-                keyMenu.AddItem(new MenuItem("DodgeComboKey", "Dodge Only Combo Key").SetValue(new KeyBind(32, KeyBindType.Press)));
-                keyMenu.AddItem(new MenuItem("DontDodgeKeyEnabled", "Enable Don't Dodge Key").SetValue(false));
-                keyMenu.AddItem(new MenuItem("DontDodgeKey", "Don't Dodge Key").SetValue(new KeyBind('Z', KeyBindType.Press)));
+                Menu keyMenu = new Menu("熱鍵設置", "KeySettings");
+                keyMenu.AddItem(new MenuItem("DodgeDangerousKeyEnabled", "啟用躲避危險技能的熱鍵").SetValue(false));
+                keyMenu.AddItem(new MenuItem("DodgeDangerousKey", "躲避危險技能的熱鍵").SetValue(new KeyBind(32, KeyBindType.Press)));
+                keyMenu.AddItem(new MenuItem("DodgeDangerousKey2", "躲避危險技能的熱鍵2").SetValue(new KeyBind('V', KeyBindType.Press)));
+                keyMenu.AddItem(new MenuItem("DodgeOnlyOnComboKeyEnabled", "啟用連招時躲避熱鍵").SetValue(false));
+                keyMenu.AddItem(new MenuItem("DodgeComboKey", "連招時躲避熱鍵").SetValue(new KeyBind(32, KeyBindType.Press)));
+                keyMenu.AddItem(new MenuItem("DontDodgeKeyEnabled", "啟用不要的躲避熱鍵").SetValue(false));
+                keyMenu.AddItem(new MenuItem("DontDodgeKey", "不使用躲避熱鍵").SetValue(new KeyBind('Z', KeyBindType.Press)));
                 menu.AddSubMenu(keyMenu);
 
-                Menu miscMenu = new Menu("Misc Settings", "MiscSettings");
-                miscMenu.AddItem(new MenuItem("HigherPrecision", "Enhanced Dodge Precision").SetValue(false));
-                miscMenu.AddItem(new MenuItem("RecalculatePosition", "Recalculate Path").SetValue(true));
-                miscMenu.AddItem(new MenuItem("ContinueMovement", "Continue Last Movement").SetValue(true));
-                miscMenu.AddItem(new MenuItem("CalculateWindupDelay", "Calculate Windup Delay").SetValue(true));
-                miscMenu.AddItem(new MenuItem("CheckSpellCollision", "Check Spell Collision").SetValue(false));
-                miscMenu.AddItem(new MenuItem("PreventDodgingUnderTower", "Prevent Dodging Under Tower").SetValue(false));
-                miscMenu.AddItem(new MenuItem("PreventDodgingNearEnemy", "Prevent Dodging Near Enemies").SetValue(true));
-                miscMenu.AddItem(new MenuItem("AdvancedSpellDetection", "Advanced Spell Detection").SetValue(false));
-                miscMenu.AddItem(new MenuItem("ClickRemove", "Allow Left Click Removal")
+                Menu miscMenu = new Menu("雜項設置", "MiscSettings");
+                miscMenu.AddItem(new MenuItem("HigherPrecision", "增強躲避準確度").SetValue(false));
+                miscMenu.AddItem(new MenuItem("RecalculatePosition", "重新計算路徑").SetValue(true));
+                miscMenu.AddItem(new MenuItem("ContinueMovement", "繼上次移動").SetValue(true));
+                miscMenu.AddItem(new MenuItem("CalculateWindupDelay", "計算動畫延遲").SetValue(true));
+                miscMenu.AddItem(new MenuItem("CheckSpellCollision", "檢測技能衝突").SetValue(false));
+                miscMenu.AddItem(new MenuItem("PreventDodgingUnderTower", "防止躲避時進入防禦塔下").SetValue(false));
+                miscMenu.AddItem(new MenuItem("PreventDodgingNearEnemy", "防止躲避時進入敵人範圍").SetValue(true));
+                miscMenu.AddItem(new MenuItem("AdvancedSpellDetection", "高等檢測技能").SetValue(false));
+                miscMenu.AddItem(new MenuItem("ClickRemove", "允許左鍵單擊刪除")
                     .SetValue(true).SetTooltip("Left Click to Remove Traps and Globals"));
                 //miscMenu.AddItem(new MenuItem("AllowCrossing", "Allow Crossing").SetValue(false));
                 //miscMenu.AddItem(new MenuItem("CalculateHeroPos", "Calculate Hero Position").SetValue(false));
                 miscMenu.AddItem(new MenuItem("EvadeMode", "Evade Profile")
                     .SetValue(new StringList(new[] { "Smooth", "Very Smooth", "Fastest", "Hawk", "Kurisu", "GuessWho" }, 0)));
                 miscMenu.Item("EvadeMode").ValueChanged += OnEvadeModeChange;
-                miscMenu.AddItem(new MenuItem("ResetConfig", "Reset Evade Config").SetValue(false));
+                miscMenu.AddItem(new MenuItem("ResetConfig", "重製躲避設置").SetValue(false));
 
-                Menu limiterMenu = new Menu("Humanizer", "Limiter");
-                limiterMenu.AddItem(new MenuItem("ClickOnlyOnce", "Click Only Once").SetValue(true));
-                limiterMenu.AddItem(new MenuItem("EnableEvadeDistance", "Extended Evade").SetValue(false));
-                limiterMenu.AddItem(new MenuItem("TickLimiter", "Tick Limiter").SetValue(new Slider(100, 0, 500)));
-                limiterMenu.AddItem(new MenuItem("SpellDetectionTime", "Spell Detection Time").SetValue(new Slider(0, 0, 1000)));
-                limiterMenu.AddItem(new MenuItem("ReactionTime", "Reaction Time").SetValue(new Slider(0, 0, 500)));
-                limiterMenu.AddItem(new MenuItem("DodgeInterval", "Dodge Interval").SetValue(new Slider(0, 0, 2000)));
+                Menu limiterMenu = new Menu("人性化", "Limiter");
+                limiterMenu.AddItem(new MenuItem("ClickOnlyOnce", "點擊一次").SetValue(true));
+                limiterMenu.AddItem(new MenuItem("EnableEvadeDistance", "長遠躲避").SetValue(false));
+                limiterMenu.AddItem(new MenuItem("TickLimiter", "限制次數").SetValue(new Slider(100, 0, 500)));
+                limiterMenu.AddItem(new MenuItem("SpellDetectionTime", "檢測技能時間").SetValue(new Slider(0, 0, 1000)));
+                limiterMenu.AddItem(new MenuItem("ReactionTime", "反應時間").SetValue(new Slider(0, 0, 500)));
+                limiterMenu.AddItem(new MenuItem("DodgeInterval", "躲避間隔").SetValue(new Slider(0, 0, 2000)));
 
                 miscMenu.AddSubMenu(limiterMenu);
 
-                Menu fastEvadeMenu = new Menu("Fast Evade", "FastEvade");
-                fastEvadeMenu.AddItem(new MenuItem("FastMovementBlock", "Fast Movement Block")).SetValue(false);
-                fastEvadeMenu.AddItem(new MenuItem("FastEvadeActivationTime", "FastEvade Activation Time").SetValue(new Slider(65, 0, 500)));
-                fastEvadeMenu.AddItem(new MenuItem("SpellActivationTime", "Spell Activation Time").SetValue(new Slider(400, 0, 1000)));
-                fastEvadeMenu.AddItem(new MenuItem("RejectMinDistance", "Collision Distance Buffer").SetValue(new Slider(10, 0, 100)));
+                Menu fastEvadeMenu = new Menu("快速躲避", "FastEvade");
+                fastEvadeMenu.AddItem(new MenuItem("FastMovementBlock", "快速移動")).SetValue(false);
+                fastEvadeMenu.AddItem(new MenuItem("FastEvadeActivationTime", "快速躲避反應時間").SetValue(new Slider(65, 0, 500)));
+                fastEvadeMenu.AddItem(new MenuItem("SpellActivationTime", "技能反應時間").SetValue(new Slider(400, 0, 1000)));
+                fastEvadeMenu.AddItem(new MenuItem("RejectMinDistance", "碰撞距離緩衝區").SetValue(new Slider(10, 0, 100)));
 
                 miscMenu.AddSubMenu(fastEvadeMenu);
 
@@ -164,21 +164,20 @@ namespace ezEvade
 
                 miscMenu.AddSubMenu(evadeSpellSettingsMenu);*/
 
-                Menu bufferMenu = new Menu("Extra Buffers", "ExtraBuffers");
-                bufferMenu.AddItem(new MenuItem("ExtraPingBuffer", "Extra Ping Buffer").SetValue(new Slider(65, 0, 200)));
-                bufferMenu.AddItem(new MenuItem("ExtraCPADistance", "Extra Collision Distance").SetValue(new Slider(10, 0, 150)));
-                bufferMenu.AddItem(new MenuItem("ExtraSpellRadius", "Extra Spell Radius").SetValue(new Slider(0, 0, 100)));
-                bufferMenu.AddItem(new MenuItem("ExtraEvadeDistance", "Extra Evade Distance").SetValue(new Slider(100, 0, 300)));
-                bufferMenu.AddItem(new MenuItem("ExtraAvoidDistance", "Extra Avoid Distance").SetValue(new Slider(50, 0, 300)));
+                Menu bufferMenu = new Menu("額外設置", "ExtraBuffers");
+                bufferMenu.AddItem(new MenuItem("ExtraPingBuffer", "額外緩衝Ping").SetValue(new Slider(65, 0, 200)));
+                bufferMenu.AddItem(new MenuItem("ExtraCPADistance", "額外碰撞距離").SetValue(new Slider(10, 0, 150)));
+                bufferMenu.AddItem(new MenuItem("ExtraSpellRadius", "額外技能半徑").SetValue(new Slider(0, 0, 100)));
+                bufferMenu.AddItem(new MenuItem("ExtraEvadeDistance", "額外躲避距離").SetValue(new Slider(100, 0, 300)));
+                bufferMenu.AddItem(new MenuItem("ExtraAvoidDistance", "額外避免距離").SetValue(new Slider(50, 0, 300)));
 
                 bufferMenu.AddItem(new MenuItem("MinComfortZone", "Min Distance to Champion").SetValue(new Slider(550, 0, 1000)));
-
                 miscMenu.AddSubMenu(bufferMenu);
 
-                Menu loadTestMenu = new Menu("Tests", "LoadTests");
+                Menu loadTestMenu = new Menu("測試", "LoadTests");
 
-                loadTestMenu.AddItem(new MenuItem("LoadPingTester", "Load Ping Tester").SetValue(false));
-                loadTestMenu.AddItem(new MenuItem("LoadSpellTester", "Load Spell Tester").SetValue(false));
+                loadTestMenu.AddItem(new MenuItem("LoadPingTester", "加載Ping測試器").SetValue(false));
+                loadTestMenu.AddItem(new MenuItem("LoadSpellTester", "加載技能測試器").SetValue(false));
                 loadTestMenu.Item("LoadPingTester").ValueChanged += OnLoadPingTesterChange;
                 loadTestMenu.Item("LoadSpellTester").ValueChanged += OnLoadSpellTesterChange;
 

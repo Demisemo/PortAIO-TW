@@ -55,16 +55,16 @@ namespace PerfectWardReborn
 
 
             //Create the menu
-            Config = new Menu("PerfectWardReborn", "PerfectWardReborn", true).SetFontStyle(FontStyle.Bold, Color.DarkSeaGreen);
+            Config = new Menu("自動插眼", "PerfectWardReborn", true).SetFontStyle(FontStyle.Bold, Color.DarkSeaGreen);
 
-            Config.AddSubMenu(new Menu("WardKey", "WardKey"));
-            Config.SubMenu("WardKey").AddItem(new MenuItem("placekey", "NormalWard Key").SetValue(new KeyBind("Z".ToCharArray()[0], KeyBindType.Press))).SetFontStyle(FontStyle.Bold, Color.Green);
-            Config.SubMenu("WardKey").AddItem(new MenuItem("placekeyconWard", "ControlWard Key").SetValue(new KeyBind("U".ToCharArray()[0], KeyBindType.Press))).SetFontStyle(FontStyle.Bold, Color.DarkOrange);
-            Config.SubMenu("Drawing").AddItem(new MenuItem("drawplaces", "Draw ward places").SetValue(new Circle(true, System.Drawing.Color.FromArgb(100, 255, 0, 255))));
-            Config.SubMenu("Drawing").AddItem(new MenuItem("drawDistance", "Don't draw if the distance >")).SetValue(new Slider(2000, 10000, 1));
-            Config.AddSubMenu(new Menu("AutoBushRevealer", "AutoBushRevealer"));
-            Config.SubMenu("AutoBushRevealer").AddItem(new MenuItem("AutoBushKey", "Key").SetValue(new KeyBind("C".ToCharArray()[0], KeyBindType.Press)));
-            Config.SubMenu("AutoBushRevealer").AddItem(new MenuItem("AutoBushEnabled", "Enabled").SetValue(true));
+            Config.AddSubMenu(new Menu("插眼熱鍵", "WardKey"));
+            Config.SubMenu("WardKey").AddItem(new MenuItem("placekey", "正常飾品熱鍵").SetValue(new KeyBind("Z".ToCharArray()[0], KeyBindType.Press))).SetFontStyle(FontStyle.Bold, Color.Green);
+            Config.SubMenu("WardKey").AddItem(new MenuItem("placekeyconWard", "控制飾品熱鍵").SetValue(new KeyBind("U".ToCharArray()[0], KeyBindType.Press))).SetFontStyle(FontStyle.Bold, Color.DarkOrange);
+            Config.SubMenu("Drawing").AddItem(new MenuItem("drawplaces", "顯示飾品位置").SetValue(new Circle(true, System.Drawing.Color.FromArgb(100, 255, 0, 255))));
+            Config.SubMenu("Drawing").AddItem(new MenuItem("drawDistance", "如果距離不足不顯示 >")).SetValue(new Slider(2000, 10000, 1));
+            Config.AddSubMenu(new Menu("自動使用鷹眼晶球", "AutoBushRevealer"));
+            Config.SubMenu("AutoBushRevealer").AddItem(new MenuItem("AutoBushKey", "熱鍵").SetValue(new KeyBind("C".ToCharArray()[0], KeyBindType.Press)));
+            Config.SubMenu("AutoBushRevealer").AddItem(new MenuItem("AutoBushEnabled", "啟用").SetValue(true));
             Config.AddToMainMenu();
             foreach (var ward in _wards)
                 Config.SubMenu("Auto Bush Ward Type").AddItem(new MenuItem("AutoBush" + ward.Key, ward.Value).SetValue(true));

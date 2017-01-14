@@ -45,7 +45,7 @@ namespace ElUtilitySuite.Items.DefensiveItems
         /// <value>
         ///     The name of the item.
         /// </value>
-        public override string Name => "Seraph's embrace";
+        public override string Name => "熾天使的擁抱";
 
         #endregion
 
@@ -56,10 +56,10 @@ namespace ElUtilitySuite.Items.DefensiveItems
         /// </summary>
         public override void CreateMenu()
         {
-            this.Menu.AddItem(new MenuItem("UseSeraphsCombo", "Activated").SetValue(true));
-            this.Menu.AddItem(new MenuItem("Mode-seraphs", "Activation mode: ")).SetValue(new StringList(new[] { "Use always", "Use in combo" }, 1));
-            this.Menu.AddItem(new MenuItem("seraphs-min-health", "Health percentage").SetValue(new Slider(20, 1)));
-            this.Menu.AddItem(new MenuItem("seraphs-min-damage", "Incoming damage percentage").SetValue(new Slider(20, 1)));
+            this.Menu.AddItem(new MenuItem("UseSeraphsCombo", "使用").SetValue(true));
+            this.Menu.AddItem(new MenuItem("Mode-seraphs", "使用模式: ")).SetValue(new StringList(new[] { "總是使用", "連招時使用" }, 1));
+            this.Menu.AddItem(new MenuItem("seraphs-min-health", "當血量低於%時使用").SetValue(new Slider(20, 1)));
+            this.Menu.AddItem(new MenuItem("seraphs-min-damage", "受到多少%傷害使用").SetValue(new Slider(20, 1)));
         }
 
         #endregion

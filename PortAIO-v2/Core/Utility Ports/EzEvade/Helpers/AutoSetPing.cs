@@ -54,9 +54,9 @@ using LeagueSharp.Common;
 
             //Drawing.OnDraw += Game_OnDraw;
 
-            Menu autoSetPingMenu = new Menu("AutoSetPing", "AutoSetPingMenu");
-            autoSetPingMenu.AddItem(new MenuItem("AutoSetPingOn", "Auto Set Ping").SetValue<bool>(true));
-            autoSetPingMenu.AddItem(new MenuItem("AutoSetPercentile", "Auto Set Percentile").SetValue(new Slider(75, 0, 100)));
+            Menu autoSetPingMenu = new Menu("自動設置", "AutoSetPingMenu");
+            autoSetPingMenu.AddItem(new MenuItem("AutoSetPingOn", "自動Ping").SetValue<bool>(true));
+            autoSetPingMenu.AddItem(new MenuItem("AutoSetPercentile", "自動設置百分數").SetValue(new Slider(75, 0, 100)));
 
             //autoSetPingMenu.AddItem(new MenuItem("TestSkillshotDelay", "TestSkillshotDelay").SetValue<bool>(false));
 

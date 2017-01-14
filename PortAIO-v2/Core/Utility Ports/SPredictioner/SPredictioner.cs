@@ -18,13 +18,13 @@ using EloBuddy;
         public static void Initialize()
         {
             #region Initialize Menu
-            Config = new Menu("SPredictioner", "spredictioner", true);
-            Config.AddItem(new MenuItem("COMBOKEY", "Combo").SetValue(new KeyBind(32, KeyBindType.Press)));
-            Config.AddItem(new MenuItem("HARASSKEY", "Harass").SetValue(new KeyBind('C', KeyBindType.Press)));
-            Config.AddItem(new MenuItem("ENABLED", "Enabled").SetValue(true));
+            Config = new Menu("SP預判", "spredictioner", true);
+            Config.AddItem(new MenuItem("COMBOKEY", "連招").SetValue(new KeyBind(32, KeyBindType.Press)));
+            Config.AddItem(new MenuItem("HARASSKEY", "騷擾").SetValue(new KeyBind('C', KeyBindType.Press)));
+            Config.AddItem(new MenuItem("ENABLED", "啟用").SetValue(true));
 
             #region Initialize Spells
-            Menu skillshots = new Menu("Skillshots", "spredskillshots");
+            Menu skillshots = new Menu("技能", "spredskillshots");
             foreach (var spell in SpellDatabase.Spells)
             {
                 if (spell.ChampionName == ObjectManager.Player.CharData.BaseSkinName)
@@ -40,7 +40,7 @@ using EloBuddy;
 
             SPrediction.Prediction.Initialize(Config, "SPREDFORSPREDICTONER");
             Config.SubMenu("SPREDFORSPREDICTONER").Name = "SPrediction";
-            Config.SubMenu("SPREDFORSPREDICTONER").AddItem(new MenuItem("SPREDHITC", "Hit Chance").SetValue(new StringList(ShineCommon.Utility.HitchanceNameArray, 2))).SetTooltip("High is recommended");
+            Config.SubMenu("SPREDFORSPREDICTONER").AddItem(new MenuItem("SPREDHITC", "命中率").SetValue(new StringList(ShineCommon.Utility.HitchanceNameArray, 2))).SetTooltip("High is recommended");
             Config.AddToMainMenu();
             #endregion
 

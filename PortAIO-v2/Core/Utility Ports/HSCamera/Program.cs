@@ -35,7 +35,7 @@ namespace hsCamera
 
         private static void AddChampionMenu()
         {
-            var enemycammenu = _config.AddSubMenu(new Menu("Enemies Camera", "enemiescamera"));
+            var enemycammenu = _config.AddSubMenu(new Menu("敵人拍攝", "enemiescamera"));
             for (var i = 0; i < HeroList.Count; i++)
             {
                 enemycammenu.AddItem(new MenuItem("enemies" + HeroList[i].ChampionName,
@@ -56,30 +56,30 @@ namespace hsCamera
         /// <param name="args"></param>
         private static void HsCameraOnLoad(EventArgs args)
         {
-            _config = new Menu("hsCamera [Official]", "hsCamera", true);
+            _config = new Menu("HS轉鏡頭 [正式]", "hsCamera", true);
             {
                 AddChampionMenu();
-                var cameraSpeeds = _config.AddSubMenu(new Menu("Camera Speeds [Settings]", "cameraspeeds"));
-                cameraSpeeds.AddItem(new MenuItem("followcurspeed", "Follow Cursor (Camera Speed)"))
+                var cameraSpeeds = _config.AddSubMenu(new Menu("拍攝速度[設置]", "cameraspeeds"));
+                cameraSpeeds.AddItem(new MenuItem("followcurspeed", "跟隨鼠標(拍攝速度)"))
                     .SetValue(new Slider(23, 1, 50));
-                cameraSpeeds.AddItem(new MenuItem("followtfspeed", "Follow TeamFights (Camera Speed)"))
+                cameraSpeeds.AddItem(new MenuItem("followtfspeed", "跟隨團戰鬥(拍攝速度)"))
                     .SetValue(new Slider(17, 1, 50));
                 _config.AddItem(
-                    new MenuItem("follow.dynamic", "Follow-Champion Camera?").SetValue(new KeyBind(17, KeyBindType.Press)));
+                    new MenuItem("follow.dynamic", "跟隨英雄拍攝?").SetValue(new KeyBind(17, KeyBindType.Press)));
                 _config.AddItem(
-                    new MenuItem("dynamicmode", "Camera Mode?").SetValue(
-                        new StringList(new[] {"Normal", "Follow Cursor", "Follow Teamfights"}, 2)));
+                    new MenuItem("dynamicmode", "拍攝模式?").SetValue(
+                        new StringList(new[] {"預設", "更隨屬標", "更隨團戰鬥"}, 2)));
                 _config.AddItem(
-                    new MenuItem("followoffset", "Follow Cursor (Range/Offset)").SetValue(new Slider(400, 0, 700)));
-                _config.AddItem(new MenuItem("CLH", "Last Hit").SetValue(new KeyBind('X', KeyBindType.Press)));
-                _config.AddItem(new MenuItem("CLC", "Lane Clear").SetValue(new KeyBind('V', KeyBindType.Press)));
-                _config.AddItem(new MenuItem("CCombo", "Spacebar (Main)").SetValue(new KeyBind(32, KeyBindType.Press)))
+                    new MenuItem("followoffset", "跟隨鼠標 (範圍/偏移)").SetValue(new Slider(400, 0, 700)));
+                _config.AddItem(new MenuItem("CLH", "農兵").SetValue(new KeyBind('X', KeyBindType.Press)));
+                _config.AddItem(new MenuItem("CLC", "清線").SetValue(new KeyBind('V', KeyBindType.Press)));
+                _config.AddItem(new MenuItem("CCombo", "空格鍵 (主要)").SetValue(new KeyBind(32, KeyBindType.Press)))
                     .ValueChanged += (sender, e) =>
                 {
                     if (e.GetNewValue<KeyBind>().Active == e.GetOldValue<KeyBind>().Active) return;
                     if (e.GetNewValue<KeyBind>().Active == false) CameraMovement.SemiDynamic(Player.Position);
                 };
-                _config.AddItem(new MenuItem("credits", "                      .:Official Version of hsCamera:."))
+                _config.AddItem(new MenuItem("credits", "                      .:正式版本 - HS轉鏡頭:."))
                     .SetFontStyle(FontStyle.Bold, Color.DeepPink);
                 _config.AddToMainMenu();
             }

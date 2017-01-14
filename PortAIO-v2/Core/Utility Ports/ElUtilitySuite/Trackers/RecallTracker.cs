@@ -89,15 +89,15 @@ using EloBuddy; namespace ElUtilitySuite.Trackers
                            ? rootMenu.AddSubMenu(new Menu("Trackers", "Trackers"))
                            : rootMenu.Children.First(predicate);
 
-            var notificationsMenu = menu.AddSubMenu(new Menu("Recall tracker", "Recall tracker"));
+            var notificationsMenu = menu.AddSubMenu(new Menu("回城計時器", "Recall tracker"));
             {
-                notificationsMenu.AddItem(new MenuItem("showRecalls", "Show Recalls").SetValue(true));
-                notificationsMenu.AddItem(new MenuItem("notifRecFinished", "Recall finished").SetValue(true));
-                notificationsMenu.AddItem(new MenuItem("notifRecAborted", "Recall aborted").SetValue(true));
+                notificationsMenu.AddItem(new MenuItem("showRecalls", "顯示回城").SetValue(true));
+                notificationsMenu.AddItem(new MenuItem("notifRecFinished", "回程完畢").SetValue(true));
+                notificationsMenu.AddItem(new MenuItem("notifRecAborted", "回程取消").SetValue(true));
                 notificationsMenu.AddItem(
-                    new MenuItem("RecallTracker.OffsetBottom", "Offset bottom").SetValue(new Slider(52, 0, 1500)));
+                    new MenuItem("RecallTracker.OffsetBottom", "移動大小").SetValue(new Slider(52, 0, 1500)));
                 notificationsMenu.AddItem(
-                    new MenuItem("RecallTracker.FontSize", "Font size").SetValue(new Slider(13, 13, 30)));
+                    new MenuItem("RecallTracker.FontSize", "文字大小").SetValue(new Slider(13, 13, 30)));
             }
 
             this.Menu = menu;

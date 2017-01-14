@@ -131,17 +131,17 @@ namespace RandomUlt.Helpers
                 config.AddItem(new MenuItem("Collision", "Calc damage reduction")).SetValue(true);
                 config.AddItem(new MenuItem("drawNotification", "Draw notification")).SetValue(true);
             }
-            config.AddItem(new MenuItem("RandomUltDrawings", "Draw possible place")).SetValue(false);
-            Menu orbBlock = new Menu("Block keys", "BlockKeys");
-            orbBlock.AddItem(new MenuItem("OrbBlock1", "Disabled by keypress"))
+            config.AddItem(new MenuItem("RandomUltDrawings", "顯示可能的位置")).SetValue(false);
+            Menu orbBlock = new Menu("攔阻按鍵", "Block keys");
+            orbBlock.AddItem(new MenuItem("OrbBlock1", "通過按鍵禁用"))
                 .SetValue(new KeyBind(65, KeyBindType.Press));
-            orbBlock.AddItem(new MenuItem("OrbBlock2", "Disabled by keypress"))
+            orbBlock.AddItem(new MenuItem("OrbBlock2", "通過按鍵禁用"))
                 .SetValue(new KeyBind(88, KeyBindType.Press));
-            orbBlock.AddItem(new MenuItem("OrbBlock3", "Disabled by keypress"))
+            orbBlock.AddItem(new MenuItem("OrbBlock3", "通過按鍵禁用"))
                 .SetValue(new KeyBind(67, KeyBindType.Press));
-            orbBlock.AddItem(new MenuItem("ComboBlock", "Disabled by Combo"))
+            orbBlock.AddItem(new MenuItem("ComboBlock", "通過連招禁用"))
                 .SetValue(new KeyBind(32, KeyBindType.Press));
-            orbBlock.AddItem(new MenuItem("OnlyCombo", "Only Combo key")).SetValue(true);
+            orbBlock.AddItem(new MenuItem("OnlyCombo", "只用連招按鍵")).SetValue(true);
             config.AddSubMenu(orbBlock);
             Enemies = HeroManager.Enemies.Select(x => new Positions(x)).ToList();
             Game.OnUpdate += Game_OnUpdate;
