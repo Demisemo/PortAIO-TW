@@ -11,7 +11,7 @@ namespace Activator.Items.Defensives
     {
         internal override int Id => 3814;
         internal override int Priority => 6;
-        internal override string Name => "Edge";
+        internal override string Name => "無盡之刃";
         internal override string DisplayName => "Edge of Night";
         internal override int Duration => 250;
         internal override float Range => 1000f;

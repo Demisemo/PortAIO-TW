@@ -11,7 +11,7 @@ namespace Activator.Items.Defensives
     {
         internal override int Id => 3157;
         internal override int Priority => 7;
-        internal override string Name => "Zhonyas";
+        internal override string Name => "中婭沙漏";
         internal override string DisplayName => "Zhonya's Hourglass";
         internal override int Duration => 2500;
         internal override float Range => 750f;

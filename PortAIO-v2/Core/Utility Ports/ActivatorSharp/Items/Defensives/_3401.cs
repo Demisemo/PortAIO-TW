@@ -10,7 +10,7 @@ namespace Activator.Items.Defensives
     {
         internal override int Id => 3401;
         internal override int Priority => 5;
-        internal override string Name => "Mountain";
+        internal override string Name => "山靈守護";
         internal override string DisplayName => "Face of the Mountain";
         internal override int Duration => 250;
         internal override float Range => 700f;
