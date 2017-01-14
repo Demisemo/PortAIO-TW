@@ -393,34 +393,34 @@ using LeagueSharp.Common;
                            ? rootMenu.AddSubMenu(new Menu("Summoners", "SummonersMenu"))
                            : rootMenu.Children.First(predicate);
 
-            var smiteMenu = menu.AddSubMenu(new Menu("重擊", "Smite"));
+            var smiteMenu = menu.AddSubMenu(new Menu("Smite", "Smite"));
             {
                 smiteMenu.AddItem(
-                    new MenuItem("ElSmite.Activated", "使用重擊").SetValue(
+                    new MenuItem("ElSmite.Activated", "Smite Activated").SetValue(
                         new KeyBind("M".ToCharArray()[0], KeyBindType.Toggle, true)));
 
-                smiteMenu.AddItem(new MenuItem("Smite.Spell", "連招時使用重擊").SetValue(true));
-                smiteMenu.AddItem(new MenuItem("Smite.Ammo", "保留一個重擊").SetValue(true))
+                smiteMenu.AddItem(new MenuItem("Smite.Spell", "Use spell smite combo").SetValue(true));
+                smiteMenu.AddItem(new MenuItem("Smite.Ammo", "Save 1 smite charge").SetValue(true))
                     .SetTooltip("Will not smite a champion when there is only 1 smite charge!")
                     .SetFontStyle(FontStyle.Regular, Color.Green);
 
-                var mobMenu = smiteMenu.SubMenu("野怪選擇").SetFontStyle(FontStyle.Bold, Color.GreenYellow);
+                var mobMenu = smiteMenu.SubMenu("Jungle camps").SetFontStyle(FontStyle.Bold, Color.GreenYellow);
                 foreach (var entry in SmiteableObjects[LeagueSharp.Common.Utility.Map.GetMap().Type])
                 {
                     mobMenu.AddItem(new MenuItem($"{entry.Value}", $"{entry.Key}").SetValue(true));
                 }
 
                 //Champion Smite
-                smiteMenu.SubMenu("敵人重擊使用").AddItem(new MenuItem("ElSmite.Combo.Mode", "重擊:"))
-                        .SetValue(new StringList(new[] { "搶頭", "連招", "決不" }, 1));
+                smiteMenu.SubMenu("Champion smite").AddItem(new MenuItem("ElSmite.Combo.Mode", "Smite:"))
+                        .SetValue(new StringList(new[] { "Killsteal", "Combo", "Never" }, 1));
 
                 //Drawings
-                smiteMenu.SubMenu("顯示")
-                    .AddItem(new MenuItem("ElSmite.Draw.Range", "顯示重擊範圍").SetValue(new Circle()));
                 smiteMenu.SubMenu("Drawings")
-                    .AddItem(new MenuItem("ElSmite.Draw.Text", "顯示重擊文字").SetValue(true));
+                    .AddItem(new MenuItem("ElSmite.Draw.Range", "Draw smite Range").SetValue(new Circle()));
                 smiteMenu.SubMenu("Drawings")
-                    .AddItem(new MenuItem("ElSmite.Draw.Damage", "顯示重擊傷害").SetValue(false));
+                    .AddItem(new MenuItem("ElSmite.Draw.Text", "Draw smite text").SetValue(true));
+                smiteMenu.SubMenu("Drawings")
+                    .AddItem(new MenuItem("ElSmite.Draw.Damage", "Draw smite Damage").SetValue(false));
             }
 
             this.Menu = smiteMenu;
@@ -508,12 +508,12 @@ using LeagueSharp.Common;
                             playerPos.X - 70,
                             playerPos.Y + 40,
                             System.Drawing.Color.GhostWhite,
-                            "重擊活用");
+                            "Smite active");
                     }
 
                     if (drawText && this.Player.Spellbook.CanUseSpell(this.SmiteSpell.Slot) != SpellState.Ready)
                     {
-                        Drawing.DrawText(playerPos.X - 70, playerPos.Y + 40, System.Drawing.Color.Red, "重擊冷卻");
+                        Drawing.DrawText(playerPos.X - 70, playerPos.Y + 40, System.Drawing.Color.Red, "Smite cooldown");
                     }
 
                     if (drawDamage && this.SmiteDamage() != 0)

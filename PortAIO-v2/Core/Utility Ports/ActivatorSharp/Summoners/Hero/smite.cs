@@ -12,7 +12,7 @@ namespace Activator.Summoners
     internal class smite : CoreSum
     {
         internal override string Name => "summonersmite";
-        internal override string DisplayName => "重擊";
+        internal override string DisplayName => "Smite";
         internal override float Range => 500f + 1f;
         internal override int Duration => 0;
         internal override int Priority => 7;

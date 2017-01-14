@@ -10,7 +10,7 @@ namespace Activator.Items.Offensives
     {
         internal override int Id => 3030;
         internal override int Priority => 5;
-        internal override string Name => "海克斯科技 GLP-800";
+        internal override string Name => "GPL-800";
         internal override string DisplayName => "Hextech GPL-800";
         internal override int Duration => 100;
         internal override float Range => 375f;

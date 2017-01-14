@@ -10,7 +10,7 @@ namespace Activator.Items.Offensives
     class _3050 : CoreItem
     {
         internal override int Id => 3050;
-        internal override string Name => "錫柯的號角";
+        internal override string Name => "Zekes";
         internal override string DisplayName => "Zeke's Harbringer";
         internal override int Duration => 100;
         internal override int Priority => 5;

@@ -9,7 +9,7 @@ namespace Activator.Summoners
     class snowball : CoreSum
     {
         internal override sealed string Name => "summonersnowball";
-        internal override string DisplayName => "雪球";
+        internal override string DisplayName => "Mark";
         internal override string[] ExtraNames => new[] { "" };
         internal override sealed float Range => 1500f;
         internal override int Duration => 100;

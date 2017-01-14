@@ -9,7 +9,7 @@ namespace Activator.Summoners
     class poro : CoreSum
     {
         internal override sealed string Name => "summonerporothrow";
-        internal override string DisplayName => "普羅投擲";
+        internal override string DisplayName => "Poro Toss";
         internal override string[] ExtraNames => new[] { "" };
         internal override sealed float Range => 1500f;
         internal override int Duration => 100;

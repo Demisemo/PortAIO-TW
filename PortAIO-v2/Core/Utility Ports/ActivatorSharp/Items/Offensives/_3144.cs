@@ -11,7 +11,7 @@ namespace Activator.Items.Offensives
     {
         internal override int Id => 3144;
         internal override int Priority => 5;
-        internal override string Name => "比爾吉沃特彎刀";
+        internal override string Name => "Cutlass";
         internal override string DisplayName => "Bilgewater's Cutlass";
         internal override int Duration => 100;
         internal override float Range => 550f;

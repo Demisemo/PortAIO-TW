@@ -154,13 +154,13 @@ using LeagueSharp.Common;
                 (rootMenu.Children.Any(predicate)
                      ? rootMenu.Children.First(predicate)
                      : rootMenu.AddSubMenu(new Menu("Trackers", "Trackers"))).AddSubMenu(
-                         new Menu("冷卻技能時間", "CDNotif2"));
+                         new Menu("Cooldown Notification", "CDNotif2"));
 
-            menu.AddItem(new MenuItem("XPos", "X 座標").SetValue(new Slider(Drawing.Width - BoxWidth, 0, Drawing.Width)));
-            menu.AddItem(new MenuItem("YPos", "Y 座標").SetValue(new Slider(Drawing.Height - BoxHeight * 4, 0, Drawing.Height)));
-            menu.AddItem(new MenuItem("DrawCards", "顯示逆命牌").SetValue(true));
-            menu.AddItem(new MenuItem("DrawTeleport", "顯示傳送").SetValue(true));
-            menu.AddItem(new MenuItem("AddTestCard", "顯示測試牌?").SetValue(false).DontSave());
+            menu.AddItem(new MenuItem("XPos", "X Position").SetValue(new Slider(Drawing.Width - BoxWidth, 0, Drawing.Width)));
+            menu.AddItem(new MenuItem("YPos", "Y Position").SetValue(new Slider(Drawing.Height - BoxHeight * 4, 0, Drawing.Height)));
+            menu.AddItem(new MenuItem("DrawCards", "Draw Cards").SetValue(true));
+            menu.AddItem(new MenuItem("DrawTeleport", "Draw Teleports").SetValue(true));
+            menu.AddItem(new MenuItem("AddTestCard", "Draw Test Card").SetValue(false).DontSave());
             menu.AddItem(new MenuItem("empty-line-3000", string.Empty));
 
             foreach (var enemy in HeroManager.Enemies)

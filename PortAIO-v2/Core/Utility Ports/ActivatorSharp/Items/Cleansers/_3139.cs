@@ -10,7 +10,7 @@ namespace Activator.Items.Cleansers
     class _3139 : CoreItem
     {
         internal override int Id => 3139;
-        internal override string Name => "水星彎刀";
+        internal override string Name => "Mercurial";
         internal override string DisplayName => "Mercurial Scimitar";
         internal override int Priority => 6;
         internal override int Duration => 250;

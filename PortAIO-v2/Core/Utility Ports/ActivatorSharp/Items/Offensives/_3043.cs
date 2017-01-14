@@ -11,7 +11,7 @@ namespace Activator.Items.Offensives
     {
         internal override int Id => 3043;
         internal override int Priority => 5;
-        internal override string Name => "終極魔劍";
+        internal override string Name => "Muramana";
         internal override string DisplayName => "Muramana";
         internal override int Duration => 100;
         internal override float Range => float.MaxValue;

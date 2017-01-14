@@ -10,7 +10,7 @@ namespace Activator.Items.Defensives
     class _3109 : CoreItem
     {
         internal override int Id => 3109;
-        internal override string Name => "騎士誓願";
+        internal override string Name => "Knights";
         internal override string DisplayName => "Knight's Vow";
         internal override int Duration => 250;
         internal override int Priority => 2;

@@ -9,7 +9,7 @@ namespace Activator.Summoners
     internal class barrier : CoreSum
     {
         internal override string Name => "summonerbarrier";
-        internal override string DisplayName => "光盾";
+        internal override string DisplayName => "Barrier";
         internal override string[] ExtraNames => new[] { "" };
         internal override float Range => float.MaxValue;
         internal override int Duration => 100;

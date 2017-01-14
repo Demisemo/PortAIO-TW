@@ -58,14 +58,14 @@ namespace ElUtilitySuite.Utility
                            ? rootMenu.AddSubMenu(new Menu("Misc", "MiscMenu"))
                            : rootMenu.Children.First(predicate);
 
-            var autoLanternMenu = menu.AddSubMenu(new Menu("瑟雷西-鬼影燈籠(W)", "Threshlantern"));
+            var autoLanternMenu = menu.AddSubMenu(new Menu("Thresh Lantern", "Threshlantern"));
             {
-                autoLanternMenu.AddItem(new MenuItem("ThreshLantern", "自動點燈籠").SetValue(true));
-                autoLanternMenu.AddItem(new MenuItem("ThreshHawkMode", "只能使用熱鍵").SetValue(false));
+                autoLanternMenu.AddItem(new MenuItem("ThreshLantern", "Auto click Thresh lantern").SetValue(true));
+                autoLanternMenu.AddItem(new MenuItem("ThreshHawkMode", "Only use key").SetValue(false));
                 autoLanternMenu.AddItem(
-                    new MenuItem("ThreshLanternHotkey", "熱鍵").SetValue(new KeyBind('M', KeyBindType.Press)));
+                    new MenuItem("ThreshLanternHotkey", "Hotkey").SetValue(new KeyBind('M', KeyBindType.Press)));
                 autoLanternMenu.AddItem(
-                    new MenuItem("ThreshLanternHPSlider", "當血量低於 % 點燈籠").SetValue(new Slider(20)));
+                    new MenuItem("ThreshLanternHPSlider", "Click when HP %").SetValue(new Slider(20)));
             }
 
             this.Menu = autoLanternMenu;

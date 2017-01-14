@@ -391,10 +391,10 @@ using EloBuddy;
 
         public static void AttachToMenu(Menu menu)
         {
-            Config = menu.AddSubMenu(new Menu("飾品計時器", "Ward Tracker"));
-            Config.AddItem(new MenuItem("Details", "顯示更多信息").SetValue(new KeyBind(16, KeyBindType.Press)));
-            Config.Item("Details").SetTooltip("顯示飾品偵查範圍.");
-            Config.AddItem(new MenuItem("Enabled", "啟用").SetValue(true));
+            Config = menu.AddSubMenu(new Menu("Ward Tracker", "Ward Tracker"));
+            Config.AddItem(new MenuItem("Details", "Show more info").SetValue(new KeyBind(16, KeyBindType.Press)));
+            Config.Item("Details").SetTooltip("Draw visible range of wards.");
+            Config.AddItem(new MenuItem("Enabled", "Enabled").SetValue(true));
         }
 
         private static void ObjSpellMissileOnOnCreate(GameObject sender, EventArgs args)

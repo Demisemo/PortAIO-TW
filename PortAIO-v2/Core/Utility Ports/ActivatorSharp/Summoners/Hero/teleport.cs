@@ -11,7 +11,7 @@ namespace Activator.Summoners
     class teleport : CoreSum
     {
         internal override string Name => "summonerteleport";
-        internal override string DisplayName => "傳送";
+        internal override string DisplayName => "Teleport";
         internal override string[] ExtraNames => new[] { "" };
         internal override float Range => float.MaxValue;
         internal override int Duration => 3500;

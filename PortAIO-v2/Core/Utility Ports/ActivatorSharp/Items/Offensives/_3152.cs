@@ -11,7 +11,7 @@ namespace Activator.Items.Offensives
     {
         internal override int Id => 3152;
         internal override int Priority => 5;
-        internal override string Name => "海克斯科技腰帶-01";
+        internal override string Name => "Protobelt-01";
         internal override string DisplayName => "Hextech Protobelt-01";
         internal override int Duration => 100;
         internal override float Range => 300f;

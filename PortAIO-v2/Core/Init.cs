@@ -47,8 +47,6 @@ namespace PortAIO
             }
 
             Console.WriteLine("[PortAIO] Core loaded.");
-
-            PortAIOMsg("PLEASE DO NOT ENABLE MORE THAN 2-3 UTILITIES OR YOU WILL CRASH.");
         }
 
         private static void Game_OnUpdate(EventArgs args)
@@ -1770,6 +1768,9 @@ namespace PortAIO
                         case 9: // Flowers' Karthus
                             Flowers_Karthus.Program.Main();
                             break;
+                        case 10: //AlqoholicKarthus
+                            AlqoholicKarthus.Program.Main();
+                            break;
                     }
                     break;
                 case Champion.Kassadin:
@@ -2081,6 +2082,9 @@ namespace PortAIO
                             break;
                         case 2: // Lissandra The Ice Goddess
                             Lissandra_the_Ice_Goddess.Program.Main();
+                            break;
+                        case 3: // AlqoholicLissandra
+                            AlqoholicLissandra.Program.Main();
                             break;
                     }
                     break;
@@ -2725,6 +2729,9 @@ namespace PortAIO
                             break;
                         case 11: // RivenToTheChallenger  
                             RivenToTheChallenger.Program.Main();
+                            break;
+                        case 12: // MoonRiven
+                            MoonRiven.Program.Main();
                             break;
                     }
                     break;

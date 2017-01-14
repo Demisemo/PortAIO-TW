@@ -10,7 +10,7 @@ namespace Activator.Items.Defensives
     {
         internal override int Id => 3180;
         internal override int Priority => 4;
-        internal override string Name => "道具已刪除";
+        internal override string Name => "Odyns";
         internal override string DisplayName => "Odyn's Veil";
         internal override int Duration => 250;
         internal override float Range => 525f;

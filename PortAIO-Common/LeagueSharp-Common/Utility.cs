@@ -303,15 +303,6 @@
                     }
                 }
             }
-            else if (WaypointTracker.StoredPaths.ContainsKey(unit.NetworkId))
-            {
-                var path = WaypointTracker.StoredPaths[unit.NetworkId];
-                var timePassed = (Utils.TickCount - WaypointTracker.StoredTick[unit.NetworkId]) / 1000f;
-                if (path.PathLength() >= unit.MoveSpeed * timePassed)
-                {
-                    result = CutPath(path, (int)(unit.MoveSpeed * timePassed));
-                }
-            }
 
             return result;
         }

@@ -11,7 +11,7 @@ namespace Activator.Summoners
     internal class dot : CoreSum
     {
         internal override string Name => "summonerdot";
-        internal override string DisplayName => "點燃";
+        internal override string DisplayName => "Ignite";
         internal override string[] ExtraNames => new[] { "" };
         internal override float Range => 600f;
         internal override int Duration => 100;

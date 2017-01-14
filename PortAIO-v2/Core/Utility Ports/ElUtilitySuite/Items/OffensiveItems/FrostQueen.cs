@@ -25,7 +25,7 @@ namespace ElUtilitySuite.Items.OffensiveItems
         /// <value>
         ///     The name of the item.
         /// </value>
-        public override string Name => "霜后宣言";
+        public override string Name => "Frost Queen's Claim";
 
         #endregion
 
@@ -36,9 +36,9 @@ namespace ElUtilitySuite.Items.OffensiveItems
         /// </summary>
         public override void CreateMenu()
         {
-            this.Menu.AddItem(new MenuItem("UseFrostQueenCombo", "連招時使用").SetValue(true));
-            this.Menu.AddItem(new MenuItem("FrostQueenEnemyHp", "當敵人血量低於%使用").SetValue(new Slider(70)));
-            this.Menu.AddItem(new MenuItem("FrostQueenMyHp", "當自身血量低於%使用").SetValue(new Slider(100)));
+            this.Menu.AddItem(new MenuItem("UseFrostQueenCombo", "Use on Combo").SetValue(true));
+            this.Menu.AddItem(new MenuItem("FrostQueenEnemyHp", "Use on Enemy Hp %").SetValue(new Slider(70)));
+            this.Menu.AddItem(new MenuItem("FrostQueenMyHp", "Use on My Hp %").SetValue(new Slider(100)));
         }
 
         /// <summary>

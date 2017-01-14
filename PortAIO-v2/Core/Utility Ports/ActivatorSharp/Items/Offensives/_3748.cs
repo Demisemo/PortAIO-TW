@@ -11,7 +11,7 @@ namespace Activator.Items.Offensives
     {
         internal override int Id => 3748;
         internal override int Priority => 5;
-        internal override string Name => "泰坦九頭蛇";
+        internal override string Name => "Titanic";
         internal override string DisplayName => "Titanic Hydra";
         internal override int Duration => 100;
         internal override float Range => 385f;

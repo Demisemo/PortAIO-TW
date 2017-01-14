@@ -10,7 +10,7 @@ namespace Activator.Items.Consumables
     {
         internal override int Id => 2031;
         internal override int Priority => 3;
-        internal override string Name => "回復藥水";
+        internal override string Name => "Refillable Pot";
         internal override string DisplayName => "Refillable Pot";
         internal override int Duration => 101;
         internal override float Range => float.MaxValue;

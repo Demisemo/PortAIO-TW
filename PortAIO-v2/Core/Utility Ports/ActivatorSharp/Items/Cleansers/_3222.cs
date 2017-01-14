@@ -10,7 +10,7 @@ namespace Activator.Items.Cleansers
     class _3222 : CoreItem
     {
         internal override int Id => 3222;
-        internal override string Name => "米凱的魔鍋";
+        internal override string Name => "Mikaels";
         internal override string DisplayName => "Mikael's Crucible";
         internal override int Priority => 7;
         internal override int Duration => 250;

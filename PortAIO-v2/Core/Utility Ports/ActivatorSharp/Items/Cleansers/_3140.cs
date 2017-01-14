@@ -10,7 +10,7 @@ namespace Activator.Items.Cleansers
     class _3140 : CoreItem 
     {
         internal override int Id => 3140;
-        internal override string Name => "水銀飾帶";
+        internal override string Name => "Quicksilver";
         internal override string DisplayName => "Quicksilver Sash";
         internal override int Priority => 6;
         internal override int Duration => 250;

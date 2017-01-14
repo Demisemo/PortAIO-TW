@@ -10,7 +10,7 @@ namespace Activator.Items.Offensives
     {
         internal override int Id => 3800;
         internal override int Priority => 5;
-        internal override string Name => "榮耀頭盔";
+        internal override string Name => "Righteous";
         internal override string DisplayName => "Righteous Glory";
         internal override int Duration => 1000;
         internal override float Range => 600f;

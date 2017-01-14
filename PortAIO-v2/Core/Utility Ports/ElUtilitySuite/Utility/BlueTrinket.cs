@@ -81,9 +81,9 @@ namespace ElUtilitySuite.Utility
                            ? rootMenu.AddSubMenu(new Menu("Misc", "MiscMenu"))
                            : rootMenu.Children.First(predicate);
 
-            var autoTrinketMenu = menu.AddSubMenu(new Menu("自動更換鷹眼晶球", "bluetrinket"));
+            var autoTrinketMenu = menu.AddSubMenu(new Menu("Blue trinket", "bluetrinket"));
             {
-                autoTrinketMenu.AddItem(new MenuItem("AutoTrinket", "自動購買應眼晶球").SetValue(false));
+                autoTrinketMenu.AddItem(new MenuItem("AutoTrinket", "Auto buy blue trinket").SetValue(false));
             }
 
             this.Menu = autoTrinketMenu;

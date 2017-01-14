@@ -8,7 +8,7 @@ namespace Activator.Summoners
     internal class heal : CoreSum
     {
         internal override string Name => "summonerheal";
-        internal override string DisplayName => "治癒";
+        internal override string DisplayName => "Heal";
         internal override string[] ExtraNames => new[] { "" };
         internal override float Range => 850f;
         internal override int Duration => 100;

@@ -11,7 +11,7 @@ namespace Activator.Items.Offensives
     {
         internal override int Id => 3077;
         internal override int Priority => 5;
-        internal override string Name => "海神之斧";
+        internal override string Name => "Tiamat";
         internal override string DisplayName => "Tiamat";
         internal override int Duration => 100;
         internal override float Range => 350f;    

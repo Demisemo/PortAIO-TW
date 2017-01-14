@@ -11,7 +11,7 @@ namespace Activator.Items.Defensives
     {
         internal override int Id => 3107;
         internal override int Priority => 5;
-        internal override sealed string Name => "贖罪神石";
+        internal override sealed string Name => "Redemption";
         internal override string DisplayName => "Redemption";
         internal override int Duration => 250;
         internal override sealed float Range => 5500;
@@ -27,13 +27,15 @@ namespace Activator.Items.Defensives
             Redemption = new Spell(Player.GetSpellSlot("itemredemption"), Range);
             Redemption.SetSkillshot(2.5f, 550f, float.MaxValue, false, SkillshotType.SkillshotCircle);
 
-            EloBuddy.Player.OnSwapItem += (sender, args) =>
+            EloBuddy.Player.OnSwapItem += OnPlayerSwapItem;
+        }
+
+        private void OnPlayerSwapItem(Obj_AI_Base sender, PlayerSwapItemEventArgs args)
+        {
+            if (sender.IsMe)
             {
-                if (sender.IsMe)
-                {
-                    Redemption = new Spell(Player.GetSpellSlot("itemredemption"), Range);
-                }
-            };
+                Redemption = new Spell(Player.GetSpellSlot("itemredemption"), Range);
+            }
         }
 
         public override void OnTick(EventArgs args)

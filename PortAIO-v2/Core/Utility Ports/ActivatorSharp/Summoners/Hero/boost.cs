@@ -10,7 +10,7 @@ namespace Activator.Summoners
     internal class boost : CoreSum
     {
         internal override string Name => "summonerboost";
-        internal override string DisplayName => "淨化";
+        internal override string DisplayName => "Cleanse";
         internal override string[] ExtraNames => new[] { "" };
         internal override float Range => float.MaxValue;
         internal override int Duration => 100;

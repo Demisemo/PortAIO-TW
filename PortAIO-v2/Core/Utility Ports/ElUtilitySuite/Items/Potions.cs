@@ -71,17 +71,17 @@ namespace ElUtilitySuite.Items
                            ? rootMenu.AddSubMenu(new Menu("Misc", "MiscMenu"))
                            : rootMenu.Children.First(predicate);
 
-            var potionsMenu = menu.AddSubMenu(new Menu("藥水設置", "Potions"));
+            var potionsMenu = menu.AddSubMenu(new Menu("Potions", "Potions"));
             {
-                potionsMenu.AddItem(new MenuItem("Potions.Activated", "藥水使用").SetValue(true));
-                potionsMenu.AddItem(new MenuItem("Potions.Health", "生命藥水").SetValue(true));
-                potionsMenu.AddItem(new MenuItem("Potions.Biscuit", "精靈乾糧").SetValue(true));
-                potionsMenu.AddItem(new MenuItem("Potions.RefillablePotion", "回復藥水").SetValue(true));
-                potionsMenu.AddItem(new MenuItem("Potions.HuntersPotion", "獵人藥劑").SetValue(true));
-                potionsMenu.AddItem(new MenuItem("Potions.CorruptingPotion", "污濁藥劑").SetValue(true));
+                potionsMenu.AddItem(new MenuItem("Potions.Activated", "Potions activated").SetValue(true));
+                potionsMenu.AddItem(new MenuItem("Potions.Health", "Health potions").SetValue(true));
+                potionsMenu.AddItem(new MenuItem("Potions.Biscuit", "Biscuits").SetValue(true));
+                potionsMenu.AddItem(new MenuItem("Potions.RefillablePotion", "Refillable Potion").SetValue(true));
+                potionsMenu.AddItem(new MenuItem("Potions.HuntersPotion", "Hunters Potion").SetValue(true));
+                potionsMenu.AddItem(new MenuItem("Potions.CorruptingPotion", "Corrupting Potion").SetValue(true));
 
                 potionsMenu.AddItem(new MenuItem("seperator.Potions", ""));
-                potionsMenu.AddItem(new MenuItem("Potions.Player.Health", "血量百分比").SetValue(new Slider(20)));
+                potionsMenu.AddItem(new MenuItem("Potions.Player.Health", "Health percentage").SetValue(new Slider(20)));
             }
 
             this.Menu = potionsMenu;

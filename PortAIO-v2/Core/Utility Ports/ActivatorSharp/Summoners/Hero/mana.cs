@@ -8,7 +8,7 @@ namespace Activator.Summoners
     internal class mana : CoreSum
     {
         internal override string Name => "summonermana";
-        internal override string DisplayName => "清晰";
+        internal override string DisplayName => "Clarity";
         internal override string[] ExtraNames => new[] { "" };
         internal override float Range => 600f;
         internal override int Duration => 100;

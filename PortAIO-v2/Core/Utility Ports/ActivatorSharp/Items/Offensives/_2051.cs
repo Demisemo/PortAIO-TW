@@ -10,7 +10,7 @@ namespace Activator.Items.Offensives
     {
         internal override int Id => 2051;
         internal override int Priority => 5;
-        internal override string Name => "保衛者號角";
+        internal override string Name => "Guardians";
         internal override string DisplayName => "Guardian's Horn";
         internal override MapType[] Maps => new[] { MapType.HowlingAbyss };
         internal override int Duration => 100;

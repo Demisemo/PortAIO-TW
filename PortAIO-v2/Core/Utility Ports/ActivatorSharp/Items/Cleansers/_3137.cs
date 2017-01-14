@@ -11,7 +11,7 @@ namespace Activator.Items.Cleansers
     class _3137 : CoreItem
     {
         internal override int Id => 3137;
-        internal override string Name => "苦行者之刃";
+        internal override string Name => "Dervish";
         internal override string DisplayName => "Dervish Blade";
         internal override int Priority => 6;
         internal override int Duration => 250;

@@ -11,7 +11,7 @@ namespace Activator.Items.Offensives
     {
         internal override int Id => 3074;
         internal override int Priority => 5;
-        internal override string Name => "狂怒九頭蛇";
+        internal override string Name => "Hydra";
         internal override string DisplayName => "Ravenous Hydra";
         internal override int Duration => 100;
         internal override float Range => 350f;

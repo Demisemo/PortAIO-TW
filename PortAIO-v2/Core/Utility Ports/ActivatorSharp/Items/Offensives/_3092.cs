@@ -10,7 +10,7 @@ namespace Activator.Items.Offensives
     {
         internal override int Id => 3092;
         internal override int Priority => 5;
-        internal override string Name => "霜后宣言";
+        internal override string Name => "Queens";
         internal override string DisplayName => "Frost Queen's Claim";
         internal override float Range => 1550f;
         internal override int Duration => 2000;

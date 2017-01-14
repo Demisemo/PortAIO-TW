@@ -75,13 +75,13 @@ namespace ElUtilitySuite.Summoners
                            ? rootMenu.AddSubMenu(new Menu("Summoners", "SummonersMenu"))
                            : rootMenu.Children.First(predicate);
 
-            var snowballMenu = menu.AddSubMenu(new Menu("ARAM模式-雪球", "Snowball"));
+            var snowballMenu = menu.AddSubMenu(new Menu("ARAM Snowball", "Snowball"));
             {
-                snowballMenu.AddItem(new MenuItem("Snowball.Activated", "使用雪球").SetValue(true));
-                snowballMenu.AddItem(new MenuItem("SnowballHotkey", "投擲雪球熱鍵").SetValue(new KeyBind('Z', KeyBindType.Press)));
+                snowballMenu.AddItem(new MenuItem("Snowball.Activated", "Snowball activated").SetValue(true));
+                snowballMenu.AddItem(new MenuItem("SnowballHotkey", "Throw snowball").SetValue(new KeyBind('Z', KeyBindType.Press)));
                 foreach (var x in HeroManager.Enemies)
                 {
-                    snowballMenu.AddItem(new MenuItem($"snowballon{x.ChampionName}", "使用於: " + x.ChampionName))
+                    snowballMenu.AddItem(new MenuItem($"snowballon{x.ChampionName}", "Use for " + x.ChampionName))
                         .SetValue(true);
                 }
             }

@@ -112,7 +112,7 @@
 
         public static void AddToMenu(Menu config)
         {
-            config.AddItem(new MenuItem("Alert", "----Use TS in Common Menu----"));
+            config.AddItem(new MenuItem("Alert", "----使用官方菜單選擇器----"));
         }
 
         /// <summary>

@@ -10,7 +10,7 @@ namespace Activator.Items.Consumables
     class _2047 : CoreItem
     {
         internal override int Id => 2047;
-        internal override string Name => "先知精華";
+        internal override string Name => "Oracle's Extract";
         internal override string DisplayName => "Oracle's Extract";
         internal override int Duration => 101;
         internal override int Priority => 5;

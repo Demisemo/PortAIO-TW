@@ -10,7 +10,7 @@ namespace Activator.Items.Consumables
     {
         internal override int Id => 2003;
         internal override int Priority => 3;
-        internal override string Name => "藥水設置";
+        internal override string Name => "Health Potion";
         internal override string DisplayName => "Health Potion";
         internal override int Duration => 101;
         internal override float Range => float.MaxValue;

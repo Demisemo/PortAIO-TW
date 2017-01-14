@@ -419,7 +419,7 @@ namespace LeagueSharp.Common
         /// </summary>
         public static void Initialize()
         {
-            _menu = new Menu("Prediction", "Prediction");
+            _menu = new Menu("預判", "Prediction");
             var slider = new MenuItem("PredMaxRange", "Max Range %").SetValue(new Slider(100, 70, 100));
             _menu.AddItem(slider);
             CommonMenu.Instance.AddSubMenu(_menu);

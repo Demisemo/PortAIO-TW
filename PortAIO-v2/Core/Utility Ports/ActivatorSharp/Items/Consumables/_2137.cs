@@ -10,7 +10,7 @@ namespace Activator.Items.Consumables
     {
         internal override int Id => 2137;
         internal override int Priority => 3;
-        internal override string Name => "憤怒藥劑";
+        internal override string Name => "Elixir of Ruin";
         internal override string DisplayName => "Elixir of Ruin";
         internal override int Duration => 101;
         internal override float Range => float.MaxValue;

@@ -11,7 +11,7 @@ namespace Activator.Summoners
     internal class exhuast : CoreSum
     {
         internal override string Name => "summonerexhaust";
-        internal override string DisplayName => "虛弱";
+        internal override string DisplayName => "Exhaust";
         internal override string[] ExtraNames => new[] { "" };
         internal override float Range => 650f;
         internal override int Duration => 100;

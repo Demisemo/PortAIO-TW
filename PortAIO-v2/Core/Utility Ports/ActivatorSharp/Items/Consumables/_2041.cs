@@ -10,7 +10,7 @@ namespace Activator.Items.Consumables
     {
         internal override int Id => 2041;
         internal override int Priority => 3;
-        internal override string Name => "水晶瓶藥";
+        internal override string Name => "Crystalline Flask";
         internal override string DisplayName => "Crystalline Flask";
         internal override int Duration => 101;
         internal override float Range => float.MaxValue;

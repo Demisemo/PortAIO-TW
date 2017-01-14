@@ -63,7 +63,7 @@ namespace ElUtilitySuite.Items
         /// </summary>
         public virtual void CreateMenu()
         {
-            this.Menu.AddItem(new MenuItem(this.Name + "combo", "連招時使用").SetValue(true));
+            this.Menu.AddItem(new MenuItem(this.Name + "combo", "Use in Combo").SetValue(true));
         }
 
         /// <summary>

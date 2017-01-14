@@ -11,7 +11,7 @@ namespace Activator.Items.Offensives
     {
         internal override int Id => 3142;
         internal override int Priority => 5;
-        internal override string Name => "妖夢鬼刀";
+        internal override string Name => "Youmuus";
         internal override string DisplayName => "Youmuus Ghostblade";
         internal override int Duration => 45000;
         internal override float Range => 850f;
