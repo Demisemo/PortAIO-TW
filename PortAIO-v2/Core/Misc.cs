@@ -14,15 +14,15 @@ namespace PortAIO.Dual_Port
 
         public static void Load()
         {
-            (info = new Menu("[~] PortAIO - Info", "PAIOInfo", true)).AddToMainMenu();
+            (info = new Menu("PortAIO - 信息", "PAIOInfo", true)).AddToMainMenu();
             info.AddItem(new MenuItem("aioBerb", "PortAIO - By Berb"));
-            info.AddItem(new MenuItem("aioVersion", "Version : " + Game.Version));
-            info.AddItem(new MenuItem("aioNote", "Note : Make sure you're in Borderless!"));
-            info.AddItem(new MenuItem("aioNote1", "Note : Remember to disable EB Orbwalker!"));
+            info.AddItem(new MenuItem("aioVersion", "版本  : " + Game.Version));
+            info.AddItem(new MenuItem("aioNote", "注意：確保您使用無邊界模式!"));
+            info.AddItem(new MenuItem("aioNote1", "注意 : 請禁用 EB 走砍!"));
 
-            (menu = new Menu("[~] PortAIO - Ports", "PAIOMisc", true)).AddToMainMenu();
+            (menu = new Menu("PortAIO - 移植", "PAIOMisc", true)).AddToMainMenu();
 
-            var dualPort = new Menu("Dual-Port", "DualPAIOPort");
+            var dualPort = new Menu("多項選擇 - 移植", "DualPAIOPort");
             menu.AddSubMenu(dualPort);
 
             var hasDualPort = true;
@@ -435,55 +435,55 @@ namespace PortAIO.Dual_Port
                     break;
                 default:
                     hasDualPort = false;
-                    dualPort.AddItem(new MenuItem("info1", "There are no dual-port for this champion."));
-                    dualPort.AddItem(new MenuItem("info2", "Feel free to request one."));
+                    dualPort.AddItem(new MenuItem("info1", "這個英雄沒有多項移植"));
+                    dualPort.AddItem(new MenuItem("info2", "隨意請求一個"));
                     break;
                     #endregion
             }
 
             if (hasDualPort)
             {
-                dualPort.AddItem(new MenuItem(ObjectManager.Player.Hero.ToString(), "Which dual-port?").SetValue(new StringList(champ)));
+                dualPort.AddItem(new MenuItem(ObjectManager.Player.Hero.ToString(), "選擇您要的移植腳本?").SetValue(new StringList(champ)));
             }
 
-            var dutility = new Menu("Dual-Utilities", "Utilitiesports");
-            dutility.AddItem(new MenuItem("enableActivator", "Enable Activator?").SetValue(false));
-            dutility.AddItem(new MenuItem("Activator", "Which Activator?").SetValue(new StringList(new[] { "ElUtilitySuite", "Activator#", "NabbActivator" })));
+            var dutility = new Menu("功能腳本", "Utilitiesports");
+            dutility.AddItem(new MenuItem("enableActivator", "啟用 活化劑?").SetValue(false));
+            dutility.AddItem(new MenuItem("Activator", "選擇: 活化劑?").SetValue(new StringList(new[] { "ElUtilitySuite", "Activator#", "NabbActivator" })));
 
-            dutility.AddItem(new MenuItem("enableTracker", "Enable Tracker?").SetValue(false));
-            dutility.AddItem(new MenuItem("Tracker", "Which Tracker?").SetValue(new StringList(new[] { "SFXUtility", "Tracker#", "NabbTracker" })));
+            dutility.AddItem(new MenuItem("enableTracker", "啟用 計數器?").SetValue(false));
+            dutility.AddItem(new MenuItem("Tracker", "選擇: Tracker?").SetValue(new StringList(new[] { "SFXUtility", "Tracker#", "NabbTracker" })));
 
-            dutility.AddItem(new MenuItem("enableEvade", "Enable Evade?").SetValue(false));
-            dutility.AddItem(new MenuItem("Evade", "Which Evade?").SetValue(new StringList(new[] { "EzEvade", "Evade", "vEvade" })));
+            dutility.AddItem(new MenuItem("enableEvade", "啟用 躲避?").SetValue(false));
+            dutility.AddItem(new MenuItem("Evade", "選擇: 躲避?").SetValue(new StringList(new[] { "EzEvade", "Evade", "vEvade" })));
 
-            dutility.AddItem(new MenuItem("enableHuman", "Enable Humanizer?").SetValue(false));
-            dutility.AddItem(new MenuItem("Humanizer", "Which Humanizer?").SetValue(new StringList(new[] { "Humanizer#" })));
+            dutility.AddItem(new MenuItem("enableHuman", "啟用 人性化?").SetValue(false));
+            dutility.AddItem(new MenuItem("Humanizer", "選擇: 人性化?").SetValue(new StringList(new[] { "Humanizer#" })));
 
-            dutility.AddItem(new MenuItem("enablePredictioner", "Enable Predictioner?").SetValue(false));
-            dutility.AddItem(new MenuItem("Predictioner", "Which Predictioner?").SetValue(new StringList(new[] { "SPredictioner", "OKTWPredictioner", "L#Predictioner" })));
+            dutility.AddItem(new MenuItem("enablePredictioner", "啟用 L#預判?").SetValue(false));
+            dutility.AddItem(new MenuItem("Predictioner", "選擇: 預判?").SetValue(new StringList(new[] { "SPredictioner", "OKTWPredictioner", "L#Predictioner" })));
 
-            dutility.AddItem(new MenuItem("enableCamera", "Enable Camera-Mod?").SetValue(false));
-            dutility.AddItem(new MenuItem("Camera", "Which Camera-Mod?").SetValue(new StringList(new[] { "HSCamera" })));
+            dutility.AddItem(new MenuItem("enableCamera", "啟用 切換轉鏡頭?").SetValue(false));
+            dutility.AddItem(new MenuItem("Camera", "選擇: 切換轉鏡頭?").SetValue(new StringList(new[] { "HSCamera" })));
 
             menu.AddSubMenu(dutility);
 
-            var utility = new Menu("Standalone Utilities", "PortAIOuTILITIESS");
-            utility.AddItem(new MenuItem("ShadowTracker", "Enable ShadowTracker?").SetValue(false));
-            utility.AddItem(new MenuItem("UniversalPings", "Enable UniversalPings?").SetValue(false));
-            utility.AddItem(new MenuItem("PerfectWardReborn", "Enable PerfectWardReborn?").SetValue(false));
-            utility.AddItem(new MenuItem("RandomUlt", "Enable RandomUlt?").SetValue(false));
-            utility.AddItem(new MenuItem("BaseUlt3", "Enable BaseUlt3?").SetValue(false));
-            utility.AddItem(new MenuItem("UniversalRecallTracker", "Enable UniversalRecallTracker?").SetValue(false));
-            utility.AddItem(new MenuItem("UniversalGankAlerter", "Enable UniversalGankAlerter?").SetValue(false));
-            utility.AddItem(new MenuItem("UniversalMinimapHack", "Enable UniversalMinimapHack?").SetValue(false));
-            utility.AddItem(new MenuItem("StandaloneOrbwalker", "Enable StandaloneOrbwalker?").SetValue(false));
-            utility.AddItem(new MenuItem("BasicChatBlock", "Enable BasicChatBlock?").SetValue(false));
-            utility.AddItem(new MenuItem("CSCounter", "Enable CSCounter?").SetValue(false));
-            utility.AddItem(new MenuItem("SharedExperience", "Enable SharedExperience?").SetValue(false));
+            var utility = new Menu("獨立 - 功能腳本", "PortAIOuTILITIESS");
+            utility.AddItem(new MenuItem("ShadowTracker", "啟用 追蹤敵人閃現進迷霧中的位置?").SetValue(false));
+            utility.AddItem(new MenuItem("UniversalPings", "啟用 偵測誰的ping?").SetValue(false));
+            utility.AddItem(new MenuItem("PerfectWardReborn", "啟用 自動插眼?").SetValue(false));
+            utility.AddItem(new MenuItem("RandomUlt", "啟用 測敵人回城的位置，並施放大招撿人頭?").SetValue(false));
+            utility.AddItem(new MenuItem("BaseUlt3", "啟用 當敵人回城，自動放大招撿人頭?").SetValue(false));
+            utility.AddItem(new MenuItem("UniversalRecallTracker", "啟用 提示敵方正在回城?").SetValue(false));
+            utility.AddItem(new MenuItem("UniversalGankAlerter", "啟用 警告打野出現?").SetValue(false));
+            utility.AddItem(new MenuItem("UniversalMinimapHack", "啟用 顯示敵人最後位置?").SetValue(false));
+            utility.AddItem(new MenuItem("StandaloneOrbwalker", "啟用 獨立走砍?").SetValue(false));
+            utility.AddItem(new MenuItem("BasicChatBlock", "啟用 屏蔽所有對話?").SetValue(false));
+            utility.AddItem(new MenuItem("CSCounter", "啟用 計算目前 補兵數/吃兵數?").SetValue(false));
+            utility.AddItem(new MenuItem("SharedExperience", "啟用 檢查敵人獲得的經驗值?").SetValue(false));
             menu.AddSubMenu(utility);
 
-            menu.AddItem(new MenuItem("UtilityOnly", "Utility Only?").SetValue(false));
-            menu.AddItem(new MenuItem("ChampsOnly", "Champs Only?").SetValue(false));
+            menu.AddItem(new MenuItem("UtilityOnly", "只有功能腳本?").SetValue(false));
+            menu.AddItem(new MenuItem("ChampsOnly", "只有英雄腳本?").SetValue(false));
         }
     }
 }
