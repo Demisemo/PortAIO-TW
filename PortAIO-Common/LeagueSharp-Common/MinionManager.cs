@@ -355,7 +355,7 @@
         /// <param name="minion">The minion.</param>
         /// <param name="includeWards">if set to <c>true</c> [include wards].</param>
         /// <returns><c>true</c> if the specified minion is minion; otherwise, <c>false</c>.</returns>
-        public static bool IsMinion(Obj_AI_Minion minion, bool includeWards = false)
+        public static bool IsMinion(Obj_AI_Base minion, bool includeWards = false)
         {
             return minion.Name.Contains("Minion") || includeWards && IsWard(minion);
         }
@@ -376,7 +376,7 @@
         /// </summary>
         /// <param name="minion">The minion you want to check for</param>
         /// <returns><c>true</c> if the given minion is a valid attackable ward, otherwise returns <c>false</c>.</returns>
-        public static bool IsWard(Obj_AI_Minion minion)
+        public static bool IsWard(Obj_AI_Base minion)
         {
             return minion.Name.Contains("Ward") && minion.IsHPBarRendered;
         }

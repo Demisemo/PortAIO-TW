@@ -479,6 +479,7 @@ namespace PortAIO.Dual_Port
             utility.AddItem(new MenuItem("StandaloneOrbwalker", "啟用 獨立走砍?").SetValue(false));
             utility.AddItem(new MenuItem("BasicChatBlock", "啟用 屏蔽所有對話?").SetValue(false));
             utility.AddItem(new MenuItem("CSCounter", "啟用 計算目前 補兵數/吃兵數?").SetValue(false));
+            utility.AddItem(new MenuItem("SharedExperience", "啟用 檢查敵人獲得的經驗值?").SetValue(false));
             menu.AddSubMenu(utility);
 
             menu.AddItem(new MenuItem("UtilityOnly", "只有功能腳本?").SetValue(false));

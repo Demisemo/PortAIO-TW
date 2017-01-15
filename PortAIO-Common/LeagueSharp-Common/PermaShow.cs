@@ -204,7 +204,7 @@
         /// </summary>
         private static void CreateMenu()
         {
-            placetosave = new Menu("虛假點擊", "PermaShow");
+            placetosave = new Menu("虛假點擊", "Permashow");
             var enablepermashow = new MenuItem("enablepermashow", "啟用 虛假點擊").SetValue(true);
             placetosave.AddItem(enablepermashow);
             var xvalue = new MenuItem("X", "X").SetValue(new Slider((int)DefaultPosition.X, 0, Drawing.Width));

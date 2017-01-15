@@ -61,7 +61,7 @@ namespace Flowers_Riven_Reborn.Manager.Menu
                     new MenuItem("HarassMode", "騷擾模式", true).SetValue(new StringList(new[] { "智能", "爆發" })));
             }
 
-            var clearMenu = Menu.AddSubMenu(new Menu("Clear", "Clear"));
+            var clearMenu = Menu.AddSubMenu(new Menu("清線/清野", "Clear"));
             {
                 var laneClearMenu = clearMenu.AddSubMenu(new Menu("清線", "LaneClear"));
                 {

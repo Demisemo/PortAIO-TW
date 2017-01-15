@@ -386,7 +386,7 @@ namespace LeagueSharp.Common
             {
                 return false;
             }
-            
+
             if (Player.HasBuffOfType(BuffType.Blind))
             {
                 return false;
@@ -409,10 +409,10 @@ namespace LeagueSharp.Common
                 }
             }
 
-//            if (Player.IsCastingInterruptableSpell())
-//            {
-//                return false;
-//            }
+            //            if (Player.IsCastingInterruptableSpell())
+            //            {
+            //                return false;
+            //            }
 
             return Core.GameTickCount + Game.Ping / 2 + 25 >= LastAATick + Player.AttackDelay * 1000;
         }
@@ -1236,6 +1236,62 @@ namespace LeagueSharp.Common
                 AttackableUnit result = null;
                 var mode = this.ActiveMode;
 
+                //GankPlank barrels
+                var attackGankPlankBarrels = _config.Item("AttackGPBarrel").GetValue<StringList>().SelectedIndex;
+                if (attackGankPlankBarrels != 2)
+                {
+                    var condition = attackGankPlankBarrels == 0 && mode == OrbwalkingMode.Combo;
+                    if (mode == OrbwalkingMode.LaneClear || mode == OrbwalkingMode.Mixed || mode == OrbwalkingMode.LastHit || mode == OrbwalkingMode.Freeze || condition)
+                    {
+                        var enemyGangPlank = EntityManager.Heroes.Enemies.FirstOrDefault(e => e.Hero == Champion.Gangplank);
+
+                        if (enemyGangPlank != null)
+                        {
+                            var barrels =
+                                ObjectManager.Get<Obj_AI_Base>()
+                                    .Where(
+                                        minion => minion.CharData.BaseSkinName == "GangplankBarrel" && minion.IsValidTarget() && this.InAutoAttackRange(minion));
+
+                            foreach (var barrel in barrels)
+                            {
+                                if (barrel.Health <= 1f)
+                                {
+                                    return barrel;
+                                }
+
+                                var t = (int)(this.Player.AttackCastDelay * 1000) + Game.Ping / 2
+                                        + 1000 * (int)Math.Max(0, this.Player.Distance(barrel) - this.Player.BoundingRadius)
+                                        / (int)GetMyProjectileSpeed();
+
+                                var barrelBuff =
+                                    barrel.Buffs.FirstOrDefault(
+                                        b =>
+                                        b.Name.Equals("gangplankebarrelactive", StringComparison.InvariantCultureIgnoreCase));
+
+                                if (barrelBuff != null && barrel.Health <= 2f)
+                                {
+                                    var healthDecayRate = enemyGangPlank.Level >= 13
+                                                              ? 0.5f
+                                                              : (enemyGangPlank.Level >= 7 ? 1f : 2f);
+                                    var nextHealthDecayTime = Game.Time < barrelBuff.StartTime + healthDecayRate
+                                                                  ? barrelBuff.StartTime + healthDecayRate
+                                                                  : barrelBuff.StartTime + healthDecayRate * 2;
+
+                                    if (nextHealthDecayTime <= Game.Time + t / 1000f)
+                                    {
+                                        return barrel;
+                                    }
+                                }
+                            }
+
+                            if (barrels.Any())
+                            {
+                                return null;
+                            }
+                        }
+                    }
+                }
+
                 if ((mode == OrbwalkingMode.Mixed || mode == OrbwalkingMode.LaneClear)
                     && !_config.Item("PriorizeFarm").GetValue<bool>())
                 {
@@ -1244,66 +1300,6 @@ namespace LeagueSharp.Common
                     {
                         if (target.IsHPBarRendered && this.InAutoAttackRange(target) && target.IsValidTarget())
                             return target;
-                    }
-                }
-
-                //GankPlank barrels
-                var attackGankPlankBarrels = _config.Item("AttackGPBarrel").GetValue<StringList>().SelectedIndex;
-                if (attackGankPlankBarrels != 2
-                    && (attackGankPlankBarrels == 0
-                        || (mode == OrbwalkingMode.LaneClear || mode == OrbwalkingMode.Mixed
-                            || mode == OrbwalkingMode.LastHit || mode == OrbwalkingMode.Freeze)))
-                {
-                    var enemyGangPlank =
-                        EntityManager.Heroes.Enemies.FirstOrDefault(
-                            e => e.ChampionName.Equals("gangplank", StringComparison.InvariantCultureIgnoreCase));
-
-                    if (enemyGangPlank != null)
-                    {
-                        var barrels =
-                            ObjectManager.Get<Obj_AI_Minion>()
-                                .Where(
-                                    minion =>
-                                    minion.Team == GameObjectTeam.Neutral
-                                    && minion.CharData.BaseSkinName == "gangplankbarrel" && minion.IsHPBarRendered
-                                    && minion.IsValidTarget() && this.InAutoAttackRange(minion));
-
-                        foreach (var barrel in barrels)
-                        {
-                            if (barrel.Health <= 1f)
-                            {
-                                return barrel;
-                            }
-
-                            var t = (int)(this.Player.AttackCastDelay * 1000) + Game.Ping / 2
-                                    + 1000 * (int)Math.Max(0, this.Player.Distance(barrel) - this.Player.BoundingRadius)
-                                    / (int)GetMyProjectileSpeed();
-
-                            var barrelBuff =
-                                barrel.Buffs.FirstOrDefault(
-                                    b =>
-                                    b.Name.Equals("gangplankebarrelactive", StringComparison.InvariantCultureIgnoreCase));
-
-                            if (barrelBuff != null && barrel.Health <= 2f)
-                            {
-                                var healthDecayRate = enemyGangPlank.Level >= 13
-                                                          ? 0.5f
-                                                          : (enemyGangPlank.Level >= 7 ? 1f : 2f);
-                                var nextHealthDecayTime = Game.Time < barrelBuff.StartTime + healthDecayRate
-                                                              ? barrelBuff.StartTime + healthDecayRate
-                                                              : barrelBuff.StartTime + healthDecayRate * 2;
-
-                                if (nextHealthDecayTime <= Game.Time + t / 1000f)
-                                {
-                                    return barrel;
-                                }
-                            }
-                        }
-
-                        if (barrels.Any())
-                        {
-                            return null;
-                        }
                     }
                 }
 
@@ -1643,10 +1639,9 @@ namespace LeagueSharp.Common
                         }
 
                         result = (from minion in
-                                      EntityManager.MinionsAndMonsters.EnemyMinions
+                                      ObjectManager.Get<Obj_AI_Base>()
                                       .Where(
-                                          minion => minion.IsHPBarRendered &&
-                                          minion.IsValidTarget() && this.InAutoAttackRange(minion)
+                                          minion => minion.IsValidTarget() && this.InAutoAttackRange(minion)
                                           && this.ShouldAttackMinion(minion))
                                   let predHealth =
                                       HealthPrediction.LaneClearHealthPrediction(
@@ -1867,7 +1862,7 @@ namespace LeagueSharp.Common
             /// <param name="minion">The <see cref="Obj_AI_Minion" /></param>
             /// <param name="includeBarrel">Include Gangplank Barrel</param>
             /// <returns><c>true</c> if the minion should be attacked; otherwise, <c>false</c>.</returns>
-            private bool ShouldAttackMinion(Obj_AI_Minion minion)
+            private bool ShouldAttackMinion(Obj_AI_Base minion)
             {
                 if (minion.Name == "WardCorpse" || minion.CharData.BaseSkinName == "jarvanivstandard")
                 {

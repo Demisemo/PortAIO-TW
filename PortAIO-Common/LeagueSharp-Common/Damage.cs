@@ -4313,7 +4313,24 @@ namespace LeagueSharp.Common
                         DamageType = DamageType.Physical,
                         Damage = (source, target, level) =>
                         {
-                            return GetRendDamage(source, target);
+                            var count = target.GetBuffCount("kalistaexpungemarker");
+                            if (count > 0)
+                            {
+                                return (new double[] {20, 30, 40, 50, 60}[level]
+                                        + 0.6
+                                        *(source.BaseAttackDamage
+                                          + source.FlatPhysicalDamageMod)) +
+                                       // Base damage of E
+                                       ((count - 1)
+                                        *(new double[] {10, 14, 19, 25, 32}[level]
+                                          + // Base damage per spear
+                                          new double[] {0.2, 0.225, 0.25, 0.275, 0.3}[
+                                              level]
+                                          *(source.BaseAttackDamage
+                                            + source.FlatPhysicalDamageMod)));
+                                // Damage multiplier per spear
+                            }
+                            return 0;
                         }
                     },
                 });
@@ -7765,15 +7782,14 @@ namespace LeagueSharp.Common
             DamageType damageType,
             double amount)
         {
-            // NEED TO FIX
             var damage = 0d;
             switch (damageType)
             {
                 case DamageType.Magical:
-                    damage = CalcMagicDamage(source, target, amount);
+                    damage = EloBuddy.SDK.Damage.CalculateDamageOnUnit(source, target, EloBuddy.DamageType.Magical, (float)amount);
                     break;
                 case DamageType.Physical:
-                    damage = CalcPhysicalDamage(source, target, amount);
+                    damage = EloBuddy.SDK.Damage.CalculateDamageOnUnit(source, target, EloBuddy.DamageType.Physical, (float)amount);
                     break;
                 case DamageType.True:
                     damage = amount;
