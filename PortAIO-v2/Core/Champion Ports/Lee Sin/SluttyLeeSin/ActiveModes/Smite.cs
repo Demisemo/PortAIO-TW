@@ -15,7 +15,7 @@ using EloBuddy;
 
         public static readonly string[] Names =
         {
-            "Krug", "Razorbeak", "Murkwolf", "Gromp", "Crab", "Blue", "Red", "Dragon", "Baron"
+            "SRU_Krug", "SRU_Razorbeak", "SRU_Murkwolf", "SRU_Gromp", "Sru_Crab", "SRU_Blue", "SRU_Red", "SRU_Dragon_Air", "SRU_Dragon_Water", "SRU_Dragon_Fire", "SRU_Dragon_Elder", "SRU_Dragon_Earth", "SRU_Baron", "SRU_RiftHerald"
         };
 
         public static void AutoSmite()
@@ -27,7 +27,7 @@ using EloBuddy;
             {
                 foreach (var name in Names)
                 {
-                    if (mob.CharData.BaseSkinName == "SRU_" + name && GetBool("usesmiteon" + name, typeof(bool)))
+                    if (mob.CharData.BaseSkinName == name && GetBool("usesmiteon" + name, typeof(bool)))
                     {
                         if (!mob.IsValidTarget()) return;
 
@@ -43,7 +43,7 @@ using EloBuddy;
                                 if (Q1())
                                 Q.Cast(mob);
 
-                                if (mob.HasBuff("blindmonkqtwo"))
+                                if (mob.HasBuff("BlindMonkQTwo"))
                                 {
                                     Player.Spellbook.CastSpell(Smite, mob);
                                 }
@@ -51,7 +51,7 @@ using EloBuddy;
                                 Q.Cast();
                             }
 
-                            if (GetFuckingSmiteDamage() + Q.GetDamage(mob) + (mob.MaxHealth - mob.Health) * 0.08 >= mob.Health && Q.IsReady() && Player.GetSpell(SpellSlot.Q).Name == "blindmonkqtwo" && mob.HasBuff("blindmonkqtwo"))
+                            if (GetFuckingSmiteDamage() + Q.GetDamage(mob) + (mob.MaxHealth - mob.Health) * 0.08 >= mob.Health && Q.IsReady() && Player.GetSpell(SpellSlot.Q).Name == "BlindMonkQTwo" && mob.HasBuff("BlindMonkQTwo"))
                             {
                                 Q.Cast();
                                 Player.Spellbook.CastSpell(Smite, mob);

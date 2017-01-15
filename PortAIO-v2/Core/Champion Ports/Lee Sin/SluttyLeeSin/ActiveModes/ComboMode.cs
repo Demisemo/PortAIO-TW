@@ -76,7 +76,7 @@ using EloBuddy;
             #region Regular combo
 
             var target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Physical);
-            if (!target.IsValidTarget())
+            if (target == null)
                 return;
 
             var useq = GetBool("useq", typeof (bool));
@@ -124,8 +124,7 @@ using EloBuddy;
 
             if (useq)
             {
-                if (Environment.TickCount - Lastqc > 300 && Environment.TickCount - Laste > 300 &&
-                    Environment.TickCount - Lastwcombo > 300)
+                if (Environment.TickCount - Lastqc > 300 && Environment.TickCount - Laste > 300 && Environment.TickCount - Lastwcombo > 300)
                 {
                     var qpred = Q.GetPrediction(target);
                     if (Q.IsReady() && Q1())
