@@ -12,7 +12,7 @@ namespace LeagueSharp.Common
         /// <summary>
         ///     The menu instance.
         /// </summary>
-        internal static Menu Instance = new Menu("[~] PortAIO - Core", "PortAIO.Settings", true);
+        internal static Menu Instance = new Menu("PortAIO - 主要", "PortAIO.Settings", true);
 
         #endregion
 
