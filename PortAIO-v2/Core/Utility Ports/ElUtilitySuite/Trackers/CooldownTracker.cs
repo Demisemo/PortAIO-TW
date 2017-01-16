@@ -484,16 +484,16 @@ using LeagueSharp.Common;
                            ? rootMenu.AddSubMenu(new Menu("Trackers", "Trackers"))
                            : rootMenu.Children.First(predicate);
 
-            var drawingMenu = menu.AddSubMenu(new Menu("Spell duration tracker", "cdtracker"));
+            var drawingMenu = menu.AddSubMenu(new Menu("技能使用時間計時器", "cdtracker"));
             {
-                drawingMenu.AddItem(new MenuItem("OffsetTop", "Offset Top").SetValue(new Slider(0)));
-                drawingMenu.AddItem(new MenuItem("OffsetLeft", "Offset Left").SetValue(new Slider(0)));
-                drawingMenu.AddItem(new MenuItem("Outline", "Outline").SetValue(true));
-                drawingMenu.AddItem(new MenuItem("Self", "Self").SetValue(false));
-                drawingMenu.AddItem(new MenuItem("Enemy", "Enemy").SetValue(false));
-                drawingMenu.AddItem(new MenuItem("Ally", "Ally").SetValue(false));
+                drawingMenu.AddItem(new MenuItem("OffsetTop", "上下").SetValue(new Slider(0)));
+                drawingMenu.AddItem(new MenuItem("OffsetLeft", "左右").SetValue(new Slider(0)));
+                drawingMenu.AddItem(new MenuItem("Outline", "輪廓").SetValue(true));
+                drawingMenu.AddItem(new MenuItem("Self", "自身").SetValue(false));
+                drawingMenu.AddItem(new MenuItem("Enemy", "敵人").SetValue(false));
+                drawingMenu.AddItem(new MenuItem("Ally", "隊友").SetValue(false));
 
-                drawingMenu.AddItem(new MenuItem("Enabled", "Enabled").SetValue(true));
+                drawingMenu.AddItem(new MenuItem("Enabled", "啟用").SetValue(true));
             }
             this.Menu = drawingMenu;
         }

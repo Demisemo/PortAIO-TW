@@ -126,9 +126,9 @@ namespace ElUtilitySuite.Utility
                            ? rootMenu.AddSubMenu(new Menu("Misc", "MiscMenu"))
                            : rootMenu.Children.First(predicate);
 
-            var protectMenu = menu.AddSubMenu(new Menu("Anti-Stealth", "AntiStealth"));
+            var protectMenu = menu.AddSubMenu(new Menu("反隱身", "AntiStealth"));
             {
-                protectMenu.AddItem(new MenuItem("AntiStealthActive", "Place Pink Ward on Unit Stealth").SetValue(true));
+                protectMenu.AddItem(new MenuItem("AntiStealthActive", "使用控域守衛/先知透視鏡掃隱身").SetValue(true));
             }
 
             this.Menu = protectMenu;

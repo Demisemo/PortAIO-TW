@@ -35,9 +35,9 @@ using EloBuddy;
 
         private void Game_OnGameLoad()
         {
-            _menu = new Menu("Universal Pings", "UniversalPings", true);
-            _menu.AddItem(new MenuItem("print", "Show").SetValue(new StringList(new[] { "Champion", "Player", "Both" })));
-            _menu.AddItem(new MenuItem("block", "[Block Settings]"));
+            _menu = new Menu("偵測誰的ping", "UniversalPings", true);
+            _menu.AddItem(new MenuItem("print", "顯示:").SetValue(new StringList(new[] { "英雄", "玩家", "兩者" })));
+            _menu.AddItem(new MenuItem("block", "[阻擋設置]"));
             foreach (AIHeroClient hero in ObjectManager.Get<AIHeroClient>())
             {
                 if (hero.Team == ObjectManager.Player.Team && hero.NetworkId != ObjectManager.Player.NetworkId)

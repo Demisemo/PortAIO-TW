@@ -454,20 +454,20 @@ namespace SharedExperience
 
         static void LoadMenu()
         {
-            menu = new Menu("Shared Experience", "Shared Experience", true);
-            menu.AddItem(new MenuItem("showEnemies", "Draw Text On Enemy").SetValue(true));
-            menu.AddItem(new MenuItem("onlyShowInv", "Only Draw Text When Not Visible Enemies").SetValue(false));
-            menu.AddItem(new MenuItem("drawPredictionCircle", "Draw Prediction Circle").SetValue(true));
-            menu.AddItem(new MenuItem("invColor", "Text Color When Not Visible Enemies").SetValue(Color.FromArgb(255, 245,25,25)));
-            menu.AddItem(new MenuItem("positionX", "OnEnemy Text Position X").SetValue(new Slider(142, -100, 200)));
-            menu.AddItem(new MenuItem("positionY", "OnEnemy Text Position Y").SetValue(new Slider(21, -100, 100)));
+            menu = new Menu("共享體驗", "Shared Experience", true);
+            menu.AddItem(new MenuItem("showEnemies", "顯示敵人文字").SetValue(true));
+            menu.AddItem(new MenuItem("onlyShowInv", "只顯示文字時不可見的敵人").SetValue(false));
+            menu.AddItem(new MenuItem("drawPredictionCircle", "顯示預判圓圈").SetValue(true));
+            menu.AddItem(new MenuItem("invColor", "文字顏色當不可見的敵人").SetValue(Color.FromArgb(255, 245,25,25)));
+            menu.AddItem(new MenuItem("positionX", "敵人文字位置 X").SetValue(new Slider(142, -100, 200)));
+            menu.AddItem(new MenuItem("positionY", "敵人文字位置 Y").SetValue(new Slider(21, -100, 100)));
 
 
             //Champion List Menu
-            menu.AddSubMenu(new Menu("Champion List", "Champion List"));
-            menu.SubMenu("Champion List").AddItem(new MenuItem("drawchampionlist", "Draw Champion List").SetValue(false));
-            menu.SubMenu("Champion List").AddItem(new MenuItem("posX", "Champions List Pos X").SetValue(new Slider(Drawing.Width / 2, 0, Drawing.Width)));
-            menu.SubMenu("Champion List").AddItem(new MenuItem("posY", "Champions List Pos Y").SetValue(new Slider(Drawing.Height / 2, 0, Drawing.Height)));
+            menu.AddSubMenu(new Menu("英雄列表", "Champion List"));
+            menu.SubMenu("Champion List").AddItem(new MenuItem("drawchampionlist", "顯示列表").SetValue(false));
+            menu.SubMenu("Champion List").AddItem(new MenuItem("posX", "英雄列表 X").SetValue(new Slider(Drawing.Width / 2, 0, Drawing.Width)));
+            menu.SubMenu("Champion List").AddItem(new MenuItem("posY", "英雄列表 Y").SetValue(new Slider(Drawing.Height / 2, 0, Drawing.Height)));
 
             menu.AddToMainMenu();
         }

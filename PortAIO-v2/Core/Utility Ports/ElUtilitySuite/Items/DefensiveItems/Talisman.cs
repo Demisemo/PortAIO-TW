@@ -26,7 +26,7 @@ namespace ElUtilitySuite.Items.DefensiveItems
         /// <value>
         ///     The name of the item.
         /// </value>
-        public override string Name => "Talisman of Ascension";
+        public override string Name => "昇華護符";
 
         #endregion
 
@@ -37,10 +37,10 @@ namespace ElUtilitySuite.Items.DefensiveItems
         /// </summary>
         public override void CreateMenu()
         {
-            this.Menu.AddItem(new MenuItem("UseTalismanCombo", "Activated").SetValue(true));
-            this.Menu.AddItem(new MenuItem("Mode-talisman", "Activation mode: ")).SetValue(new StringList(new[] { "Use always", "Use in combo" }, 1));
-            this.Menu.AddItem(new MenuItem("TalismanEnemyHp", "Use on Enemy Hp %").SetValue(new Slider(70)));
-            this.Menu.AddItem(new MenuItem("TalismanMyHp", "Use on My Hp %").SetValue(new Slider(50))); 
+            this.Menu.AddItem(new MenuItem("UseTalismanCombo", "使用").SetValue(true));
+            this.Menu.AddItem(new MenuItem("Mode-talisman", "使用模式: ")).SetValue(new StringList(new[] { "總是使用", "連招時使用" }, 1));
+            this.Menu.AddItem(new MenuItem("TalismanEnemyHp", "當敵方血量%使用").SetValue(new Slider(70)));
+            this.Menu.AddItem(new MenuItem("TalismanMyHp", "當自身血量%使用").SetValue(new Slider(50)));  
         }
 
         /// <summary>

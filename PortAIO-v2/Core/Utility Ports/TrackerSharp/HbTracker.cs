@@ -104,9 +104,9 @@ using EloBuddy;
 
         public static void AttachToMenu(Menu menu)
         {
-            Config = menu.AddSubMenu(new Menu("CD Tracker", "CD Tracker"));
-            Config.AddItem(new MenuItem("TrackAllies", "Track allies").SetValue(true));
-            Config.AddItem(new MenuItem("TrackEnemies", "Track enemies").SetValue(true));
+            Config = menu.AddSubMenu(new Menu("技能冷卻計時器", "CD Tracker"));
+            Config.AddItem(new MenuItem("TrackAllies", "顯示隊友").SetValue(true));
+            Config.AddItem(new MenuItem("TrackEnemies", "顯示敵人").SetValue(true));
         }
 
         private static Render.Sprite GetSummonerTexture(string name)

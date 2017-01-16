@@ -11,7 +11,7 @@ namespace Activator.Items.Defensives
     {
         internal override int Id => 3364;
         internal override int Priority => 4;
-        internal override string Name => "Oracles";
+        internal override string Name => "先知透視鏡";
         internal override string DisplayName => "Oracle's Lens";
         internal override int Duration => 250;
         internal override float Range => 600f;

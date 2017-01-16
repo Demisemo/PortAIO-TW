@@ -111,37 +111,37 @@ namespace RandomUlt.Helpers
                 }
                 if (player.ChampionName == "Draven")
                 {
-                    config.AddItem(new MenuItem("Backdamage", "Count second hit")).SetValue(true);
-                    config.AddItem(new MenuItem("CallBack", "Reduce time between hits")).SetValue(true);
+                    config.AddItem(new MenuItem("Backdamage", "算上第二次打擊")).SetValue(true);
+                    config.AddItem(new MenuItem("CallBack", "減少命中之間的時間")).SetValue(true);
                 }
-                config.AddItem(new MenuItem("Hitchance", "Hitchance")).SetValue(new Slider(2, 1, 5));
+                config.AddItem(new MenuItem("Hitchance", "擊中幾個")).SetValue(new Slider(2, 1, 5));
                 Menu DontUlt = new Menu("Don't Ult", "DontUltRandomUlt");
                 foreach (var e in HeroManager.Enemies)
                 {
                     DontUlt.AddItem(new MenuItem(e.ChampionName + "DontUltRandomUlt", e.ChampionName)).SetValue(false);
                 }
                 config.AddSubMenu(DontUlt);
-                config.AddItem(new MenuItem("Alliesrange", "Allies min range from the target"))
+                config.AddItem(new MenuItem("Alliesrange", "隊友最小範圍從目標"))
                     .SetValue(new Slider(1500, 500, 2000));
-                config.AddItem(new MenuItem("EnemiesAroundYou", "Block if enemies around you"))
+                config.AddItem(new MenuItem("EnemiesAroundYou", "阻止如果你周圍的敵人"))
                     .SetValue(new Slider(600, 0, 2000));
-                config.AddItem(new MenuItem("waitBeforeUlt", "Wait time before ults(ms)"))
+                config.AddItem(new MenuItem("waitBeforeUlt", "等待時間超過(ms)"))
                     .SetValue(new Slider(600, 0, 3000));
-                config.AddItem(new MenuItem("BaseUltFirst", "BaseUlt has higher priority")).SetValue(false);
-                config.AddItem(new MenuItem("Collision", "Calc damage reduction")).SetValue(true);
-                config.AddItem(new MenuItem("drawNotification", "Draw notification")).SetValue(true);
+                config.AddItem(new MenuItem("BaseUltFirst", "BaseUlt具有更高的優先級")).SetValue(false);
+                config.AddItem(new MenuItem("Collision", "計算損傷減少")).SetValue(true);
+                config.AddItem(new MenuItem("drawNotification", "顯示通知")).SetValue(true);
             }
-            config.AddItem(new MenuItem("RandomUltDrawings", "Draw possible place")).SetValue(false);
-            Menu orbBlock = new Menu("Block keys", "BlockKeys");
-            orbBlock.AddItem(new MenuItem("OrbBlock1", "Disabled by keypress"))
+            config.AddItem(new MenuItem("RandomUltDrawings", "顯示可能的位置")).SetValue(false);
+            Menu orbBlock = new Menu("攔阻按鍵", "Block keys");
+            orbBlock.AddItem(new MenuItem("OrbBlock1", "通過按鍵禁用"))
                 .SetValue(new KeyBind(65, KeyBindType.Press));
-            orbBlock.AddItem(new MenuItem("OrbBlock2", "Disabled by keypress"))
+            orbBlock.AddItem(new MenuItem("OrbBlock2", "通過按鍵禁用"))
                 .SetValue(new KeyBind(88, KeyBindType.Press));
-            orbBlock.AddItem(new MenuItem("OrbBlock3", "Disabled by keypress"))
+            orbBlock.AddItem(new MenuItem("OrbBlock3", "通過按鍵禁用"))
                 .SetValue(new KeyBind(67, KeyBindType.Press));
-            orbBlock.AddItem(new MenuItem("ComboBlock", "Disabled by Combo"))
+            orbBlock.AddItem(new MenuItem("ComboBlock", "由連招禁用"))
                 .SetValue(new KeyBind(32, KeyBindType.Press));
-            orbBlock.AddItem(new MenuItem("OnlyCombo", "Only Combo key")).SetValue(true);
+            orbBlock.AddItem(new MenuItem("OnlyCombo", "只有連招鍵")).SetValue(true);
             config.AddSubMenu(orbBlock);
             Enemies = HeroManager.Enemies.Select(x => new Positions(x)).ToList();
             Game.OnUpdate += Game_OnUpdate;

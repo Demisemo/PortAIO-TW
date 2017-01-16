@@ -25,8 +25,8 @@ namespace BasicChatBlock
 
         private static void Game_OnGameLoad(EventArgs args)
         {
-            main = new Menu("BasicChatBlocker", "com.chatblocker", true);
-            enabledItem = new MenuItem("com.chatblocker.enabled", "Enabled?", true).SetValue(true);
+            main = new Menu("屏蔽所有對話", "com.chatblocker", true);
+            enabledItem = new MenuItem("com.chatblocker.enabled", "啟用?", true).SetValue(true);
             main.AddItem(enabledItem);
             main.AddToMainMenu();
 

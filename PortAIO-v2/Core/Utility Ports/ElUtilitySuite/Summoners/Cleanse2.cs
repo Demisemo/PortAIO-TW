@@ -196,51 +196,51 @@ namespace ElUtilitySuite.Summoners
             this.CreateItems();
             this.BuffsToCleanse = this.Items.SelectMany(x => x.WorksOn).Distinct();
 
-            Menu = new Menu("Cleanse/QSS", "BuffTypeStyleCleanser").SetFontStyle(FontStyle.Bold, Color.Red);
+            Menu = new Menu("淨化/水銀", "BuffTypeStyleCleanser").SetFontStyle(FontStyle.Bold, Color.Red);
             {
-                var newCleanseMenu = Menu.SubMenu("Cleanse NEW").SetFontStyle(FontStyle.Bold, Color.Green);
+                var newCleanseMenu = Menu.SubMenu("水銀-新版").SetFontStyle(FontStyle.Bold, Color.Green);
 
+                newCleanseMenu.SubMenu("人性化延遲")
+                    .AddItem(
+                        new MenuItem("MinHumanizerDelay", "最小人性化延遲 (MS)").SetValue(new Slider(100, 0, 500)));
                 newCleanseMenu.SubMenu("Humanizer Delay")
                     .AddItem(
-                        new MenuItem("MinHumanizerDelay", "Min Humanizer Delay (MS)").SetValue(new Slider(100, 0, 500)));
+                        new MenuItem("MaxHumanizerDelay", "最大人性化延遲 (MS)").SetValue(new Slider(150, 0, 500)));
                 newCleanseMenu.SubMenu("Humanizer Delay")
-                    .AddItem(
-                        new MenuItem("MaxHumanizerDelay", "Max Humanizer Delay (MS)").SetValue(new Slider(150, 0, 500)));
-                newCleanseMenu.SubMenu("Humanizer Delay")
-                    .AddItem(new MenuItem("HumanizerEnabled", "Enabled").SetValue(false));
+                    .AddItem(new MenuItem("HumanizerEnabled", "啟用").SetValue(false));
 
                 foreach (var buffType in this.BuffsToCleanse.Select(x => x.ToString()))
                 {
-                    newCleanseMenu.SubMenu("Buff Types")
+                    newCleanseMenu.SubMenu("解控制效果")
                         .AddItem(
                             new MenuItem($"3Cleanse{buffType}", buffType).SetValue(TrueStandard.Contains($"{buffType}")));
                 }
 
                 newCleanseMenu.AddItem(
-                        new MenuItem("MinDuration", "Minimum Duration (MS)").SetValue(new Slider(500, 0, 25000)))
+                        new MenuItem("MinDuration", "最短持續時間 (MS)").SetValue(new Slider(500, 0, 25000)))
                     .SetTooltip("The minimum duration of the spell to get cleansed");
 
-                newCleanseMenu.AddItem(new MenuItem("CleanseEnabled.ComboOnly", "Only use in combo").SetValue(false));
+                newCleanseMenu.AddItem(new MenuItem("CleanseEnabled.ComboOnly", "只在連招時使用").SetValue(false));
 
-                newCleanseMenu.AddItem(new MenuItem("CleanseEnabled.Health", "Cleanse on health").SetValue(false));
+                newCleanseMenu.AddItem(new MenuItem("CleanseEnabled.Health", "使用水銀血量").SetValue(false));
                 newCleanseMenu.AddItem(
-                    new MenuItem("Cleanse.HealthPercent", "Cleanse when HP <=").SetValue(new Slider(75)));
+                    new MenuItem("Cleanse.HealthPercent", "自身低於血量使用 <=").SetValue(new Slider(75)));
 
-                newCleanseMenu.AddItem(new MenuItem("CleanseEnabled", "Enabled").SetValue(true))
+                newCleanseMenu.AddItem(new MenuItem("CleanseEnabled", "啟用").SetValue(true))
                     .SetTooltip("Settings also apply on mikael's crucible.");
-                newCleanseMenu.AddItem(new MenuItem("sep-112-cleanse", "Settings:"))
+                newCleanseMenu.AddItem(new MenuItem("sep-112-cleanse", "設置:"))
                     .SetFontStyle(FontStyle.Bold, Color.GreenYellow)
                     .SetTooltip("Counts for QSS and Mikaels usage");
 
                 foreach (var allies in HeroManager.Allies)
                 {
                     newCleanseMenu.AddItem(
-                            new MenuItem($"3cleanseon{allies.ChampionName}", "Use on " + allies.ChampionName))
+                            new MenuItem($"3cleanseon{allies.ChampionName}", "使用於: " + allies.ChampionName))
                         .SetValue(true);
                 }
 
-                Menu.AddItem(new MenuItem("Cleanse.Version", "Cleanse preference:"))
-                    .SetValue(new StringList(new[] { "Old", "New", }, 1));
+                Menu.AddItem(new MenuItem("Cleanse.Version", "淨化/水銀偏好設置:"))
+                    .SetValue(new StringList(new[] { "舊", "新", }, 1));
             }
 
             rootMenu.AddSubMenu(Menu);

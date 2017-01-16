@@ -94,7 +94,7 @@ namespace vEvade.Core
 
         public static void OnGameLoad(EventArgs args)
         {
-            Chat.Print("vEvade => Bye bye everyone! Nice to meet you guys <3");
+            Chat.Print("vEvade => 再見大家！ 很高興見到你們 <3");
             Util.CheckVersion();
             Configs.CreateMenu();
             new SpellDetector();

@@ -10,7 +10,7 @@ namespace Activator.Items.Defensives
     {
         internal override int Id => 3069;
         internal override int Priority => 4;
-        internal override string Name => "Talisman";
+        internal override string Name => "昇華護符";
         internal override string DisplayName => "Talisman of Ascension";
         internal override int Duration => 250;
         internal override float Range => 600f;

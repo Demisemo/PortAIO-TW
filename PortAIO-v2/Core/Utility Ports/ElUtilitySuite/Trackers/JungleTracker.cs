@@ -260,9 +260,9 @@ namespace ElUtilitySuite.Trackers
                            ? rootMenu.AddSubMenu(new Menu("Trackers", "Trackers"))
                            : rootMenu.Children.First(predicate);
 
-            var jngTimerMenu = menu.AddSubMenu(new Menu("Jungle timers", "Jungle"));
+            var jngTimerMenu = menu.AddSubMenu(new Menu("野區計時器", "Jungle"));
             {
-                jngTimerMenu.AddItem(new MenuItem("DrawTimers", "Draw Jungle Timers").SetValue(true));
+                jngTimerMenu.AddItem(new MenuItem("DrawTimers", "顯示野怪計時器").SetValue(true));
             }
 
             this.Menu = menu;

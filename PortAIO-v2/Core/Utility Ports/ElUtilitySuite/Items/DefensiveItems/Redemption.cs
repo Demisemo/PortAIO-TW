@@ -43,7 +43,7 @@ namespace ElUtilitySuite.Items.DefensiveItems
         /// <value>
         ///     The name of the item.
         /// </value>
-        public override string Name => "Redemption";
+        public override string Name => "贖罪神石";
 
         #endregion
 
@@ -54,12 +54,12 @@ namespace ElUtilitySuite.Items.DefensiveItems
         /// </summary>
         public override void CreateMenu()
         {
-            this.Menu.AddItem(new MenuItem("UseRedemptionCombo", "Activate").SetValue(true));
-            this.Menu.AddItem(new MenuItem("Mode-Redemption", "Activation mode: "))
-                .SetValue(new StringList(new[] { "Use always", "Use in combo" }, 1));
-            this.Menu.AddItem(new MenuItem("Redemption-min-health", "Health percentage").SetValue(new Slider(50, 1)));
+            this.Menu.AddItem(new MenuItem("UseRedemptionCombo", "使用").SetValue(true));
+            this.Menu.AddItem(new MenuItem("Mode-Redemption", "使用模式: "))
+                .SetValue(new StringList(new[] { "總是使用", "連招時使用" }, 1));
+            this.Menu.AddItem(new MenuItem("Redemption-min-health", "當血量低於%時使用").SetValue(new Slider(50, 1)));
             this.Menu.AddItem(
-                new MenuItem("Redemption-min-damage", "Incoming damage percentage").SetValue(new Slider(50, 1)));
+                new MenuItem("Redemption-min-damage", "受到多少%傷害使用").SetValue(new Slider(50, 1)));
         }
 
         #endregion

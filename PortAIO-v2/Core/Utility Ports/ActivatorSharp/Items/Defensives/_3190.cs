@@ -10,7 +10,7 @@ namespace Activator.Items.Defensives
     {
         internal override int Id => 3190;
         internal override int Priority => 5;
-        internal override string Name => "Locket";
+        internal override string Name => "日輪的加冕";
         internal override string DisplayName => "Locket of Iron Solari";
         internal override int Duration => 250;
         internal override float Range => 600f;

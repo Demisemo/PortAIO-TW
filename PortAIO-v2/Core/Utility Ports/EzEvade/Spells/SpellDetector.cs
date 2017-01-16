@@ -67,10 +67,10 @@ using LeagueSharp.Common;
 
             menu = mainMenu;
 
-            spellMenu = new Menu("Spells", "Spells");
+            spellMenu = new Menu("技能", "Spells");
             menu.AddSubMenu(spellMenu);
 
-            trapMenu = new Menu("Traps", "Traps");
+            trapMenu = new Menu("陷阱", "Traps");
             menu.AddSubMenu(trapMenu);
 
             LoadSpellDictionary();

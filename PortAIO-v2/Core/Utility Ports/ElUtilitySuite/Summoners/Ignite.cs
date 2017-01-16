@@ -53,12 +53,12 @@ namespace ElUtilitySuite.Summoners
                            ? rootMenu.AddSubMenu(new Menu("Summoners", "SummonersMenu"))
                            : rootMenu.Children.First(predicate);
 
-            var igniteMenu = menu.AddSubMenu(new Menu("Ignite", "Ignite"));
+            var igniteMenu = menu.AddSubMenu(new Menu("點燃", "Ignite"));
             {
-                igniteMenu.AddItem(new MenuItem("Ignite.Activated", "Ignite").SetValue(true));
+                igniteMenu.AddItem(new MenuItem("Ignite.Activated", "使用點燃").SetValue(true));
                 foreach (var x in HeroManager.Enemies)
                 {
-                    igniteMenu.AddItem(new MenuItem($"igniteon{x.ChampionName}", "Use on " + x.ChampionName))
+                    igniteMenu.AddItem(new MenuItem($"igniteon{x.ChampionName}", "使用於: " + x.ChampionName))
                         .SetValue(true);
                 }
 

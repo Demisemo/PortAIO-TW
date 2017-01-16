@@ -62,16 +62,16 @@ namespace ElUtilitySuite.Summoners
                            ? rootMenu.AddSubMenu(new Menu("Summoners", "SummonersMenu"))
                            : rootMenu.Children.First(predicate);
 
-            var healMenu = menu.AddSubMenu(new Menu("Heal", "Heal"));
+            var healMenu = menu.AddSubMenu(new Menu("治癒", "Heal"));
             {
-                healMenu.AddItem(new MenuItem("Heal.Activated", "Heal").SetValue(true));
-                healMenu.AddItem(new MenuItem("PauseHealHotkey", "Don't use heal key").SetValue(new KeyBind('L', KeyBindType.Press)));
-                healMenu.AddItem(new MenuItem("min-health", "Health percentage").SetValue(new Slider(20, 1)));
-                healMenu.AddItem(new MenuItem("min-damage", "Heal on % incoming damage").SetValue(new Slider(20, 1)));
+                healMenu.AddItem(new MenuItem("Heal.Activated", "使用治癒").SetValue(true));
+                healMenu.AddItem(new MenuItem("PauseHealHotkey", "不使用治癒熱鍵").SetValue(new KeyBind('L', KeyBindType.Press)));
+                healMenu.AddItem(new MenuItem("min-health", "血量低於%使用").SetValue(new Slider(20, 1)));
+                healMenu.AddItem(new MenuItem("min-damage", "受到傷害%使用").SetValue(new Slider(20, 1)));
                 healMenu.AddItem(new MenuItem("seperator21", ""));
                 foreach (var x in HeroManager.Allies)
                 {
-                    healMenu.AddItem(new MenuItem($"healon{x.ChampionName}", "Use for " + x.ChampionName))
+                    healMenu.AddItem(new MenuItem($"healon{x.ChampionName}", "使用於: " + x.ChampionName))
                         .SetValue(true);
                 }
             }

@@ -25,7 +25,7 @@ namespace ElUtilitySuite.Items.OffensiveItems
         /// <value>
         ///     The name of the item.
         /// </value>
-        public override string Name => "Bilgewater Cutlass";
+        public override string Name => "比爾吉沃特彎刀";
 
         #endregion
 
@@ -36,8 +36,8 @@ namespace ElUtilitySuite.Items.OffensiveItems
         /// </summary>
         public override void CreateMenu()
         {
-            this.Menu.AddItem(new MenuItem("UseCutlassCombo", "Use on Combo").SetValue(true));
-            this.Menu.AddItem(new MenuItem("CutlassMyHp", "Use on My Hp %").SetValue(new Slider(100)));
+            this.Menu.AddItem(new MenuItem("UseCutlassCombo", "連招時使用").SetValue(true));
+            this.Menu.AddItem(new MenuItem("CutlassMyHp", "當自身血量低於%使用").SetValue(new Slider(100)));
         }
 
         /// <summary>
