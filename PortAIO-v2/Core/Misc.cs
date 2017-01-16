@@ -458,7 +458,7 @@ namespace PortAIO.Dual_Port
             dutility.AddItem(new MenuItem("Evade", "選擇: 躲避?").SetValue(new StringList(new[] { "EzEvade", "Evade", "vEvade" })));
 
             dutility.AddItem(new MenuItem("enableHuman", "啟用 人性化?").SetValue(false));
-            dutility.AddItem(new MenuItem("Humanizer", "選擇: 人性化?").SetValue(new StringList(new[] { "Humanizer#" })));
+            dutility.AddItem(new MenuItem("Humanizer", "選擇: 人性化?").SetValue(new StringList(new[] { "Humanizer#", "BadaoActionsLimiter" })));
 
             dutility.AddItem(new MenuItem("enablePredictioner", "啟用 L#預判?").SetValue(false));
             dutility.AddItem(new MenuItem("Predictioner", "選擇: 預判?").SetValue(new StringList(new[] { "SPredictioner", "OKTWPredictioner", "L#Predictioner" })));

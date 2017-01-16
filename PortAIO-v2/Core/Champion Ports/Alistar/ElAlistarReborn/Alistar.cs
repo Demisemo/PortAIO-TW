@@ -150,34 +150,34 @@
         {
             try
             {
-                Menu = new Menu("ElAlistar", "ElAlistar", true);
+                Menu = new Menu("El-亞歷斯塔", "ElAlistar", true);
 
-                var targetselectorMenu = new Menu("Target Selector", "Target Selector");
+                var targetselectorMenu = new Menu("目標選擇器", "Target Selector");
                 {
                     TargetSelector.AddToMenu(targetselectorMenu);
                 }
 
                 Menu.AddSubMenu(targetselectorMenu);
 
-                var orbwalkMenu = new Menu("Orbwalker", "Orbwalker");
+                var orbwalkMenu = new Menu("走砍", "Orbwalker");
                 {
                     Orbwalker = new Orbwalking.Orbwalker(orbwalkMenu);
                 }
 
                 Menu.AddSubMenu(orbwalkMenu);
 
-                var comboMenu = new Menu("Combo Settings", "Combo");
+                var comboMenu = new Menu("連招設置", "Combo");
                 {
-                    comboMenu.AddItem(new MenuItem("ElAlistar.Combo.Q", "Use Q").SetValue(true));
-                    comboMenu.AddItem(new MenuItem("ElAlistar.Combo.W", "Use W").SetValue(true));
-                    comboMenu.AddItem(new MenuItem("ElAlistar.Combo.R", "Use R").SetValue(true));
+                    comboMenu.AddItem(new MenuItem("ElAlistar.Combo.Q", "使用 Q").SetValue(true));
+                    comboMenu.AddItem(new MenuItem("ElAlistar.Combo.W", "使用 W").SetValue(true));
+                    comboMenu.AddItem(new MenuItem("ElAlistar.Combo.R", "使用 R").SetValue(true));
                     comboMenu.AddItem(new MenuItem("ElAlistar.Combo.RHeal.HP", "R on Health percentage").SetValue(new Slider(60, 1)));
                     comboMenu.AddItem(new MenuItem("ElAlistar.Combo.RHeal.Damage", "R on damage dealt %").SetValue(new Slider(60, 1)));
                 }
 
                 Menu.AddSubMenu(comboMenu);
 
-                var flashMenu = new Menu("Flash Settings", "Flash");
+                var flashMenu = new Menu("閃現設置", "Flash");
                 {
                     flashMenu.AddItem(new MenuItem("ElAlistar.Flash.Click", "Left Click [on] TS [off]").SetValue(true));
                     flashMenu.AddItem(
@@ -187,9 +187,9 @@
 
                 Menu.AddSubMenu(flashMenu);
 
-                var healMenu = new Menu("Heal Settings", "Heal");
+                var healMenu = new Menu("Heal 設置", "Heal");
                 {
-                    healMenu.AddItem(new MenuItem("ElAlistar.Heal.E", "Use heal").SetValue(true));
+                    healMenu.AddItem(new MenuItem("ElAlistar.Heal.E", "使用 heal").SetValue(true));
                     healMenu.AddItem(new MenuItem("Heal.HP", "Health percentage").SetValue(new Slider(80, 1)));
                     healMenu.AddItem(new MenuItem("Heal.Damage", "Heal on damage dealt %").SetValue(new Slider(80, 1)));
                     healMenu.AddItem(
@@ -205,10 +205,10 @@
 
                 Menu.AddSubMenu(healMenu);
 
-                var interrupterMenu = new Menu("Interrupter Settings", "Interrupter");
+                var interrupterMenu = new Menu("Interrupter 設置", "Interrupter");
                 {
-                    interrupterMenu.AddItem(new MenuItem("ElAlistar.Interrupter.Q", "Use Q").SetValue(true));
-                    interrupterMenu.AddItem(new MenuItem("ElAlistar.Interrupter.W", "Use W").SetValue(true));
+                    interrupterMenu.AddItem(new MenuItem("ElAlistar.Interrupter.Q", "使用 Q").SetValue(true));
+                    interrupterMenu.AddItem(new MenuItem("ElAlistar.Interrupter.W", "使用 W").SetValue(true));
                     interrupterMenu.AddItem(new MenuItem("ElAlistar.GapCloser", "Anti gapcloser").SetValue(true));
                 }
 

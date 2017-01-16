@@ -54,17 +54,17 @@ namespace Akali
 
             Config = new Menu("xQx | " + ChampionName, ChampionName, true);
 
-            var targetSelectorMenu = new Menu("Target Selector", "Target Selector");
+            var targetSelectorMenu = new Menu("目標選擇棄", "Target Selector");
             TargetSelector.AddToMenu(targetSelectorMenu);
             Config.AddSubMenu(targetSelectorMenu);
 
             new AssassinManager();
 
-            Config.AddSubMenu(new Menu("Orbwalking", "Orbwalking"));
+            Config.AddSubMenu(new Menu("走砍", "Orbwalking"));
 
             Orbwalker = new Orbwalking.Orbwalker(Config.SubMenu("Orbwalking"));
 
-            Config.AddSubMenu(new Menu("Combo", "Combo"));
+            Config.AddSubMenu(new Menu("連招", "Combo"));
             {
                 Config.SubMenu("Combo")
                     .AddItem(
@@ -72,56 +72,56 @@ namespace Akali
                             new KeyBind(Config.Item("Orbwalk").GetValue<KeyBind>().Key, KeyBindType.Press)));
             }
 
-            Config.AddSubMenu(new Menu("Harass", "Harass"));
+            Config.AddSubMenu(new Menu("騷擾", "Harass"));
             {
-                Config.SubMenu("Harass").AddItem(new MenuItem("UseQHarass", "Use Q").SetValue(true));
-                Config.SubMenu("Harass").AddItem(new MenuItem("UseEHarass", "Use E").SetValue(true));
-                Config.SubMenu("Harass").AddItem(new MenuItem("HarassEnergy", "Min. Energy Percent: ").SetValue(new Slider(50, 100, 0)));
+                Config.SubMenu("Harass").AddItem(new MenuItem("UseQHarass", "使用 Q").SetValue(true));
+                Config.SubMenu("Harass").AddItem(new MenuItem("UseEHarass", "使用 E").SetValue(true));
+                Config.SubMenu("Harass").AddItem(new MenuItem("HarassEnergy", "能量使用百分比: ").SetValue(new Slider(50, 100, 0)));
 
-                Config.SubMenu("Harass").AddItem(new MenuItem("HarassUseQT", "Use Q (toggle)!").SetValue(new KeyBind("J".ToCharArray()[0], KeyBindType.Toggle)));
-                Config.SubMenu("Harass").AddItem(new MenuItem("HarassActive", "Harass!").SetValue(new KeyBind("C".ToCharArray()[0], KeyBindType.Press)));
+                Config.SubMenu("Harass").AddItem(new MenuItem("HarassUseQT", "使用 Q (切換)!").SetValue(new KeyBind("J".ToCharArray()[0], KeyBindType.Toggle)));
+                Config.SubMenu("Harass").AddItem(new MenuItem("HarassActive", "騷擾!").SetValue(new KeyBind("C".ToCharArray()[0], KeyBindType.Press)));
             }
 
-            Config.AddSubMenu(new Menu("Farm", "Farm"));
+            Config.AddSubMenu(new Menu("農兵", "Farm"));
             {
                 Config.SubMenu("Farm")
                     .AddItem(
-                        new MenuItem("UseQFarm", "Use Q").SetValue(
-                            new StringList(new[] { "Freeze", "LaneClear", "Both", "No" }, 2)));
+                        new MenuItem("UseQFarm", "使用 Q").SetValue(
+                            new StringList(new[] { "凍結", "清線", "兩者", "不要" }, 2)));
                 Config.SubMenu("Farm")
                     .AddItem(
-                        new MenuItem("UseEFarm", "Use E").SetValue(
-                            new StringList(new[] { "Freeze", "LaneClear", "Both", "No" }, 1)));
+                        new MenuItem("UseEFarm", "使用 E").SetValue(
+                            new StringList(new[] { "凍結", "清線", "兩者", "不要" }, 1)));
                 Config.SubMenu("Farm")
                     .AddItem(
-                        new MenuItem("FreezeActive", "Freeze!").SetValue(
+                        new MenuItem("FreezeActive", "凍結!").SetValue(
                             new KeyBind("C".ToCharArray()[0], KeyBindType.Press)));
                 Config.SubMenu("Farm")
                     .AddItem(
-                        new MenuItem("LaneClearActive", "LaneClear!").SetValue(
+                        new MenuItem("LaneClearActive", "清線!").SetValue(
                             new KeyBind("V".ToCharArray()[0], KeyBindType.Press)));
             }
 
-            Config.AddSubMenu(new Menu("JungleFarm", "JungleFarm"));
+            Config.AddSubMenu(new Menu("清野", "JungleFarm"));
             {
-                Config.SubMenu("JungleFarm").AddItem(new MenuItem("UseQJFarm", "Use Q").SetValue(true));
-                Config.SubMenu("JungleFarm").AddItem(new MenuItem("UseEJFarm", "Use E").SetValue(true));
+                Config.SubMenu("JungleFarm").AddItem(new MenuItem("UseQJFarm", "使用 Q").SetValue(true));
+                Config.SubMenu("JungleFarm").AddItem(new MenuItem("UseEJFarm", "使用 E").SetValue(true));
                 Config.SubMenu("JungleFarm")
                     .AddItem(
-                        new MenuItem("JungleFarmActive", "JungleFarm!").SetValue(
+                        new MenuItem("JungleFarmActive", "清野!").SetValue(
                             new KeyBind("V".ToCharArray()[0], KeyBindType.Press)));
             }
 
-            Config.AddSubMenu(new Menu("Misc", "Misc"));
-            Config.SubMenu("Misc").AddItem(new MenuItem("KillstealR", "Killsteal R").SetValue(false));
+            Config.AddSubMenu(new Menu("雜項", "Misc"));
+            Config.SubMenu("Misc").AddItem(new MenuItem("KillstealR", "搶頭使用 R").SetValue(false));
 
-            Config.AddSubMenu(new Menu("Drawings", "Drawings"));
+            Config.AddSubMenu(new Menu("顯示", "Drawings"));
             Config.SubMenu("Drawings")
                 .AddItem(
-                    new MenuItem("QRange", "Q Range").SetValue(new Circle(true, Color.FromArgb(255, 255, 255, 255))));
+                    new MenuItem("QRange", "顯示 Q 範圍").SetValue(new Circle(true, Color.FromArgb(255, 255, 255, 255))));
             Config.SubMenu("Drawings")
                 .AddItem(
-                    new MenuItem("RRange", "R Range").SetValue(new Circle(true, Color.FromArgb(255, 255, 255, 255))));
+                    new MenuItem("RRange", "顯示 R 範圍").SetValue(new Circle(true, Color.FromArgb(255, 255, 255, 255))));
 
             Config.AddToMainMenu();
 
