@@ -494,22 +494,9 @@ namespace LeagueSharp.Common
         /// </summary>
         /// <param name="target">The target.</param>
         /// <returns>System.Single.</returns>
-        public static float GetRealAutoAttackRange(AttackableUnit target)
+        public static float GetRealAutoAttackRange(AttackableUnit target = null)
         {
-            var result = Player.GetAutoAttackRange(target);
-            if (target.IsValidTarget() && target != null)
-            {
-                var aiBase = target as Obj_AI_Base;
-                if (aiBase != null && Player.ChampionName == "Caitlyn")
-                {
-                    if (aiBase.HasBuff("caitlynyordletrapinternal"))
-                    {
-                        result += 650;
-                    }
-                }
-            }
-
-            return result;
+            return EloBuddy.Player.Instance.GetAutoAttackRange(null);
         }
 
         /// <summary>
@@ -523,11 +510,7 @@ namespace LeagueSharp.Common
             {
                 return false;
             }
-            var myRange = GetRealAutoAttackRange(target);
-            return
-                Vector2.DistanceSquared(
-                    target is Obj_AI_Base ? ((Obj_AI_Base)target).ServerPosition.To2D() : target.Position.To2D(),
-                    Player.ServerPosition.To2D()) <= myRange * myRange;
+            return EloBuddy.SDK.Extensions.IsInRange(EloBuddy.Player.Instance, target, GetRealAutoAttackRange(target));
         }
 
 
@@ -1024,7 +1007,7 @@ namespace LeagueSharp.Common
                     new MenuItem("HoldZone", "靜止半徑").SetShared()
                         .SetValue(new Circle(false, Color.FromArgb(155, 255, 255, 0))));
                 drawings.AddItem(new MenuItem("AALineWidth", "線寬")).SetShared().SetValue(new Slider(2, 1, 6));
-                drawings.AddItem(new MenuItem("LastHitHelper", "可尾刀士兵提示").SetShared().SetValue(false));
+                drawings.AddItem(new MenuItem("LastHitHelper", "尾刀士兵提示").SetShared().SetValue(false));
                 _config.AddSubMenu(drawings);
 
                 /* Misc options */
@@ -1068,7 +1051,7 @@ namespace LeagueSharp.Common
                  new MenuItem("Flee", "逃跑").SetShared().SetValue(new KeyBind('U', KeyBindType.Press)));
 
                 _config.AddItem(
-                 new MenuItem("WallJump", "過牆").SetShared().SetValue(new KeyBind('K', KeyBindType.Press))).SetTooltip("Made for Flowers' Riven");
+                 new MenuItem("WallJump", "過強").SetShared().SetValue(new KeyBind('K', KeyBindType.Press))).SetTooltip("Made for Flowers' Riven");
 
                 _config.AddItem(
                  new MenuItem("QuickHarass", "快速騷擾").SetShared().SetValue(new KeyBind('L', KeyBindType.Press))).SetTooltip("Made for Flowers & Nechrito Riven");
@@ -1236,6 +1219,17 @@ namespace LeagueSharp.Common
                 AttackableUnit result = null;
                 var mode = this.ActiveMode;
 
+                if ((mode == OrbwalkingMode.Mixed || mode == OrbwalkingMode.LaneClear)
+                    && !_config.Item("PriorizeFarm").GetValue<bool>())
+                {
+                    var target = TargetSelector.GetTarget(-1, TargetSelector.DamageType.Physical);
+                    if (target != null)
+                    {
+                        if (target.IsHPBarRendered && this.InAutoAttackRange(target) && target.IsValidTarget())
+                            return target;
+                    }
+                }
+
                 //GankPlank barrels
                 var attackGankPlankBarrels = _config.Item("AttackGPBarrel").GetValue<StringList>().SelectedIndex;
                 if (attackGankPlankBarrels != 2)
@@ -1247,10 +1241,7 @@ namespace LeagueSharp.Common
 
                         if (enemyGangPlank != null)
                         {
-                            var barrels =
-                                ObjectManager.Get<Obj_AI_Base>()
-                                    .Where(
-                                        minion => minion.CharData.BaseSkinName == "GangplankBarrel" && minion.IsValidTarget() && this.InAutoAttackRange(minion));
+                            var barrels = ObjectManager.Get<Obj_AI_Base>().Where(minion => minion.CharData.BaseSkinName == "GangplankBarrel" && minion.IsValidTarget() && this.InAutoAttackRange(minion));
 
                             foreach (var barrel in barrels)
                             {
@@ -1259,9 +1250,7 @@ namespace LeagueSharp.Common
                                     return barrel;
                                 }
 
-                                var t = (int)(this.Player.AttackCastDelay * 1000) + Game.Ping / 2
-                                        + 1000 * (int)Math.Max(0, this.Player.Distance(barrel) - this.Player.BoundingRadius)
-                                        / (int)GetMyProjectileSpeed();
+                                var t = (int)(this.Player.AttackCastDelay * 1000) + Game.Ping / 2 + 1000 * (int)Math.Max(0, this.Player.Distance(barrel) - this.Player.BoundingRadius) / (int)GetMyProjectileSpeed();
 
                                 var barrelBuff =
                                     barrel.Buffs.FirstOrDefault(
@@ -1289,17 +1278,6 @@ namespace LeagueSharp.Common
                                 return null;
                             }
                         }
-                    }
-                }
-
-                if ((mode == OrbwalkingMode.Mixed || mode == OrbwalkingMode.LaneClear)
-                    && !_config.Item("PriorizeFarm").GetValue<bool>())
-                {
-                    var target = TargetSelector.GetTarget(-1, TargetSelector.DamageType.Physical);
-                    if (target != null)
-                    {
-                        if (target.IsHPBarRendered && this.InAutoAttackRange(target) && target.IsValidTarget())
-                            return target;
                     }
                 }
 

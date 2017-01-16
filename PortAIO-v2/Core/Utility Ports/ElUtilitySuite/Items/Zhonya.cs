@@ -539,9 +539,9 @@ namespace ElUtilitySuite.Items
         /// <returns></returns>
         public void CreateMenu(Menu rootMenu)
         {
-            var zhonyaMenu = new Menu("中婭沙漏設置", "zhonya");
+            var zhonyaMenu = new Menu("Zhonya's Hourglass", "zhonya");
             {
-                var zhonyaSpellMenu = new Menu("技能", "SpellPick");
+                var zhonyaSpellMenu = new Menu("Spells", "SpellPick");
                 {
                     foreach (var spell in
                         Spells.Where(
@@ -574,11 +574,11 @@ namespace ElUtilitySuite.Items
                 }
 
                 zhonyaMenu.AddSubMenu(zhonyaSpellMenu);
-                zhonyaMenu.AddItem(new MenuItem("ZhonyaDangerous", "使用中婭沙漏").SetValue(true));
-                zhonyaMenu.AddItem(new MenuItem("ZhonyaHP", "血量低於x%中婭沙漏").SetValue(true));
-                zhonyaMenu.AddItem(new MenuItem("ZhonyaHPSlider-1", "血量百分比").SetValue(new Slider(10, 1, 50)));
+                zhonyaMenu.AddItem(new MenuItem("ZhonyaDangerous", "Use Zhonya").SetValue(true));
+                zhonyaMenu.AddItem(new MenuItem("ZhonyaHP", "Use Zhonya on low HP").SetValue(true));
+                zhonyaMenu.AddItem(new MenuItem("ZhonyaHPSlider-1", "HP Percent").SetValue(new Slider(10, 1, 50)));
                 zhonyaMenu.AddItem(
-                    new MenuItem("NoZhonyaEvade", "如果可躲避技能、不使用中婭沙漏 (測試版)").SetValue(false));
+                    new MenuItem("NoZhonyaEvade", "Don't Zhonya if spell is evade-able (BETA)").SetValue(false));
 
                 rootMenu.AddSubMenu(zhonyaMenu);
                 this.Menu = zhonyaMenu;

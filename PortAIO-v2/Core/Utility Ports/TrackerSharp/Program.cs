@@ -20,7 +20,7 @@ using EloBuddy;
 
         private static void Game_OnGameLoad()
         {
-            Config = new Menu("計時器", "Tracker", true);
+            Config = new Menu("Tracker", "Tracker", true);
             HbTracker.AttachToMenu(Config);
             WardTracker.AttachToMenu(Config);
             Config.AddToMainMenu();

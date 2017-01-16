@@ -11,7 +11,7 @@ namespace Activator.Items.Defensives
     {
         internal override int Id => 3107;
         internal override int Priority => 5;
-        internal override sealed string Name => "贖罪神石";
+        internal override sealed string Name => "Redemption";
         internal override string DisplayName => "Redemption";
         internal override int Duration => 250;
         internal override sealed float Range => 5500;

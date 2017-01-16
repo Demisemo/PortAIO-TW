@@ -41,7 +41,7 @@ using EloBuddy;
             };
         #endregion
 
-        public static string[] HitchanceNameArray = { "低", "中", "高", "非常高", "Only Immobile" };
+        public static string[] HitchanceNameArray = { "Low", "Medium", "High", "Very High", "Only Immobile" };
         public static HitChance[] HitchanceArray = { HitChance.Low, HitChance.Medium, HitChance.High, HitChance.VeryHigh, HitChance.Immobile };
 
         public static int GetPriority(string championName)

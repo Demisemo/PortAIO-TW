@@ -11,7 +11,7 @@ namespace Activator.Items.Defensives
     {
         internal override int Id => 3143;
         internal override int Priority => 4;
-        internal override string Name => "蘭頓之兆";
+        internal override string Name => "Randuins";
         internal override string DisplayName => "Randuin's Omen";
         internal override int Duration => 250;
         internal override float Range => 500f;

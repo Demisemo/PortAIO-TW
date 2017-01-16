@@ -87,20 +87,20 @@ namespace UniversalGankAlerter
         {
             _previewCircle = new PreviewCircle();
 
-            _menu = new Menu("警告打野出現", "universalgankalerter", true);
-            _sliderRadius = new MenuItem("range", "觸發範圍").SetValue(new Slider(3000, 500, 5000));
+            _menu = new Menu("Universal GankAlerter", "universalgankalerter", true);
+            _sliderRadius = new MenuItem("range", "Trigger range").SetValue(new Slider(3000, 500, 5000));
             _sliderRadius.ValueChanged += SliderRadiusValueChanged;
-            _sliderCooldown = new MenuItem("cooldown", "觸發冷卻時間 (秒)").SetValue(new Slider(10, 0, 60));
-            _sliderLineDuration = new MenuItem("lineduration", "線路持續時間 (秒)").SetValue(new Slider(10, 0, 20));
-            _enemyJunglerOnly = new MenuItem("jungleronly", "只警告打野").SetValue(false);
-            _allyJunglerOnly = new MenuItem("allyjungleronly", "只警告打野").SetValue(true);
-            _showChampionNames = new MenuItem("shownames", "顯示英雄名稱").SetValue(true);
-            _drawMinimapLines = new MenuItem("drawminimaplines", "顯示小地圖路線").SetValue(false);
-            _dangerPing = new MenuItem("dangerping", "顯示Ping (本地)").SetValue(false);
-            _enemies = new Menu("敵人", "enemies");
+            _sliderCooldown = new MenuItem("cooldown", "Trigger cooldown (sec)").SetValue(new Slider(10, 0, 60));
+            _sliderLineDuration = new MenuItem("lineduration", "Line duration (sec)").SetValue(new Slider(10, 0, 20));
+            _enemyJunglerOnly = new MenuItem("jungleronly", "Warn jungler only (smite)").SetValue(false);
+            _allyJunglerOnly = new MenuItem("allyjungleronly", "Warn jungler only (smite)").SetValue(true);
+            _showChampionNames = new MenuItem("shownames", "Show champion name").SetValue(true);
+            _drawMinimapLines = new MenuItem("drawminimaplines", "Draw minimap lines").SetValue(false);
+            _dangerPing = new MenuItem("dangerping", "Danger Ping (local)").SetValue(false);
+            _enemies = new Menu("Enemies", "enemies");
             _enemies.AddItem(_enemyJunglerOnly);
 
-            _allies = new Menu("隊友", "allies");
+            _allies = new Menu("Allies", "allies");
             _allies.AddItem(_allyJunglerOnly);
 
             _menu.AddItem(_sliderRadius);

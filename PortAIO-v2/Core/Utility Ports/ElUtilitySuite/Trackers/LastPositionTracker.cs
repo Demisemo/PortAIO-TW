@@ -88,21 +88,21 @@ namespace ElUtilitySuite.Trackers
                            ? rootMenu.AddSubMenu(new Menu("Trackers", "Trackers"))
                            : rootMenu.Children.First(predicate);
 
-            var ssMenu = menu.AddSubMenu(new Menu("顯示敵人最後消失位置", "lastpostracker"));
+            var ssMenu = menu.AddSubMenu(new Menu("Last position tracker", "lastpostracker"));
             {
-                ssMenu.AddItem(new MenuItem("LastPosition.CircleThickness", "圓圈密度").SetValue(new Slider(1, 1, 10)));
+                ssMenu.AddItem(new MenuItem("LastPosition.CircleThickness", "Circle Thickness").SetValue(new Slider(1, 1, 10)));
                 ssMenu.AddItem(
-                    new MenuItem("LastPosition.TimeFormat", "文字格式").SetValue(new StringList(new[] { "mm:ss", "ss" })));
-                ssMenu.AddItem(new MenuItem("LastPosition.FontSize", "文字大小").SetValue(new Slider(13, 3, 30)));
-                ssMenu.AddItem(new MenuItem("LastPosition.SSTimerOffset", "定時器偏移").SetValue(new Slider(5, 0, 20)));
+                    new MenuItem("LastPosition.TimeFormat", "Time Format").SetValue(new StringList(new[] { "mm:ss", "ss" })));
+                ssMenu.AddItem(new MenuItem("LastPosition.FontSize", "Font Size").SetValue(new Slider(13, 3, 30)));
+                ssMenu.AddItem(new MenuItem("LastPosition.SSTimerOffset", "SS Timer Offset").SetValue(new Slider(5, 0, 20)));
                 ssMenu.AddItem(
-                   new MenuItem("LastPosition.CircleColor", "線圈顏色").SetValue(new Circle(true, System.Drawing.Color.White)));
-                ssMenu.AddItem(new MenuItem("LastPosition.SSTimer", "敵人最後消失時間").SetValue(false));
-                ssMenu.AddItem(new MenuItem("LastPosition.SSCircle", "園方").SetValue(false));
-                ssMenu.AddItem(new MenuItem("LastPosition.Minimap", "小地圖").SetValue(true));
-                ssMenu.AddItem(new MenuItem("LastPosition.Map", "地圖").SetValue(true));
+                   new MenuItem("LastPosition.CircleColor", "Circle Color").SetValue(new Circle(true, System.Drawing.Color.White)));
+                ssMenu.AddItem(new MenuItem("LastPosition.SSTimer", "SS Timer").SetValue(false));
+                ssMenu.AddItem(new MenuItem("LastPosition.SSCircle", "SS Circle").SetValue(false));
+                ssMenu.AddItem(new MenuItem("LastPosition.Minimap", "Minimap").SetValue(true));
+                ssMenu.AddItem(new MenuItem("LastPosition.Map", "Map").SetValue(true));
 
-                ssMenu.AddItem(new MenuItem("LastPosition.Enabled", "啟用").SetValue(true));
+                ssMenu.AddItem(new MenuItem("LastPosition.Enabled", "Enabled").SetValue(true));
             }
 
             this.Menu = menu;

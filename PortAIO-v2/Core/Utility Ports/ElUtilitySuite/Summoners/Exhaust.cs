@@ -73,15 +73,15 @@ namespace ElUtilitySuite.Summoners
                            ? rootMenu.AddSubMenu(new Menu("Summoners", "SummonersMenu"))
                            : rootMenu.Children.First(predicate);
 
-            var exhaustMenu = menu.AddSubMenu(new Menu("虛弱", "Exhaust"));
+            var exhaustMenu = menu.AddSubMenu(new Menu("Exhaust", "Exhaust"));
             {
-                exhaustMenu.AddItem(new MenuItem("Exhaust.Activated", "使用虛弱").SetValue(false))
-                    .SetTooltip("只會在危險技能上使用");
+                exhaustMenu.AddItem(new MenuItem("Exhaust.Activated", "Exhaust activated").SetValue(false))
+                    .SetTooltip("Will only exhaust on dangerous spells.");
                 exhaustMenu.AddItem(new MenuItem("blank_line3000", ""));
                 foreach (var x in HeroManager.Enemies)
                 {
                     exhaustMenu.AddItem(
-                        new MenuItem($"exhauston{x.BaseSkinName}", "使用於: " + x.ChampionName)).SetValue(true);
+                        new MenuItem($"exhauston{x.BaseSkinName}", "Use on " + x.ChampionName)).SetValue(true);
                 }
             }
 

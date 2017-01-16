@@ -18,10 +18,10 @@ using EloBuddy;
         public static void Initialize()
         {
             #region Initialize Menu
-            Config = new Menu("L# 官方預判", "lspredictioner", true);
-            Config.AddItem(new MenuItem("COMBOKEY", "連招").SetValue(new KeyBind(32, KeyBindType.Press)));
-            Config.AddItem(new MenuItem("HARASSKEY", "騷擾").SetValue(new KeyBind('C', KeyBindType.Press)));
-            Config.AddItem(new MenuItem("ENABLED", "啟用").SetValue(true));
+            Config = new Menu("L# Predictioner", "lspredictioner", true);
+            Config.AddItem(new MenuItem("COMBOKEY", "Combo").SetValue(new KeyBind(32, KeyBindType.Press)));
+            Config.AddItem(new MenuItem("HARASSKEY", "Harass").SetValue(new KeyBind('C', KeyBindType.Press)));
+            Config.AddItem(new MenuItem("ENABLED", "Enabled").SetValue(true));
 
             #region Initialize Spells
             Menu skillshots = new Menu("Skillshots", "spredskillshots");

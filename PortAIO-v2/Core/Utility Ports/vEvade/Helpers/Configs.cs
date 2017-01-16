@@ -91,11 +91,11 @@ namespace vEvade.Helpers
 
         public static void CreateMenu()
         {
-            Menu = new Menu("v躲避", "vEvade", true);
+            Menu = new Menu("vEvade", "vEvade", true);
             Menu.AddToMainMenu();
             LoadSpecialSpellPlugins();
 
-            var spells = new Menu("技能", "Spells");
+            var spells = new Menu("Spells", "Spells");
 
             foreach (var hero in HeroManager.AllHeroes.Where(i => i.IsEnemy || Debug))
             {
@@ -139,12 +139,12 @@ namespace vEvade.Helpers
                     var subMenu =
                         new Menu(spell.IsSummoner ? spell.SpellName : spell.ChampName + " (" + spell.Slot + ")", txt);
                     subMenu.AddItem(
-                        new MenuItem(txt + "_DangerLvl", "危險級別").SetValue(new Slider(spell.DangerValue, 1, 5)));
-                    subMenu.AddItem(new MenuItem(txt + "_IsDangerous", "是危險的").SetValue(spell.IsDangerous));
-                    subMenu.AddItem(new MenuItem(txt + "_IgnoreHp", "如果忽視血量 >"))
+                        new MenuItem(txt + "_DangerLvl", "Danger Level").SetValue(new Slider(spell.DangerValue, 1, 5)));
+                    subMenu.AddItem(new MenuItem(txt + "_IsDangerous", "Is Dangerous").SetValue(spell.IsDangerous));
+                    subMenu.AddItem(new MenuItem(txt + "_IgnoreHp", "Ignore If Hp >"))
                         .SetValue(new Slider(!spell.IsDangerous ? 65 : 80, 1));
-                    subMenu.AddItem(new MenuItem(txt + "_Draw", "顯示").SetValue(true));
-                    subMenu.AddItem(new MenuItem(txt + "_Enabled", "啟用").SetValue(!spell.DisabledByDefault))
+                    subMenu.AddItem(new MenuItem(txt + "_Draw", "Draw").SetValue(true));
+                    subMenu.AddItem(new MenuItem(txt + "_Enabled", "Enabled").SetValue(!spell.DisabledByDefault))
                         .SetTooltip(spell.MenuName);
                     spells.AddSubMenu(subMenu);
                 }
@@ -152,27 +152,27 @@ namespace vEvade.Helpers
 
             Menu.AddSubMenu(spells);
 
-            var evadeSpells = new Menu("躲避技能", "EvadeSpells");
+            var evadeSpells = new Menu("Evade Spells", "EvadeSpells");
 
             foreach (var spell in EvadeSpellDatabase.Spells)
             {
                 var txt = "ES_" + spell.MenuName;
                 var subMenu = new Menu(spell.MenuName, txt);
                 subMenu.AddItem(
-                    new MenuItem(txt + "_DangerLvl", "危險級別").SetValue(new Slider(spell.DangerLevel, 1, 5)));
+                    new MenuItem(txt + "_DangerLvl", "Danger Level").SetValue(new Slider(spell.DangerLevel, 1, 5)));
 
                 if (spell.IsTargetted && spell.ValidTargets.Contains(SpellValidTargets.AllyWards))
                 {
-                    subMenu.AddItem(new MenuItem(txt + "_WardJump", "過牆").SetValue(false));
+                    subMenu.AddItem(new MenuItem(txt + "_WardJump", "Ward Jump").SetValue(false));
                 }
 
-                subMenu.AddItem(new MenuItem(txt + "_Enabled", "啟用").SetValue(true));
+                subMenu.AddItem(new MenuItem(txt + "_Enabled", "Enabled").SetValue(true));
                 evadeSpells.AddSubMenu(subMenu);
             }
 
             Menu.AddSubMenu(evadeSpells);
 
-            var shieldAlly = new Menu("隊友保護", "ShieldAlly");
+            var shieldAlly = new Menu("Shield Ally", "ShieldAlly");
 
             foreach (var ally in HeroManager.Allies.Where(i => !i.IsMe))
             {
@@ -181,30 +181,30 @@ namespace vEvade.Helpers
 
             Menu.AddSubMenu(shieldAlly);
 
-            var misc = new Menu("雜項", "Misc");
-            misc.AddItem(new MenuItem("CheckCollision", "檢查碰撞").SetValue(false));
-            misc.AddItem(new MenuItem("CheckHp", "檢查玩家血量").SetValue(false));
+            var misc = new Menu("Misc", "Misc");
+            misc.AddItem(new MenuItem("CheckCollision", "Check Collision").SetValue(false));
+            misc.AddItem(new MenuItem("CheckHp", "Check Player Hp").SetValue(false));
             misc.AddItem(
                 new MenuItem("CheckBlock", "Block Cast While Dodge").SetValue(
                     new StringList(new[] { "No", "Only Dangerous", "Always" }, 1)));
             misc.AddItem(
-                new MenuItem("DodgeFoW", "戰爭迷霧躲避技能").SetValue(
+                new MenuItem("DodgeFoW", "Dodge FoW Spells").SetValue(
                     new StringList(new[] { "Off", "Track", "Dodge" }, 2)));
-            misc.AddItem(new MenuItem("DodgeLine", "躲避直線技能").SetValue(true));
-            misc.AddItem(new MenuItem("DodgeCircle", "躲避圓圈技能").SetValue(true));
-            misc.AddItem(new MenuItem("DodgeCone", "躲避錐體技能").SetValue(true));
-            misc.AddItem(new MenuItem("DodgeTrap", "躲避陷阱").SetValue(true));
+            misc.AddItem(new MenuItem("DodgeLine", "Dodge Line Spells").SetValue(true));
+            misc.AddItem(new MenuItem("DodgeCircle", "Dodge Circle Spells").SetValue(false));
+            misc.AddItem(new MenuItem("DodgeCone", "Dodge Cone Spells").SetValue(true));
+            misc.AddItem(new MenuItem("DodgeTrap", "Dodge Traps").SetValue(false));
             Menu.AddSubMenu(misc);
 
-            var draw = new Menu("顯示", "Draw");
-            draw.AddItem(new MenuItem("DrawSpells", "顯示技能").SetValue(true));
-            draw.AddItem(new MenuItem("DrawStatus", "顯示狀態").SetValue(true));
+            var draw = new Menu("Draw", "Draw");
+            draw.AddItem(new MenuItem("DrawSpells", "Draw Spells").SetValue(true));
+            draw.AddItem(new MenuItem("DrawStatus", "Draw Status").SetValue(true));
             Menu.AddSubMenu(draw);
 
-            Menu.AddItem(new MenuItem("Enabled", "啟用").SetValue(new KeyBind('K', KeyBindType.Toggle, true)))
+            Menu.AddItem(new MenuItem("Enabled", "Enabled").SetValue(new KeyBind('K', KeyBindType.Toggle, true)))
                 .Permashow();
             Menu.AddItem(
-                new MenuItem("DodgeDangerous", "只有躲避危險").SetValue(new KeyBind(32, KeyBindType.Press)))
+                new MenuItem("DodgeDangerous", "Dodge Only Dangerous").SetValue(new KeyBind(32, KeyBindType.Press)))
                 .Permashow();
         }
 

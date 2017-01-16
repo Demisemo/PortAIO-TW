@@ -64,11 +64,11 @@ namespace ElUtilitySuite.Summoners
                            ? rootMenu.AddSubMenu(new Menu("Summoners", "SummonersMenu"))
                            : rootMenu.Children.First(predicate);
 
-                var barrierMenu = menu.AddSubMenu(new Menu("光盾", "Barrier"));
+                var barrierMenu = menu.AddSubMenu(new Menu("Barrier", "Barrier"));
             {
-                barrierMenu.AddItem(new MenuItem("Barrier.Activated", "使用光盾").SetValue(true));
-                barrierMenu.AddItem(new MenuItem("barrier.min-health", "血量低於%使用").SetValue(new Slider(20, 1)));
-                barrierMenu.AddItem(new MenuItem("barrier.min-damage", "受到傷害%使用").SetValue(new Slider(20, 1)));
+                barrierMenu.AddItem(new MenuItem("Barrier.Activated", "Barrier activated").SetValue(true));
+                barrierMenu.AddItem(new MenuItem("barrier.min-health", "Health percentage").SetValue(new Slider(20, 1)));
+                barrierMenu.AddItem(new MenuItem("barrier.min-damage", "Heal on % incoming damage").SetValue(new Slider(20, 1)));
                 }
 
             this.Menu = barrierMenu;

@@ -366,16 +366,6 @@ namespace LeagueSharp.SDK
                 {
                     result.Hitchance = HitChance.OutOfRange;
                 }
-
-                if (input.RangeCheckFrom.DistanceSquared(result.CastPosition) > Math.Pow(input.Range, 2)
-                    && result.Hitchance != HitChance.OutOfRange)
-                {
-                    result.CastPosition = input.RangeCheckFrom
-                                          + input.Range
-                                          * (result.UnitPosition - input.RangeCheckFrom).ToVector2()
-                                                .Normalized()
-                                                .ToVector3();
-                }
             }
 
             // Check for collision
@@ -416,7 +406,7 @@ namespace LeagueSharp.SDK
                 speed /= 1.5f;
             }
 
-            return GetPositionOnPath(input, input.Unit.Path.ToList().To2D(), speed);
+            return GetPositionOnPath(input, EloBuddy.SDK.Prediction.Position.GetRealPath(input.Unit).ToList().To2D(), speed);
         }
 
         /// <summary>

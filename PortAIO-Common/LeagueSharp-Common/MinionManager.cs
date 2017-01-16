@@ -224,12 +224,12 @@
             MinionTeam team = MinionTeam.Enemy,
             MinionOrderTypes order = MinionOrderTypes.Health)
         {
-            var result = EloBuddy.SDK.EntityManager.MinionsAndMonsters.Monsters.Cast<Obj_AI_Base>().ToList();
+            var result = ObjectManager.Get<Obj_AI_Base>().Where(x => x.IsMonster && x.Team == GameObjectTeam.Neutral && !x.IsMinion).Cast<Obj_AI_Base>().ToList();
 
             if (team == MinionTeam.All)
             {
                 var a = EloBuddy.SDK.EntityManager.MinionsAndMonsters.Minions.Cast<Obj_AI_Base>().ToList();
-                var b = EloBuddy.SDK.EntityManager.MinionsAndMonsters.Monsters.Cast<Obj_AI_Base>().ToList();
+                var b = ObjectManager.Get<Obj_AI_Base>().Where(x => x.IsMonster && x.Team == GameObjectTeam.Neutral && !x.IsMinion).Cast<Obj_AI_Base>().ToList();
                 result = a.Concat(b).ToList();
             }
 
@@ -245,20 +245,20 @@
 
             if (team == MinionTeam.Neutral)
             {
-                result = EloBuddy.SDK.EntityManager.MinionsAndMonsters.Monsters.Cast<Obj_AI_Base>().ToList();
+                result = ObjectManager.Get<Obj_AI_Base>().Where(x => x.IsMonster && x.Team == GameObjectTeam.Neutral && !x.IsMinion).Cast<Obj_AI_Base>().ToList();
             }
 
             if (team == MinionTeam.NotAlly)
             {
                 var a = EloBuddy.SDK.EntityManager.MinionsAndMonsters.EnemyMinions.Cast<Obj_AI_Base>().ToList();
-                var b = EloBuddy.SDK.EntityManager.MinionsAndMonsters.Monsters.Cast<Obj_AI_Base>().ToList();
+                var b = ObjectManager.Get<Obj_AI_Base>().Where(x => x.IsMonster && x.Team == GameObjectTeam.Neutral && !x.IsMinion).Cast<Obj_AI_Base>().ToList();
                 result = a.Concat(b).ToList();
             }
 
             if (team == MinionTeam.NotAllyForEnemy)
             {
                 var a = EloBuddy.SDK.EntityManager.MinionsAndMonsters.AlliedMinions.Cast<Obj_AI_Base>().ToList();
-                var b = EloBuddy.SDK.EntityManager.MinionsAndMonsters.Monsters.Cast<Obj_AI_Base>().ToList();
+                var b = ObjectManager.Get<Obj_AI_Base>().Where(x => x.IsMonster && x.Team == GameObjectTeam.Neutral && !x.IsMinion).Cast<Obj_AI_Base>().ToList();
                 result = a.Concat(b).ToList();
             }
 

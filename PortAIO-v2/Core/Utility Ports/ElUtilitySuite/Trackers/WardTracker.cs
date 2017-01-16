@@ -101,31 +101,31 @@ namespace ElUtilitySuite.Trackers
                            ? rootMenu.AddSubMenu(new Menu("Trackers", "Trackers"))
                            : rootMenu.Children.First(predicate);
 
-            var wardtrackerMenu = menu.AddSubMenu(new Menu("飾品計時器", "wardtracker"));
+            var wardtrackerMenu = menu.AddSubMenu(new Menu("Wardtracker", "wardtracker"));
             {
                 wardtrackerMenu.AddItem(
-                    new MenuItem("wardtracker.TimeFormat", "文字格式").SetValue(
+                    new MenuItem("wardtracker.TimeFormat", "Time Format").SetValue(
                         new StringList(new[] { "mm:ss", "ss" })));
                 wardtrackerMenu.AddItem(
-                    new MenuItem("wardtracker.FontSize", "文字大小").SetValue(new Slider(13, 3, 30)));
+                    new MenuItem("wardtracker.FontSize", "Font Size").SetValue(new Slider(13, 3, 30)));
                 wardtrackerMenu.AddItem(
-                    new MenuItem("wardtracker.CircleRadius", "圓圈半徑").SetValue(new Slider(150, 25, 300)));
+                    new MenuItem("wardtracker.CircleRadius", "Circle Radius").SetValue(new Slider(150, 25, 300)));
                 wardtrackerMenu.AddItem(
-                    new MenuItem("wardtracker.CircleThickness", "圓圈密度").SetValue(new Slider(2, 1, 10)));
-                wardtrackerMenu.AddItem(new MenuItem("wardtracker.GreenCircle", "飾品圓圈").SetValue(true));
-                wardtrackerMenu.AddItem(new MenuItem("wardtracker.GreenColor", "偵查圖騰").SetValue(Color.Lime));
-                wardtrackerMenu.AddItem(new MenuItem("wardtracker.PinkColor", "粉眼").SetValue(Color.Magenta));
-                wardtrackerMenu.AddItem(new MenuItem("wardtracker.TrapColor", "控域守衛").SetValue(Color.Red));
-                wardtrackerMenu.AddItem(new MenuItem("wardtracker.VisionRange", "偵查範圍").SetValue(true));
-                wardtrackerMenu.AddItem(new MenuItem("wardtracker.Minimap", "小地圖").SetValue(true));
+                    new MenuItem("wardtracker.CircleThickness", "Circle Thickness").SetValue(new Slider(2, 1, 10)));
+                wardtrackerMenu.AddItem(new MenuItem("wardtracker.GreenCircle", "Green Circle").SetValue(true));
+                wardtrackerMenu.AddItem(new MenuItem("wardtracker.GreenColor", "Green Color").SetValue(Color.Lime));
+                wardtrackerMenu.AddItem(new MenuItem("wardtracker.PinkColor", "Pink Color").SetValue(Color.Magenta));
+                wardtrackerMenu.AddItem(new MenuItem("wardtracker.TrapColor", "Trap Color").SetValue(Color.Red));
+                wardtrackerMenu.AddItem(new MenuItem("wardtracker.VisionRange", "Vision Range").SetValue(true));
+                wardtrackerMenu.AddItem(new MenuItem("wardtracker.Minimap", "Minimap").SetValue(true));
 
                 wardtrackerMenu.AddItem(
-                    new MenuItem("wardtracker.FilterWards", "過濾飾品").SetValue(new Slider(250, 0, 600)));
+                    new MenuItem("wardtracker.FilterWards", "Filter Wards").SetValue(new Slider(250, 0, 600)));
                 wardtrackerMenu.AddItem(
-                    new MenuItem("wardtracker.Hotkey", "熱鍵").SetValue(new KeyBind(16, KeyBindType.Press)));
-                wardtrackerMenu.AddItem(new MenuItem("wardtracker.PermaShow", "顯示").SetValue(false));
+                    new MenuItem("wardtracker.Hotkey", "Hotkey").SetValue(new KeyBind(16, KeyBindType.Press)));
+                wardtrackerMenu.AddItem(new MenuItem("wardtracker.PermaShow", "Perma Show").SetValue(false));
 
-                wardtrackerMenu.AddItem(new MenuItem("wardtracker.Enabled", "啟用").SetValue(true));
+                wardtrackerMenu.AddItem(new MenuItem("wardtracker.Enabled", "Enabled").SetValue(true));
             }
 
             this.Menu = wardtrackerMenu;

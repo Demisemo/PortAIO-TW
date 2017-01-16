@@ -96,7 +96,7 @@ namespace ElUtilitySuite
                         .Where(x => typeof(IPlugin).IsAssignableFrom(x) && !x.IsInterface)
                         .Select(x => GetActivator<IPlugin>(x.GetConstructors().First())(null));
 
-                var menu = new Menu("El活化劑", "ElUtilitySuite", true).SetFontStyle(FontStyle.Bold, Color.GreenYellow);
+                var menu = new Menu("ElUtilitySuite", "ElUtilitySuite", true).SetFontStyle(FontStyle.Bold, Color.GreenYellow);
 
                 foreach (var plugin in plugins)
                 {
@@ -110,10 +110,10 @@ namespace ElUtilitySuite
                 }
 
                 menu.AddItem(new MenuItem("seperator1", ""));
-                menu.AddItem(new MenuItem("usecombo", "連招 (使用)").SetValue(new KeyBind(32, KeyBindType.Press)));
+                menu.AddItem(new MenuItem("usecombo", "Combo (Active)").SetValue(new KeyBind(32, KeyBindType.Press)));
                 menu.AddItem(new MenuItem("seperator", ""));
-                menu.AddItem(new MenuItem("Versionnumber", $"版本: {ScriptVersion}"));
-                menu.AddItem(new MenuItem("by.jQuery", "作者: jQuery / ChewyMoon"));
+                menu.AddItem(new MenuItem("Versionnumber", $"Version: {ScriptVersion}"));
+                menu.AddItem(new MenuItem("by.jQuery", "jQuery / ChewyMoon"));
                 menu.AddToMainMenu();
 
                 Menu = menu;

@@ -61,13 +61,13 @@ namespace LeagueSharp.SDK
             switch (damageType)
             {
                 case DamageType.Magical:
-                    damage = source.CalculateMagicDamage(target, amount);
+                    damage = EloBuddy.SDK.Damage.CalculateDamageOnUnit(source, target, EloBuddy.DamageType.Magical, (float)amount);
                     break;
                 case DamageType.Physical:
-                    damage = source.CalculatePhysicalDamage(target, amount);
+                    damage = EloBuddy.SDK.Damage.CalculateDamageOnUnit(source, target, EloBuddy.DamageType.Physical, (float)amount);
                     break;
                 case DamageType.Mixed:
-                    damage = source.CalculateMixedDamage(target, damage / 2, damage / 2);
+                    damage = EloBuddy.SDK.Damage.CalculateDamageOnUnit(source, target, EloBuddy.DamageType.Mixed, (float)amount);
                     break;
                 case DamageType.True:
                     damage = Math.Max(Math.Floor(amount), 0);
@@ -245,8 +245,8 @@ namespace LeagueSharp.SDK
                 dmgReduce *= 0.88;
             }
 
-            dmgPhysical = source.CalculatePhysicalDamage(target, dmgPhysical);
-            dmgMagical = source.CalculateMagicDamage(target, dmgMagical);
+            dmgMagical = EloBuddy.SDK.Damage.CalculateDamageOnUnit(source, target, EloBuddy.DamageType.Magical, (float)dmgMagical);
+            dmgPhysical = EloBuddy.SDK.Damage.CalculateDamageOnUnit(source, target, EloBuddy.DamageType.Physical, (float)dmgPhysical);
 
             // Fizz P
             if (targetHero != null && targetHero.ChampionName == "Fizz")
