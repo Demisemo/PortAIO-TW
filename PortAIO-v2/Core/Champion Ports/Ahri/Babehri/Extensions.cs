@@ -83,7 +83,7 @@ using EloBuddy;
         {
             menu.AddItem(
                 new MenuItem(name, displayName).SetValue(
-                    new StringList((new[] { "低", "中", "高", "非常高" }), (int) defaultHitChance - 3)));
+                    new StringList((new[] { "Low", "Medium", "High", "Very High" }), (int) defaultHitChance - 3)));
         }
 
         public static void AddSlider(this Menu menu,
@@ -98,13 +98,13 @@ using EloBuddy;
 
         public static Orbwalking.Orbwalker AddOrbwalker(this Menu menu)
         {
-            var orbwalk = menu.AddSubMenu(new Menu("走砍", "Orbwalker"));
+            var orbwalk = menu.AddSubMenu(new Menu("Orbwalker", "Orbwalker"));
             return new Orbwalking.Orbwalker(orbwalk);
         }
 
         public static void AddTargetSelector(this Menu menu)
         {
-            var ts = new Menu("目標選擇器", "Target Selector");
+            var ts = new Menu("Target Selector", "Target Selector");
             TargetSelector.AddToMenu(ts);
             menu.AddSubMenu(ts);
         }

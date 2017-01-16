@@ -32,42 +32,42 @@ using EloBuddy;
             if (ObjectManager.Player.ChampionName != "Ahri")
                 return;
 
-            (_menu = new Menu("阿璃Sharp", "AhriSharp", true)).AddToMainMenu();
+            (_menu = new Menu("AhriSharp", "AhriSharp", true)).AddToMainMenu();
 
-            var targetSelectorMenu = new Menu("目標選擇器", "TargetSelector");
+            var targetSelectorMenu = new Menu("Target Selector", "TargetSelector");
             TargetSelector.AddToMenu(targetSelectorMenu);
             _menu.AddSubMenu(targetSelectorMenu);
 
-            _orbwalker = new Orbwalking.Orbwalker(_menu.AddSubMenu(new Menu("走砍", "Orbwalking")));
+            _orbwalker = new Orbwalking.Orbwalker(_menu.AddSubMenu(new Menu("Orbwalking", "Orbwalking")));
 
-            var comboMenu = _menu.AddSubMenu(new Menu("連招", "Combo"));
-            comboMenu.AddItem(new MenuItem("comboQ", "使用 Q").SetValue(true));
-            comboMenu.AddItem(new MenuItem("comboW", "使用 W").SetValue(true));
-            comboMenu.AddItem(new MenuItem("comboE", "使用 E").SetValue(true));
-            comboMenu.AddItem(new MenuItem("comboR", "使用 R").SetValue(true));
-            comboMenu.AddItem(new MenuItem("comboROnlyUserInitiate", "當使用者啟用才能使用R").SetValue(false));
+            var comboMenu = _menu.AddSubMenu(new Menu("Combo", "Combo"));
+            comboMenu.AddItem(new MenuItem("comboQ", "Use Q").SetValue(true));
+            comboMenu.AddItem(new MenuItem("comboW", "Use W").SetValue(true));
+            comboMenu.AddItem(new MenuItem("comboE", "Use E").SetValue(true));
+            comboMenu.AddItem(new MenuItem("comboR", "Use R").SetValue(true));
+            comboMenu.AddItem(new MenuItem("comboROnlyUserInitiate", "Use R only if user initiated").SetValue(false));
 
-            var harassMenu = _menu.AddSubMenu(new Menu("騷擾", "Harass"));
-            harassMenu.AddItem(new MenuItem("harassQ", "使用 Q").SetValue(true));
-            harassMenu.AddItem(new MenuItem("harassE", "使用 E").SetValue(true));
-            harassMenu.AddItem(new MenuItem("harassPercent", "魔量控制 %").SetValue(new Slider(20)));
+            var harassMenu = _menu.AddSubMenu(new Menu("Harass", "Harass"));
+            harassMenu.AddItem(new MenuItem("harassQ", "Use Q").SetValue(true));
+            harassMenu.AddItem(new MenuItem("harassE", "Use E").SetValue(true));
+            harassMenu.AddItem(new MenuItem("harassPercent", "Skills until Mana %").SetValue(new Slider(20)));
 
-            var farmMenu = _menu.AddSubMenu(new Menu("清線", "LaneClear"));
-            farmMenu.AddItem(new MenuItem("farmQ", "使用 Q").SetValue(true));
-            farmMenu.AddItem(new MenuItem("farmW", "使用 W").SetValue(false));
-            farmMenu.AddItem(new MenuItem("farmPercent", "魔量管理 %").SetValue(new Slider(20)));
-            farmMenu.AddItem(new MenuItem("farmStartAtLevel", "只普攻直到級別").SetValue(new Slider(8, 1, 18)));
+            var farmMenu = _menu.AddSubMenu(new Menu("Lane Clear", "LaneClear"));
+            farmMenu.AddItem(new MenuItem("farmQ", "Use Q").SetValue(true));
+            farmMenu.AddItem(new MenuItem("farmW", "Use W").SetValue(false));
+            farmMenu.AddItem(new MenuItem("farmPercent", "Skills until Mana %").SetValue(new Slider(20)));
+            farmMenu.AddItem(new MenuItem("farmStartAtLevel", "Only AA until Level").SetValue(new Slider(8, 1, 18)));
 
-            var drawMenu = _menu.AddSubMenu(new Menu("顯示", "Drawing"));
-            drawMenu.AddItem(new MenuItem("drawQ", "顯示 Q 範圍").SetValue(new Circle(true, System.Drawing.Color.FromArgb(125, 0, 255, 0))));
-            drawMenu.AddItem(new MenuItem("drawE", "顯示 E 範圍").SetValue(new Circle(true, System.Drawing.Color.FromArgb(125, 254, 13, 113))));
-            drawMenu.AddItem(new MenuItem("drawW", "顯示 W 範圍").SetValue(new Circle(false, System.Drawing.Color.FromArgb(125, 0, 0, 255))));
-            var dmgAfterComboItem = new MenuItem("DamageAfterCombo", "顯示連招傷害").SetValue(true); //copied from esk0r Syndra
+            var drawMenu = _menu.AddSubMenu(new Menu("Drawing", "Drawing"));
+            drawMenu.AddItem(new MenuItem("drawQ", "Draw Q range").SetValue(new Circle(true, System.Drawing.Color.FromArgb(125, 0, 255, 0))));
+            drawMenu.AddItem(new MenuItem("drawE", "Draw E range").SetValue(new Circle(true, System.Drawing.Color.FromArgb(125, 254, 13, 113))));
+            drawMenu.AddItem(new MenuItem("drawW", "Draw W range").SetValue(new Circle(false, System.Drawing.Color.FromArgb(125, 0, 0, 255))));
+            var dmgAfterComboItem = new MenuItem("DamageAfterCombo", "Draw Combo Damage").SetValue(true); //copied from esk0r Syndra
             drawMenu.AddItem(dmgAfterComboItem);
 
-            var miscMenu = _menu.AddSubMenu(new Menu("雜項", "Misc"));
-            miscMenu.AddItem(new MenuItem("autoE", "自動E 在突進目標").SetValue(true));
-            miscMenu.AddItem(new MenuItem("autoEI", "自動 E 中斷技能").SetValue(true));
+            var miscMenu = _menu.AddSubMenu(new Menu("Misc", "Misc"));
+            miscMenu.AddItem(new MenuItem("autoE", "Auto E on gapclosing targets").SetValue(true));
+            miscMenu.AddItem(new MenuItem("autoEI", "Auto E to interrupt").SetValue(true));
 
 
             _spellQ = new Spell(SpellSlot.Q, 880);

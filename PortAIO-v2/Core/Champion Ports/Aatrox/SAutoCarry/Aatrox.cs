@@ -29,27 +29,27 @@ namespace SAutoCarry.Champions
 
         public override void CreateConfigMenu()
         {
-            Menu combo = new Menu("連招", "SAutoCarry.Aatrox.Combo");
-            combo.AddItem(new MenuItem("SAutoCarry.Aatrox.Combo.UseQ", "使用 Q").SetValue(true));
-            combo.AddItem(new MenuItem("SAutoCarry.Aatrox.Combo.UseW", "使用 W").SetValue(true));
-            combo.AddItem(new MenuItem("SAutoCarry.Aatrox.Combo.UseE", "使用 E").SetValue(true));
-            combo.AddItem(new MenuItem("SAutoCarry.Aatrox.Combo.UseR", "使用 R").SetValue(true));
-            combo.AddItem(new MenuItem("SAutoCarry.Aatrox.Combo.UseTiamat", "使用海神斧/九頭蛇").SetValue(true));
+            Menu combo = new Menu("Combo", "SAutoCarry.Aatrox.Combo");
+            combo.AddItem(new MenuItem("SAutoCarry.Aatrox.Combo.UseQ", "Use Q").SetValue(true));
+            combo.AddItem(new MenuItem("SAutoCarry.Aatrox.Combo.UseW", "Use W").SetValue(true));
+            combo.AddItem(new MenuItem("SAutoCarry.Aatrox.Combo.UseE", "Use E").SetValue(true));
+            combo.AddItem(new MenuItem("SAutoCarry.Aatrox.Combo.UseR", "Use R").SetValue(true));
+            combo.AddItem(new MenuItem("SAutoCarry.Aatrox.Combo.UseTiamat", "Use Tiamat/Hydra").SetValue(true));
 
-            Menu harass = new Menu("騷擾", "SAutoCarry.Aatrox.Harass");
-            harass.AddItem(new MenuItem("SAutoCarry.Aatrox.Harass.UseQ", "使用 Q").SetValue(true));
-            harass.AddItem(new MenuItem("SAutoCarry.Aatrox.Harass.UseW", "使用 W").SetValue(true));
-            harass.AddItem(new MenuItem("SAutoCarry.Aatrox.Harass.UseE", "使用 E").SetValue(true));
-            harass.AddItem(new MenuItem("SAutoCarry.Aatrox.Harass.MinMana", "血量百分比").SetValue(new Slider(30, 100, 0)));
+            Menu harass = new Menu("Harass", "SAutoCarry.Aatrox.Harass");
+            harass.AddItem(new MenuItem("SAutoCarry.Aatrox.Harass.UseQ", "Use Q").SetValue(true));
+            harass.AddItem(new MenuItem("SAutoCarry.Aatrox.Harass.UseW", "Use W").SetValue(true));
+            harass.AddItem(new MenuItem("SAutoCarry.Aatrox.Harass.UseE", "Use E").SetValue(true));
+            harass.AddItem(new MenuItem("SAutoCarry.Aatrox.Harass.MinMana", "Min Mana Percent").SetValue(new Slider(30, 100, 0)));
 
-            Menu laneclear = new Menu("清線/清野", "SAutoCarry.Aatrox.LaneClear");
-            laneclear.AddItem(new MenuItem("SAutoCarry.Aatrox.LaneClear.UseQ", "使用 Q").SetValue(true));
-            laneclear.AddItem(new MenuItem("SAutoCarry.Aatrox.LaneClear.UseW", "使用 W").SetValue(true));
-            laneclear.AddItem(new MenuItem("SAutoCarry.Aatrox.LaneClear.MinMana", "血量百分比").SetValue(new Slider(50, 100, 0)));
+            Menu laneclear = new Menu("LaneClear/JungleClear", "SAutoCarry.Aatrox.LaneClear");
+            laneclear.AddItem(new MenuItem("SAutoCarry.Aatrox.LaneClear.UseQ", "Use Q").SetValue(true));
+            laneclear.AddItem(new MenuItem("SAutoCarry.Aatrox.LaneClear.UseW", "Use W").SetValue(true));
+            laneclear.AddItem(new MenuItem("SAutoCarry.Aatrox.LaneClear.MinMana", "Min Mana Percent").SetValue(new Slider(50, 100, 0)));
 
-            Menu misc = new Menu("雜項", "SAutoCarry.Aatrox.Misc");
-            misc.AddItem(new MenuItem("SAutoCarry.Aatrox.Misc.AutoQHP", "自動騷擾血量於%使用Q").SetValue(new Slider(50, 100, 0)));
-            misc.AddItem(new MenuItem("SAutoCarry.Aatrox.Misc.RKillSteal", "使用R搶頭").SetValue(true));
+            Menu misc = new Menu("Misc", "SAutoCarry.Aatrox.Misc");
+            misc.AddItem(new MenuItem("SAutoCarry.Aatrox.Misc.AutoQHP", "Auto Harass Q HP").SetValue(new Slider(50, 100, 0)));
+            misc.AddItem(new MenuItem("SAutoCarry.Aatrox.Misc.RKillSteal", "KS With R").SetValue(true));
 
             ConfigMenu.AddSubMenu(combo);
             ConfigMenu.AddSubMenu(harass);
