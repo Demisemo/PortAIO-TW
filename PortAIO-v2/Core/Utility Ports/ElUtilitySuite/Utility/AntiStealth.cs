@@ -123,7 +123,7 @@ namespace ElUtilitySuite.Utility
         {
             var predicate = new Func<Menu, bool>(x => x.Name == "MiscMenu");
             var menu = !rootMenu.Children.Any(predicate)
-                           ? rootMenu.AddSubMenu(new Menu("Misc", "MiscMenu"))
+                           ? rootMenu.AddSubMenu(new Menu("雜項", "MiscMenu"))
                            : rootMenu.Children.First(predicate);
 
             var protectMenu = menu.AddSubMenu(new Menu("反隱身", "AntiStealth"));

@@ -45,7 +45,7 @@ namespace LeagueSharp.Common
         /// </summary>
         internal static void Initialize()
         {
-            menu = new Menu("Hacks", "Hacks");
+            menu = new Menu("黑客", "Hacks");
 
             MenuAntiAfk = menu.AddItem(new MenuItem("AfkHack", "關閉掛網警告").SetValue(true));
             MenuAntiAfk.ValueChanged += (sender, args) => EloBuddy.Hacks.AntiAFK = args.GetNewValue<bool>();

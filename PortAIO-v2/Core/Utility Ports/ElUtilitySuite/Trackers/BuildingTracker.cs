@@ -50,7 +50,7 @@ namespace ElUtilitySuite.Trackers
         {
             var predicate = new Func<Menu, bool>(x => x.Name == "Trackers");
             var menu = !rootMenu.Children.Any(predicate)
-                           ? rootMenu.AddSubMenu(new Menu("Trackers", "Trackers"))
+                           ? rootMenu.AddSubMenu(new Menu("計時器", "Trackers"))
                            : rootMenu.Children.First(predicate);
 
             var buildingMenu = menu.AddSubMenu(new Menu("防禦塔/水晶塔計時器", "healthbuilding"));

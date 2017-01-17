@@ -42,7 +42,7 @@ namespace ElUtilitySuite.Items.DefensiveItems
         /// <value>
         ///     The name of the item.
         /// </value>
-        public override string Name => "Face of the Mountain";
+        public override string Name => "山靈守護";
 
         #endregion
 

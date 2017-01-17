@@ -55,7 +55,7 @@ namespace ElUtilitySuite.Utility
         {
             var predicate = new Func<Menu, bool>(x => x.Name == "MiscMenu");
             var menu = !rootMenu.Children.Any(predicate)
-                           ? rootMenu.AddSubMenu(new Menu("Misc", "MiscMenu"))
+                           ? rootMenu.AddSubMenu(new Menu("雜項", "MiscMenu"))
                            : rootMenu.Children.First(predicate);
 
             var autoLanternMenu = menu.AddSubMenu(new Menu("瑟雷西-鬼影燈籠(W)", "Threshlantern"));

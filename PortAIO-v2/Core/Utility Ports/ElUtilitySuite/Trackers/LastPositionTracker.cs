@@ -83,9 +83,9 @@ namespace ElUtilitySuite.Trackers
         /// <returns></returns>
         public void CreateMenu(Menu rootMenu)
         {
-            var predicate = new Func<Menu, bool>(x => x.Name == "Trackers");
+            var predicate = new Func<Menu, bool>(x => x.Name == "計時器");
             var menu = !rootMenu.Children.Any(predicate)
-                           ? rootMenu.AddSubMenu(new Menu("Trackers", "Trackers"))
+                           ? rootMenu.AddSubMenu(new Menu("計時器", "Trackers"))
                            : rootMenu.Children.First(predicate);
 
             var ssMenu = menu.AddSubMenu(new Menu("顯示敵人最後消失位置", "lastpostracker"));
