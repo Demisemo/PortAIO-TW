@@ -1617,7 +1617,7 @@ namespace LeagueSharp.Common
                         }
 
                         result = (from minion in
-                                      ObjectManager.Get<Obj_AI_Base>()
+                                      ObjectManager.Get<Obj_AI_Minion>()
                                       .Where(
                                           minion => minion.IsValidTarget() && this.InAutoAttackRange(minion)
                                           && this.ShouldAttackMinion(minion))

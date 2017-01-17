@@ -412,6 +412,16 @@ namespace PortAIO.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Camille_Square_0 {
+            get {
+                object obj = ResourceManager.GetObject("Camille_Square_0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Cassiopeia {
             get {
                 object obj = ResourceManager.GetObject("Cassiopeia", resourceCulture);
@@ -1201,6 +1211,16 @@ namespace PortAIO.Properties {
         internal static System.Drawing.Bitmap itemsmiteaoe {
             get {
                 object obj = ResourceManager.GetObject("itemsmiteaoe", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ivern_Square_0 {
+            get {
+                object obj = ResourceManager.GetObject("Ivern_Square_0", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2800,6 +2820,15 @@ namespace PortAIO.Properties {
             get {
                 object obj = ResourceManager.GetObject("Soraka_Square_0", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ivern_Square_0.
+        /// </summary>
+        internal static string String {
+            get {
+                return ResourceManager.GetString("String", resourceCulture);
             }
         }
         
