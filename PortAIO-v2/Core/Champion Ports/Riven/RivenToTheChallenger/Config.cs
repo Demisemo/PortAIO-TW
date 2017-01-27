@@ -22,17 +22,17 @@ using EloBuddy;
 
         public Config()
         {
-            menu = new Menu("挑戰者-雷玟", "andre.rttc", true);
+            menu = new Menu("Riven To The Challenger", "andre.rttc", true);
             
             #region SubMenus declaration
-            var orbwalkerMenu = new Menu("走砍", "andre.rttc.orbwalker");
-            var comboMenu =  new Menu("連招設置", "andre.rttc.combo");
-            var utilityMenu =  new Menu("大招設置", "andre.rttc.utility");
-            var fleeMenu =  new Menu("逃跑設置", "andre.rttc.flee");
-            var jungleMenu =  new Menu("清線設置", "andre.rttc.jungle");
-            var eMenu =  new Menu("E 設置", "andre.rttc.eee");
-            var drawMenu =  new Menu("顯示設置", "andre.rttc.draw");
-            var advancedMenu =  new Menu("高級設置", "andre.rttc.advanced");
+            var orbwalkerMenu = new Menu("Orbwalker", "andre.rttc.orbwalker");
+            var comboMenu =  new Menu("Combo Settings", "andre.rttc.combo");
+            var utilityMenu =  new Menu("Utility Settings", "andre.rttc.utility");
+            var fleeMenu =  new Menu("Flee Settings", "andre.rttc.flee");
+            var jungleMenu =  new Menu("Jungle clear Settings", "andre.rttc.jungle");
+            var eMenu =  new Menu("E Settings", "andre.rttc.eee");
+            var drawMenu =  new Menu("Draw Settings", "andre.rttc.draw");
+            var advancedMenu =  new Menu("Advanced", "andre.rttc.advanced");
             #endregion 
 
             #region SubMenus
@@ -45,40 +45,40 @@ using EloBuddy;
             
             #region Combo Settings
             #region SpellUsage
-            var comboSpellUsage = new Menu("技能使用", comboMenu.Name + ".spells"); //combo.spells
-            comboSpellUsage.AddItem(new MenuItem(comboSpellUsage.Name + ".useq", "使用 Q").SetValue(true));
-            comboSpellUsage.AddItem(new MenuItem(comboSpellUsage.Name + ".usew", "使用 W").SetValue(true));
-            comboSpellUsage.AddItem(new MenuItem(comboSpellUsage.Name + ".usehydra", "使用九頭蛇").SetValue(true));
-            comboSpellUsage.AddItem(new MenuItem(comboSpellUsage.Name + ".useygb", "使用妖夢鬼刀").SetValue(true));
+            var comboSpellUsage = new Menu("Spell usage", comboMenu.Name + ".spells"); //combo.spells
+            comboSpellUsage.AddItem(new MenuItem(comboSpellUsage.Name + ".useq", "Use [Q - Broken Wings]").SetValue(true));
+            comboSpellUsage.AddItem(new MenuItem(comboSpellUsage.Name + ".usew", "Use [W - Ki Burst]").SetValue(true));
+            comboSpellUsage.AddItem(new MenuItem(comboSpellUsage.Name + ".usehydra", "Use Ravenous Hydra").SetValue(true));
+            comboSpellUsage.AddItem(new MenuItem(comboSpellUsage.Name + ".useygb", "Use Youmus Ghostblade").SetValue(true));
             comboMenu.AddSubMenu(comboSpellUsage);
             #endregion
             
             #region Initiator
-            var initiatorMenu = new Menu("中斷技能", comboMenu.Name + ".ew");//combo.ew
+            var initiatorMenu = new Menu("Initiator", comboMenu.Name + ".ew");//combo.ew
             initiatorMenu.AddItem(
-                new MenuItem(initiatorMenu.Name + ".w", "使用 E -> W").SetValue(
+                new MenuItem(initiatorMenu.Name + ".w", "After E -> W").SetValue(
                     new StringList(new[] { "Force Q", "Force AA", "Automatic" }, 2)));
             comboMenu.AddSubMenu(initiatorMenu);
             #endregion
 
             #region GapClose
-            var comboGapClose = new Menu("防突進", comboMenu.Name + ".gap"); //combo.gap
+            var comboGapClose = new Menu("GapClose", comboMenu.Name + ".gap"); //combo.gap
             comboGapClose.AddItem(
-                new MenuItem(comboGapClose.Name + ".q", "防突進 [使用 - Q]").SetValue(
-                    new StringList(new[] { "Disabled", "In Combo", "在連招+目標中左鍵單擊" })));
+                new MenuItem(comboGapClose.Name + ".q", "Gapclose [Q - Broken Wings]").SetValue(
+                    new StringList(new[] { "Disabled", "In Combo", "In Combo + Target is left-clicked" })));
             comboGapClose.AddItem(
-                new MenuItem(comboGapClose.Name + ".w", "防突進 [使用 - W]").SetValue(
-                    new StringList(new[] { "Disabled", "In Combo", "在連招+目標中左鍵單擊" })));
+                new MenuItem(comboGapClose.Name + ".w", "Gapclose [W - Ki Burst]").SetValue(
+                    new StringList(new[] { "Disabled", "In Combo", "In Combo + Target is left-clicked" })));
             comboMenu.AddSubMenu(comboGapClose);
             #endregion
 
             #region R Settings
-            var comboRMenu = new Menu("R設置", comboMenu.Name + ".r"); //combo.r
-            comboRMenu.AddItem(new MenuItem(comboRMenu.Name + ".r1", "使用 R1").SetValue(true));
-            comboRMenu.AddItem(new MenuItem(comboRMenu.Name + ".r2", "使用 R2").SetValue(true));
+            var comboRMenu = new Menu("RSettings", comboMenu.Name + ".r"); //combo.r
+            comboRMenu.AddItem(new MenuItem(comboRMenu.Name + ".r1", "Use R1").SetValue(true));
+            comboRMenu.AddItem(new MenuItem(comboRMenu.Name + ".r2", "Use R2").SetValue(true));
             //comboRMenu.AddItem(new MenuItem("andre.rttc.combo.r.r2bindfr1", "Bind R2 Cast to Force R1").SetValue(true));
             comboRMenu.AddItem(
-                new MenuItem("andre.rttc.combo.r.combomode", "在下一個動畫後強制R1").SetValue(new KeyBind('N',
+                new MenuItem("andre.rttc.combo.r.combomode", "Force R1 after next animation").SetValue(new KeyBind('N',
                     KeyBindType.Toggle, false)));
             comboMenu.AddSubMenu(comboRMenu);
             #endregion
@@ -88,18 +88,18 @@ using EloBuddy;
             
             #region Utility Menu
             #region KillSteal
-            var killStealMenu = new Menu("搶頭", utilityMenu.Name + ".ks"); //utility.ks
-            killStealMenu.AddItem(new MenuItem(killStealMenu.Name + ".useq", "使用 Q").SetValue(true));
-            killStealMenu.AddItem(new MenuItem(killStealMenu.Name + ".usew", "使用 W").SetValue(true));
-            killStealMenu.AddItem(new MenuItem(killStealMenu.Name + ".user", "使用 R2").SetValue(true));
-            killStealMenu.AddItem(new MenuItem(killStealMenu.Name + ".usei", "使用 點燃").SetValue(true));
+            var killStealMenu = new Menu("killSteal", utilityMenu.Name + ".ks"); //utility.ks
+            killStealMenu.AddItem(new MenuItem(killStealMenu.Name + ".useq", "Use Q").SetValue(true));
+            killStealMenu.AddItem(new MenuItem(killStealMenu.Name + ".usew", "Use W").SetValue(true));
+            killStealMenu.AddItem(new MenuItem(killStealMenu.Name + ".user", "Use R2").SetValue(true));
+            killStealMenu.AddItem(new MenuItem(killStealMenu.Name + ".usei", "Use ignite").SetValue(true));
 
             utilityMenu.AddSubMenu(killStealMenu);
             #endregion
 
             #region Defensive
-            var defensiveMenu = new Menu("防禦性", utilityMenu.Name + ".defensive"); //utility.defensive
-            defensiveMenu.AddItem(new MenuItem(defensiveMenu.Name + ".w", "使用 W").SetValue(true));
+            var defensiveMenu = new Menu("Defensive", utilityMenu.Name + ".defensive"); //utility.defensive
+            defensiveMenu.AddItem(new MenuItem(defensiveMenu.Name + ".w", "Use W").SetValue(true));
             utilityMenu.AddSubMenu(defensiveMenu);
             #endregion
 
@@ -109,9 +109,9 @@ using EloBuddy;
 
             #region Flee Menu
             //utility
-            fleeMenu.AddItem(new MenuItem(fleeMenu.Name + ".useq", "使用 Q").SetValue(true));
-            fleeMenu.AddItem(new MenuItem(fleeMenu.Name + ".usee", "使用 E").SetValue(true));
-            fleeMenu.AddItem(new MenuItem(fleeMenu.Name + ".key", "可以在走砍設置"));
+            fleeMenu.AddItem(new MenuItem(fleeMenu.Name + ".useq", "Use Q").SetValue(true));
+            fleeMenu.AddItem(new MenuItem(fleeMenu.Name + ".usee", "Use E").SetValue(true));
+            fleeMenu.AddItem(new MenuItem(fleeMenu.Name + ".key", "Can be set in orbwalker"));
             menu.AddSubMenu(fleeMenu);
             #endregion
 

@@ -58,7 +58,7 @@ namespace ElUtilitySuite.Items
         /// <returns></returns>
         public void CreateMenu(Menu rootMenu)
         {
-            this.Menu = rootMenu.AddSubMenu(new Menu("進攻時攻擊物品", "omenu2"));
+            this.Menu = rootMenu.AddSubMenu(new Menu("Offensive", "omenu2"));
 
             foreach (var item in this.offensiveItems)
             {

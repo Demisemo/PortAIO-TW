@@ -70,12 +70,12 @@ namespace ElUtilitySuite.Others
         {
             var predicate = new Func<Menu, bool>(x => x.Name == "MiscMenu");
             var menu = !rootMenu.Children.Any(predicate)
-                           ? rootMenu.AddSubMenu(new Menu("雜項", "MiscMenu"))
+                           ? rootMenu.AddSubMenu(new Menu("Misc", "MiscMenu"))
                            : rootMenu.Children.First(predicate);
 
-            var turnAroundMenu = menu.AddSubMenu(new Menu("迴轉", "TurnAround"));
+            var turnAroundMenu = menu.AddSubMenu(new Menu("Turn Around", "TurnAround"));
             {
-                turnAroundMenu.AddItem(new MenuItem("TurnAround", "啟用").SetValue(true));
+                turnAroundMenu.AddItem(new MenuItem("TurnAround", "Enabled").SetValue(true));
             }
 
             this.Menu = turnAroundMenu;

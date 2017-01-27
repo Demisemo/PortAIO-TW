@@ -73,7 +73,7 @@ namespace UniversalRecallTracker
 
         public void Game_OnGameLoad()
         {
-            Menu menu = new Menu("提示敵方正在回城", "universalrecalltracker", true);
+            Menu menu = new Menu("Universal RecallTracker", "universalrecalltracker", true);
             _x =
                 new MenuItem("x", "X").SetValue(
                     new Slider(
@@ -86,9 +86,9 @@ namespace UniversalRecallTracker
                         (int) (Drawing.Direct3DDevice.Viewport.Height * 3f / 4f), 0,
                         Drawing.Direct3DDevice.Viewport.Height));
             _y.ValueChanged += _x_ValueChanged;
-            _textSize = new MenuItem("textSize", "文字大小 (按下 F5 重新加載)").SetValue(new Slider(15, 5, 50));
-            _chatWarning = new MenuItem("chatWarning", "聊天視窗通知").SetValue(false);
-            _barScale = new MenuItem("barScale", "條形刻度 %").SetValue(new Slider(100, 0, 200));
+            _textSize = new MenuItem("textSize", "Text Size (F5 Reload)").SetValue(new Slider(15, 5, 50));
+            _chatWarning = new MenuItem("chatWarning", "Chat Notification").SetValue(false);
+            _barScale = new MenuItem("barScale", "Bar Scale %").SetValue(new Slider(100, 0, 200));
             _barScale.ValueChanged += _barScale_ValueChanged;
 
             menu.AddItem(_x);

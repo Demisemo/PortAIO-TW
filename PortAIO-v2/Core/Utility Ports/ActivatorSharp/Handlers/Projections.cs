@@ -305,13 +305,13 @@ namespace Activator.Handlers
         private static void MissileClient_OnSpellMissileCreate(GameObject sender, EventArgs args)
         {
             #region FoW / Missile
+            var missile = sender as MissileClient;
 
-            if (!sender.IsValid<MissileClient>())
+            if (missile == null)
             {
                 return;
             }
 
-            var missile = (MissileClient) sender;
             if (missile.SpellCaster is AIHeroClient && missile.SpellCaster?.Team != Player.Team)
             {
                 var startPos = missile.StartPosition.To2D();

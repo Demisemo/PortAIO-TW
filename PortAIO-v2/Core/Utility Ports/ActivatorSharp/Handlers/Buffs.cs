@@ -181,7 +181,6 @@ namespace Activator.Handlers
                 return Enumerable.Empty<BuffInstance>();
 
             return player.Buffs.Where(buff => 
-                !Auradata.BuffList.Any(b => buff.Name.ToLower() == b.Name && b.QssIgnore) &&
                    (buff.Type == BuffType.Snare &&
                     Activator.Origin.Item(itemname + "csnare").GetValue<bool>() ||
                     buff.Type == BuffType.Silence &&

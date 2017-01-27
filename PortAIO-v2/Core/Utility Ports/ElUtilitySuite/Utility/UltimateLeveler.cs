@@ -50,10 +50,10 @@ namespace ElUtilitySuite.Utility
         public void CreateMenu(Menu rootMenu)
         {
             var predicate = new Func<Menu, bool>(x => x.Name == "MiscMenu");
-            var menu = !rootMenu.Children.Any(predicate) ? rootMenu.AddSubMenu(new Menu("雜項", "MiscMenu")) : rootMenu.Children.First(predicate);
+            var menu = !rootMenu.Children.Any(predicate) ? rootMenu.AddSubMenu(new Menu("Misc", "MiscMenu")) : rootMenu.Children.First(predicate);
 
-            this.Menu = menu.AddSubMenu(new Menu("自動升級大招", "UltLeveler"));
-            this.Menu.AddItem(new MenuItem("AutoLevelR", "自動升級大招").SetValue(true));
+            this.Menu = menu.AddSubMenu(new Menu("Ultimate Leveler", "UltLeveler"));
+            this.Menu.AddItem(new MenuItem("AutoLevelR", "Automaticly Level Up Ultimate").SetValue(true));
 
             random = new Random(Environment.TickCount);
         }

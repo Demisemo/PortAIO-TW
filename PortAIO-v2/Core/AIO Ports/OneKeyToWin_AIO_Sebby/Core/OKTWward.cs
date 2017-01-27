@@ -8,8 +8,8 @@ using LeagueSharp.Common;
 using SharpDX;
 
 using EloBuddy; 
-using LeagueSharp.Common; 
-namespace OneKeyToWin_AIO_Sebby.Core
+ using LeagueSharp.Common; 
+ namespace OneKeyToWin_AIO_Sebby.Core
 {
     class HiddenObj
     {
@@ -22,16 +22,19 @@ namespace OneKeyToWin_AIO_Sebby.Core
         public Vector3 pos { get; set; }
     }
 
-    class OKTWward : Program
+    class OKTWward
     {
-        private bool Rengar = false;
+        public AIHeroClient Player { get { return ObjectManager.Player; } }
+        private Menu Config = Program.Config;
+        private bool rengar = false;
         AIHeroClient Vayne = null;
+        private static Spell Q, W, E, R;
 
         public static List<HiddenObj> HiddenObjList = new List<HiddenObj>();
 
         private Items.Item
-            ControlWard = new Items.Item(2055, 550f),
-            OracleAlteration = new Items.Item(3364, 550f),
+            VisionWard = new Items.Item(2043, 550f),
+            OracleLens = new Items.Item(3364, 550f),
             WardN = new Items.Item(2044, 600f),
             TrinketN = new Items.Item(3340, 600f),
             SightStone = new Items.Item(2049, 600f),
@@ -43,23 +46,27 @@ namespace OneKeyToWin_AIO_Sebby.Core
 
         public void LoadOKTW()
         {
+            Q = new Spell(SpellSlot.Q);
+            E = new Spell(SpellSlot.E);
+            W = new Spell(SpellSlot.W);
+            R = new Spell(SpellSlot.R);
 
             Config.SubMenu("AutoWard OKTW©").AddItem(new MenuItem("AutoWard", "Auto Ward").SetValue(true));
             Config.SubMenu("AutoWard OKTW©").AddItem(new MenuItem("autoBuy", "Auto buy blue trinket after lvl 9").SetValue(false));
             Config.SubMenu("AutoWard OKTW©").AddItem(new MenuItem("AutoWardBlue", "Auto Blue Trinket").SetValue(true));
             Config.SubMenu("AutoWard OKTW©").AddItem(new MenuItem("AutoWardCombo", "Only combo mode").SetValue(true));
-            Config.SubMenu("AutoWard OKTW©").AddItem(new MenuItem("AutoWardPink", "Auto Control Ward, Oracle Alteration").SetValue(true));
+            Config.SubMenu("AutoWard OKTW©").AddItem(new MenuItem("AutoWardPink", "Auto VisionWard, OracleLens").SetValue(true));
 
             foreach (var hero in HeroManager.Enemies)
             {
                 if (hero.ChampionName == "Rengar")
-                    Rengar = true;
+                    rengar = true;
                 if (hero.ChampionName == "Vayne")
                     Vayne = hero;
             }
             
             Game.OnUpdate += Game_OnUpdate;
-            Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
+            Obj_AI_Base.OnSpellCast += Obj_AI_Base_OnProcessSpellCast;
             GameObject.OnCreate +=GameObject_OnCreate;
             GameObject.OnDelete += GameObject_OnDelete;
         }
@@ -81,20 +88,23 @@ namespace OneKeyToWin_AIO_Sebby.Core
             if (Config.Item("autoBuy").GetValue<bool>() && Player.InFountain() && !ScryingOrb.IsOwned() && Player.Level >= 9 && Shop.IsOpen)
                 Shop.BuyItem(ItemId.Farsight_Alteration);
 
-            if(Rengar && Player.HasBuff("rengarralertsound"))
-                CastOracleAlterationAndControlWards(Player.ServerPosition);
+            if(rengar && Player.HasBuff("rengarralertsound"))
+                CastVisionWards(Player.ServerPosition);
             
             if (Vayne != null && Vayne.IsValidTarget(1000) && Vayne.HasBuff("vaynetumblefade"))
-                CastOracleAlteration(Vayne.ServerPosition);
+                CastVisionWards(Vayne.ServerPosition);
 
             AutoWardLogic();
         }
 
         private void AutoWardLogic()
         {
-            foreach (var need in OKTWtracker.ChampionInfoList.Where(x => x.Hero.IsValid && x.PredictedPos != null && !x.Hero.IsVisible && !x.Hero.IsDead))
+            foreach (var enemy in HeroManager.Enemies.Where(enemy => enemy.IsValid && !enemy.IsHPBarRendered && !enemy.IsDead))
             {
-                //var need = OKTWtracker.ChampionInfoList.Find(x => x.NetworkId == enemy.NetworkId);
+                var need = OKTWtracker.ChampionInfoList.Find(x => x.NetworkId == enemy.NetworkId);
+
+                if (need == null || need.PredictedPos == null)
+                    continue;
 
                 var PPDistance = need.PredictedPos.Distance(Player.Position);
 
@@ -103,7 +113,7 @@ namespace OneKeyToWin_AIO_Sebby.Core
 
                 var timer = Game.Time - need.LastVisableTime;
 
-                if (timer > 1 && timer < 3 && AioModeSet != AioMode.UtilityOnly)
+                if (timer > 1 && timer < 3)
                 {
                     if (Program.Combo && PPDistance < 1500 && Player.ChampionName == "Quinn" && W.IsReady() && Config.Item("autoW", true).GetValue<bool>())
                     {
@@ -125,15 +135,15 @@ namespace OneKeyToWin_AIO_Sebby.Core
                         E.Cast(Player.Position.Extend(need.PredictedPos, 800));
                     }
 
-                    if ( Player.ChampionName == "Caitlyn" && !ObjectManager.Player.Spellbook.IsAutoAttacking && PPDistance < 800 && W.IsReady() && Player.Mana > 200f && Config.Item("bushW", true).GetValue<bool>() && Utils.TickCount - W.LastCastAttemptT > 2000)
+                    if (!Player.Spellbook.IsAutoAttacking && PPDistance < 800 && Player.ChampionName == "Caitlyn" && W.IsReady() && Player.Mana > 200f && Config.Item("bushW", true).GetValue<bool>() && Utils.TickCount - W.LastCastAttemptT > 2000)
                     {
                         W.Cast(need.PredictedPos);
                     }
-                    if (Player.ChampionName == "Teemo" && !ObjectManager.Player.Spellbook.IsAutoAttacking &&  PPDistance < 150 + R.Level * 250 && R.IsReady() && Player.Mana > 200f && Config.Item("bushR", true).GetValue<bool>() && Utils.TickCount - W.LastCastAttemptT > 2000)
+                    if (!Player.Spellbook.IsAutoAttacking && PPDistance < 150 + R.Level * 250 && Player.ChampionName == "Teemo" && R.IsReady() && Player.Mana > 200f && Config.Item("bushR", true).GetValue<bool>() && Utils.TickCount - W.LastCastAttemptT > 2000)
                     {
                         R.Cast(need.PredictedPos);
                     }
-                    if (Player.ChampionName == "Jhin" && !ObjectManager.Player.Spellbook.IsAutoAttacking && PPDistance < 760 && E.IsReady() && Player.Mana > 200f && Config.Item("bushE", true).GetValue<bool>() && Utils.TickCount - E.LastCastAttemptT > 2000)
+                    if (!Player.Spellbook.IsAutoAttacking && PPDistance < 760 && Player.ChampionName == "Jhin" && E.IsReady() && Player.Mana > 200f && Config.Item("bushE", true).GetValue<bool>() && Utils.TickCount - E.LastCastAttemptT > 2000)
                     {
                         E.Cast(need.PredictedPos);
                     }
@@ -141,7 +151,7 @@ namespace OneKeyToWin_AIO_Sebby.Core
 
                 if (timer < 4)
                 {
-                    if (Config.Item("AutoWardCombo").GetValue<bool>() && Program.AioModeSet != Program.AioMode.ChampionOnly && !Program.Combo)
+                    if (Config.Item("AutoWardCombo").GetValue<bool>() && Program.AIOmode != 2 && !Program.Combo)
                         return;
 
                     if (NavMesh.IsWallOfGrass(need.PredictedPos, 0))
@@ -207,6 +217,7 @@ namespace OneKeyToWin_AIO_Sebby.Core
             {
                 if ( !missile.SpellCaster.IsVisible)
                 {
+
                     if ((missile.SData.Name == "BantamTrapShort" || missile.SData.Name == "BantamTrapBounceSpell") && !HiddenObjList.Exists(x => missile.EndPosition == x.pos))
                         AddWard("teemorcast", missile.EndPosition);
                 }
@@ -215,7 +226,7 @@ namespace OneKeyToWin_AIO_Sebby.Core
             var minion = sender as Obj_AI_Minion;
             if (minion != null)
             {
-                if ((sender.Name.ToLower() == "jammerdevice" || sender.Name.ToLower() == "sightward") && !HiddenObjList.Exists(x => x.pos.Distance(sender.Position) < 100))
+                if ((sender.Name.ToLower() == "visionward" || sender.Name.ToLower() == "sightward") && !HiddenObjList.Exists(x => x.pos.Distance(sender.Position) < 100))
                 {
                     foreach (var obj in HiddenObjList)
                     {
@@ -236,15 +247,15 @@ namespace OneKeyToWin_AIO_Sebby.Core
                         HiddenObjList.Add(new HiddenObj() { type = 1, pos = sender.Position, endTime = Game.Time + dupa.Mana });
                 }
             }
-            else if (Rengar && sender.Position.Distance(Player.Position) < 800)
+            else if (rengar && sender.Position.Distance(Player.Position) < 800)
             {
                 switch (sender.Name)
                 {
                     case "Rengar_LeapSound.troy":
-                        CastOracleAlterationAndControlWards(sender.Position);
+                        CastVisionWards(sender.Position);
                         break;
                     case "Rengar_Base_R_Alert":
-                        CastOracleAlterationAndControlWards(sender.Position);
+                        CastVisionWards(sender.Position);
                         break;
                 }
             }
@@ -253,7 +264,7 @@ namespace OneKeyToWin_AIO_Sebby.Core
         private void GameObject_OnDelete(GameObject sender, EventArgs args)
         {
             var minion = sender as Obj_AI_Minion;
-            if (minion != null && minion.MaxHealth < 100)
+            if (minion != null && minion.Health < 100)
             {
 
                 foreach (var obj in HiddenObjList)
@@ -268,9 +279,9 @@ namespace OneKeyToWin_AIO_Sebby.Core
                         HiddenObjList.Remove(obj);
                         return;
                     }
-                    else if (obj.pos.Distance(sender.Position) < 400 && minion.MaxHealth < 5)
+                    else if (obj.pos.Distance(sender.Position) < 400)
                     {
-                        if (obj.type == 2 )
+                        if (obj.type == 2 && sender.Name.ToLower() == "visionward")
                         {
                             HiddenObjList.Remove(obj);
                             return;
@@ -292,33 +303,33 @@ namespace OneKeyToWin_AIO_Sebby.Core
                 if(args.Target == null)
                     AddWard(args.SData.Name.ToLower(), args.End);
 
-                if ((OracleAlteration.IsReady() || ControlWard.IsReady()) && sender.Distance(Player.Position) < 1200)
+                if ((OracleLens.IsReady() || VisionWard.IsReady()) && sender.Distance(Player.Position) < 1200)
                 {
                     switch (args.SData.Name.ToLower())
                     {
                         case "akalismokebomb":
-                            CastOracleAlteration(sender.ServerPosition);
+                            CastVisionWards(sender.ServerPosition);
                             break;
                         case "deceive":
-                            CastOracleAlteration(sender.ServerPosition);
+                            CastVisionWards(sender.ServerPosition);
                             break;
                         case "khazixr":
-                            CastOracleAlteration(sender.ServerPosition);
+                            CastVisionWards(sender.ServerPosition);
                             break;
                         case "khazixrlong":
-                            CastOracleAlteration(sender.ServerPosition);
+                            CastVisionWards(sender.ServerPosition);
                             break;
                         case "talonshadowassault":
-                            CastOracleAlteration(sender.ServerPosition);
+                            CastVisionWards(sender.ServerPosition);
                             break;
                         case "monkeykingdecoy":
-                            CastOracleAlteration(sender.ServerPosition);
+                            CastVisionWards(sender.ServerPosition);
                             break;
                         case "rengarr":
-                            CastOracleAlterationAndControlWards(sender.ServerPosition);
+                            CastVisionWards(sender.ServerPosition);
                             break;
                         case "twitchhideinshadows":
-                            CastOracleAlterationAndControlWards(sender.ServerPosition);
+                            CastVisionWards(sender.ServerPosition);
                             break;
                     }
                 }
@@ -330,7 +341,7 @@ namespace OneKeyToWin_AIO_Sebby.Core
             switch (name)
             {
                 //PINKS
-                case "jammerdevice":
+                case "visionward":
                     HiddenObjList.Add(new HiddenObj() { type = 2, pos = posCast, endTime = float.MaxValue });
                     break;
                 case "trinkettotemlvl3B":
@@ -338,20 +349,20 @@ namespace OneKeyToWin_AIO_Sebby.Core
                     break;
                 //SIGH WARD
                 case "itemghostward":
-                    HiddenObjList.Add(new HiddenObj() { type = 1, pos = posCast, endTime = Game.Time + 150 });
+                    HiddenObjList.Add(new HiddenObj() { type = 1, pos = posCast, endTime = Game.Time + 180 });
                     break;
                 case "wrigglelantern":
-                    HiddenObjList.Add(new HiddenObj() { type = 1, pos = posCast, endTime = Game.Time + 150 });
+                    HiddenObjList.Add(new HiddenObj() { type = 1, pos = posCast, endTime = Game.Time + 180 });
                     break;
                 case "sightward":
-                    HiddenObjList.Add(new HiddenObj() { type = 1, pos = posCast, endTime = Game.Time + 150 });
+                    HiddenObjList.Add(new HiddenObj() { type = 1, pos = posCast, endTime = Game.Time + 180 });
                     break;
                 case "itemferalflare":
-                    HiddenObjList.Add(new HiddenObj() { type = 1, pos = posCast, endTime = Game.Time + 150 });
+                    HiddenObjList.Add(new HiddenObj() { type = 1, pos = posCast, endTime = Game.Time + 180 });
                     break;
                 //TRINKET
                 case "trinkettotemlvl1":
-                    HiddenObjList.Add(new HiddenObj() { type = 1, pos = posCast, endTime = Game.Time + 60 + Player.Level * 3.3f });
+                    HiddenObjList.Add(new HiddenObj() { type = 1, pos = posCast, endTime = Game.Time + 60 });
                     break;
                 case "trinkettotemlvl2":
                     HiddenObjList.Add(new HiddenObj() { type = 1, pos = posCast, endTime = Game.Time + 120 });
@@ -375,23 +386,14 @@ namespace OneKeyToWin_AIO_Sebby.Core
             }
         }
 
-        private void CastOracleAlterationAndControlWards(Vector3 position)
+        private void CastVisionWards(Vector3 position)
         {
             if (Config.Item("AutoWardPink").GetValue<bool>())
             {
-                if (OracleAlteration.IsReady())
-                    OracleAlteration.Cast(Player.Position.Extend(position, OracleAlteration.Range));
-                else if (ControlWard.IsReady())
-                    ControlWard.Cast(Player.Position.Extend(position, ControlWard.Range));
-            }
-        }
-
-        private void CastOracleAlteration(Vector3 position)
-        {
-            if (Config.Item("AutoWardPink").GetValue<bool>())
-            {
-                if (OracleAlteration.IsReady())
-                    OracleAlteration.Cast(Player.Position.Extend(position, OracleAlteration.Range));
+                if (OracleLens.IsReady())
+                    OracleLens.Cast(Player.Position.Extend(position, OracleLens.Range));
+                else if (VisionWard.IsReady())
+                    VisionWard.Cast(Player.Position.Extend(position, VisionWard.Range));
             }
         }
     }

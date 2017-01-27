@@ -9,7 +9,7 @@ namespace Activator.Items.Defensives
     class _3090 : CoreItem
     {
         internal override int Id => 3090;
-        internal override string Name => "烏莉特的法帽";
+        internal override string Name => "Wooglets";
         internal override int Priority => 7;
         internal override string DisplayName => "Wooglet's Witchcap";
         internal override int Duration => 2500;

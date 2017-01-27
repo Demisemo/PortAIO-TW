@@ -6,9 +6,9 @@ using LeagueSharp.Common;
 using SharpDX;
 using Color = System.Drawing.Color;
 
-using EloBuddy; 
- using LeagueSharp.Common; 
- namespace D_Warwick
+using EloBuddy;
+using LeagueSharp.Common;
+namespace D_Warwick
 {
     internal class Program
     {
@@ -30,10 +30,10 @@ using EloBuddy;
 
         private static Items.Item _tiamat, _hydra, _blade, _bilge, _rand, _lotis;
         //Credits to Kurisu
-        private static readonly int[] SmitePurple = {3713, 3726, 3725, 3726, 3723};
-        private static readonly int[] SmiteGrey = {3711, 3722, 3721, 3720, 3719};
-        private static readonly int[] SmiteRed = {3715, 3718, 3717, 3716, 3714};
-        private static readonly int[] SmiteBlue = {3706, 3710, 3709, 3708, 3707};
+        private static readonly int[] SmitePurple = { 3713, 3726, 3725, 3726, 3723 };
+        private static readonly int[] SmiteGrey = { 3711, 3722, 3721, 3720, 3719 };
+        private static readonly int[] SmiteRed = { 3715, 3718, 3717, 3716, 3714 };
+        private static readonly int[] SmiteBlue = { 3706, 3710, 3709, 3708, 3707 };
 
         private static SpellSlot _igniteSlot;
 
@@ -42,10 +42,11 @@ using EloBuddy;
             _player = ObjectManager.Player;
             if (ObjectManager.Player.BaseSkinName != ChampionName) return;
 
-            _q = new Spell(SpellSlot.Q, 400);
-            _w = new Spell(SpellSlot.W, 1250);
-            _e = new Spell(SpellSlot.E, 1500);
-            _r = new Spell(SpellSlot.R, 700);
+            _q = new Spell(SpellSlot.Q, 350);
+            _w = new Spell(SpellSlot.W, 4000);
+            _e = new Spell(SpellSlot.E, 375);
+            _r = new Spell(SpellSlot.R, 335);
+            _r.SetSkillshot(0.25f, 90f, 2200f, false, SkillshotType.SkillshotLine);
 
             _igniteSlot = _player.GetSpellSlot("SummonerDot");
             SetSmiteSlot();
@@ -78,14 +79,13 @@ using EloBuddy;
             _config.SubMenu("Combo").AddItem(new MenuItem("useignite", "Use Ignite")).SetValue(true);
             _config.SubMenu("Combo").AddItem(new MenuItem("useQC", "Use Q")).SetValue(true);
             _config.SubMenu("Combo").AddItem(new MenuItem("myass", "Use Q on Minions if No Targets")).SetValue(true);
-            _config.SubMenu("Combo").AddItem(new MenuItem("savemyass", "Use Q on Minion if % HP <").SetValue(new Slider(35, 1, 100)));
-            _config.SubMenu("Combo").AddItem(new MenuItem("useWC", "Use W").SetValue(true));
+            _config.SubMenu("Combo").AddItem(new MenuItem("savemyass", "Use Q and E if % HP <").SetValue(new Slider(35, 1, 100)));
+            _config.SubMenu("Combo").AddItem(new MenuItem("useEC", "Use E")).SetValue(true);
             _config.SubMenu("Combo").AddSubMenu(new Menu("Ultimate Settings", "Ulti_Use"));
             _config.SubMenu("Combo").SubMenu("Ulti_Use").AddItem(new MenuItem("UseRC", "Use R")).SetValue(true);
             foreach (var enemy in ObjectManager.Get<AIHeroClient>().Where(enemy => enemy.Team != _player.Team))
                 _config.SubMenu("Combo").SubMenu("Ulti_Use").AddItem(new MenuItem("castR" + enemy.BaseSkinName, enemy.BaseSkinName).SetValue(false));
-            _config.SubMenu("Combo")
-                .AddItem(new MenuItem("UseCombo", "Combo").SetValue(new KeyBind(32, KeyBindType.Press)));
+            _config.SubMenu("Combo").AddItem(new MenuItem("UseCombo", "Combo").SetValue(new KeyBind(32, KeyBindType.Press)));
 
             _config.AddSubMenu(new Menu("Items", "items"));
             _config.SubMenu("items").AddSubMenu(new Menu("Offensive", "Offensive"));
@@ -140,7 +140,7 @@ using EloBuddy;
             _config.AddSubMenu(new Menu("Harass", "Harass"));
             _config.SubMenu("Harass").AddItem(new MenuItem("UseItemsharass", "Use Items").SetValue(true));
             _config.SubMenu("Harass").AddItem(new MenuItem("useQH", "Use Q").SetValue(true));
-            _config.SubMenu("Harass").AddItem(new MenuItem("useWH", "Use W").SetValue(true));
+            _config.SubMenu("Harass").AddItem(new MenuItem("useEH", "Use E").SetValue(true));
             _config.SubMenu("Harass")
                 .AddItem(new MenuItem("harassmana", "Min. % Mana").SetValue(new Slider(35, 1, 100)));
             _config.SubMenu("Harass")
@@ -155,7 +155,6 @@ using EloBuddy;
             _config.SubMenu("Farm").AddSubMenu(new Menu("Lane Clear", "LaneClear"));
             _config.SubMenu("Farm").SubMenu("LaneClear").AddItem(new MenuItem("UseItemslane", "Use Items").SetValue(true));
             _config.SubMenu("Farm").SubMenu("LaneClear").AddItem(new MenuItem("UseQL", "Use Q").SetValue(true));
-            _config.SubMenu("Farm").SubMenu("LaneClear").AddItem(new MenuItem("useWL", "use W").SetValue(true));
             _config.SubMenu("Farm")
                 .SubMenu("LaneClear")
                 .AddItem(
@@ -166,7 +165,7 @@ using EloBuddy;
             _config.SubMenu("Farm").AddSubMenu(new Menu("Jungle Clear", "Jungle"));
             _config.SubMenu("Farm").SubMenu("Jungle").AddItem(new MenuItem("UseItemsjungle", "Use Items").SetValue(true));
             _config.SubMenu("Farm").SubMenu("Jungle").AddItem(new MenuItem("useQJ", "Use Q").SetValue(true));
-            _config.SubMenu("Farm").SubMenu("Jungle").AddItem(new MenuItem("useWJ", "Use W").SetValue(true));
+            _config.SubMenu("Farm").SubMenu("Jungle").AddItem(new MenuItem("useEJ", "Use E").SetValue(true));
             _config.SubMenu("Farm")
                .SubMenu("Jungle")
                .AddItem(
@@ -195,7 +194,7 @@ using EloBuddy;
             _config.SubMenu("Misc").AddItem(new MenuItem("UseIgnitekill", "Use Ignite to Killsteal")).SetValue(true);
             _config.SubMenu("Misc").AddItem(new MenuItem("UseQM", "Use Q to Killsteal")).SetValue(true);
             _config.SubMenu("Misc").AddItem(new MenuItem("UseRM", "Use R to Killsteal")).SetValue(true);
-           
+
 
             //Draw
             _config.AddSubMenu(new Menu("Drawing", "Drawing"));
@@ -220,24 +219,25 @@ using EloBuddy;
 
         private static void Game_OnUpdate(EventArgs args)
         {
+            _r.Range = _player.MoveSpeed * 2.5f;
             if (_config.Item("Usesmite").GetValue<KeyBind>().Active)
             {
                 Smiteuse();
             }
             if ((_config.Item("ActiveHarass").GetValue<KeyBind>().Active ||
                  _config.Item("harasstoggle").GetValue<KeyBind>().Active) &&
-                (100*(_player.Mana/_player.MaxMana)) > _config.Item("harassmana").GetValue<Slider>().Value)
+                (100 * (_player.Mana / _player.MaxMana)) > _config.Item("harassmana").GetValue<Slider>().Value)
             {
                 Harass();
 
             }
             if (_config.Item("ActiveLane").GetValue<KeyBind>().Active &&
-                (100*(_player.Mana/_player.MaxMana)) > _config.Item("Lanemana").GetValue<Slider>().Value)
+                (100 * (_player.Mana / _player.MaxMana)) > _config.Item("Lanemana").GetValue<Slider>().Value)
             {
                 Laneclear();
             }
             if (_config.Item("ActiveJungle").GetValue<KeyBind>().Active &&
-                (100*(_player.Mana/_player.MaxMana)) > _config.Item("Junglemana").GetValue<Slider>().Value)
+                (100 * (_player.Mana / _player.MaxMana)) > _config.Item("Junglemana").GetValue<Slider>().Value)
             {
                 JungleClear();
             }
@@ -251,10 +251,8 @@ using EloBuddy;
 
             _orbwalker.SetAttack(true);
 
-            _e.Range = 700 + 800*ObjectManager.Player.Spellbook.GetSpell(SpellSlot.E).Level;
-
             KillSteal();
-         }
+        }
 
         private static void Savemyass()
         {
@@ -263,8 +261,13 @@ using EloBuddy;
                 var target = TargetSelector.GetTarget(_q.Range, TargetSelector.DamageType.Physical);
                 var minions = MinionManager.GetMinions(ObjectManager.Player.Position, _q.Range,
                     MinionTypes.All, MinionTeam.NotAlly);
-                var useminion = _player.Health <=
-                                (_player.MaxHealth*(_config.Item("savemyass").GetValue<Slider>().Value)/100);
+                var useminion = _player.HealthPercent <= _config.Item("savemyass").GetValue<Slider>().Value;
+
+                if (useminion)
+                {
+                    _e.Cast();
+                }
+
                 foreach (var minion in minions)
                 {
                     if (useminion && _q.IsReady())
@@ -300,9 +303,9 @@ using EloBuddy;
 
         private static void Combo()
         {
-            var target = TargetSelector.GetTarget(_e.Range, TargetSelector.DamageType.Physical);
+            var target = TargetSelector.GetTarget(_r.Range, TargetSelector.DamageType.Physical);
             var useQ = _config.Item("useQC").GetValue<bool>();
-            var useW = _config.Item("useWC").GetValue<bool>();
+            var useE = _config.Item("useEC").GetValue<bool>();
             var useR = _config.Item("UseRC").GetValue<bool>();
             var useignite = _config.Item("useignite").GetValue<bool>();
             Smiteontarget(target);
@@ -314,22 +317,20 @@ using EloBuddy;
 
             if (useR && _player.Distance(target) < _r.Range && _r.IsReady())
             {
-                if (target != null && _config.Item("castR" + target.BaseSkinName) != null &&
-                    _config.Item("castR" + target.BaseSkinName).GetValue<bool>() == true)
-                    _r.Cast(target);
+                var pred = _r.GetPrediction(target);
+                if (target != null && _config.Item("castR" + target.BaseSkinName) != null && _config.Item("castR" + target.BaseSkinName).GetValue<bool>() == true)
+                    _r.Cast(pred.CastPosition);
             }
             if (useQ && _player.Distance(target) < _q.Range && _q.IsReady())
             {
                 _q.Cast(target);
             }
-             foreach (var hero in ObjectManager.Get<AIHeroClient>().Where(hero => hero.IsAlly))
+
+            if (useE && _player.Distance(target) < _e.Range - 25 && _e.IsReady())
             {
-                if (useW && _w.IsReady() && (_player.Distance(target) < _q.Range ||
-                    hero.Distance(_player.ServerPosition) <= _w.Range))
-                {
-                    _w.Cast();
-                }
+                _e.Cast();
             }
+
             UseItemes(target);
             Savemyass();
         }
@@ -338,7 +339,7 @@ using EloBuddy;
         {
             var target = TargetSelector.GetTarget(_e.Range, TargetSelector.DamageType.Magical);
             var useQ = _config.Item("useQH").GetValue<bool>();
-            var useW = _config.Item("useWH").GetValue<bool>();
+            var useE = _config.Item("useEH").GetValue<bool>();
             var useItemsH = _config.Item("UseItemsharass").GetValue<bool>();
             if (useQ && _q.IsReady())
             {
@@ -346,11 +347,9 @@ using EloBuddy;
                 if (t != null && t.Distance(_player.Position) < _q.Range)
                     _q.Cast(t);
             }
-            if (useW && _w.IsReady())
+            if (useE && _player.Distance(target) < _e.Range - 25 && _e.IsReady())
             {
-                var t = TargetSelector.GetTarget(_e.Range, TargetSelector.DamageType.Magical);
-                if (t != null && t.Distance(_player.Position) < _q.Range)
-                    _w.Cast();
+                _e.Cast();
             }
             if (useItemsH && _tiamat.IsReady() && target.Distance(_player.Position) < _tiamat.Range)
             {
@@ -367,7 +366,6 @@ using EloBuddy;
             var minions = MinionManager.GetMinions(ObjectManager.Player.ServerPosition, _q.Range, MinionTypes.All);
             var useItemsl = _config.Item("UseItemslane").GetValue<bool>();
             var useQl = _config.Item("UseQL").GetValue<bool>();
-            var useWl = _config.Item("useWL").GetValue<bool>();
             foreach (var minion in minions)
             {
                 if (_q.IsReady() && useQl)
@@ -377,14 +375,9 @@ using EloBuddy;
                         _q.Cast(minion);
                     }
                     else if (!Orbwalking.InAutoAttackRange(minion) &&
-                             minion.Health < 0.75*_player.GetSpellDamage(minion, SpellSlot.Q))
+                             minion.Health < 0.75 * _player.GetSpellDamage(minion, SpellSlot.Q))
                         _q.Cast(minion);
                 }
-                if (_w.IsReady() && useWl && minions.Count > 3)
-                {
-                    _w.Cast();
-                }
-
                 if (useItemsl && _tiamat.IsReady() && _player.Distance(minion) < _tiamat.Range)
                 {
                     _tiamat.Cast();
@@ -404,18 +397,17 @@ using EloBuddy;
                 MinionTeam.Neutral, MinionOrderTypes.MaxHealth);
             var useItemsJ = _config.Item("UseItemsjungle").GetValue<bool>();
             var useQ = _config.Item("useQJ").GetValue<bool>();
-            var useW = _config.Item("useWJ").GetValue<bool>();
-           if (mobs.Count > 0)
+            var useE = _config.Item("useEJ").GetValue<bool>();
+            if (mobs.Count > 0)
             {
-               var mob = mobs[0];
+                var mob = mobs[0];
                 if (useQ && _q.IsReady() && _player.Distance(mob) < _q.Range)
                 {
                     _q.Cast(mob);
                 }
-
-                if (_w.IsReady() && useW && _player.Distance(mob) < _q.Range)
+                if (useE && _e.IsReady() && _player.Distance(mob) < _e.Range)
                 {
-                    _w.Cast();
+                    _e.Cast();
                 }
                 if (useItemsJ && _tiamat.IsReady() && _player.Distance(mob) < _tiamat.Range)
                 {
@@ -468,9 +460,9 @@ using EloBuddy;
         private static int GetSmiteDmg()
         {
             int level = _player.Level;
-            int index = _player.Level/5;
-            float[] dmgs = {370 + 20*level, 330 + 30*level, 240 + 40*level, 100 + 50*level};
-            return (int) dmgs[index];
+            int index = _player.Level / 5;
+            float[] dmgs = { 370 + 20 * level, 330 + 30 * level, 240 + 40 * level, 100 + 50 * level };
+            return (int)dmgs[index];
         }
 
         //New map Monsters Name By SKO
@@ -480,12 +472,12 @@ using EloBuddy;
             if (ObjectManager.Player.Spellbook.CanUseSpell(_smiteSlot) != SpellState.Ready) return;
             var useblue = _config.Item("Useblue").GetValue<bool>();
             var usered = _config.Item("Usered").GetValue<bool>();
-            var health = (100*(_player.Mana/_player.MaxMana)) < _config.Item("healthJ").GetValue<Slider>().Value;
-            var mana = (100*(_player.Mana/_player.MaxMana)) < _config.Item("manaJ").GetValue<Slider>().Value;
+            var health = (100 * (_player.Mana / _player.MaxMana)) < _config.Item("healthJ").GetValue<Slider>().Value;
+            var mana = (100 * (_player.Mana / _player.MaxMana)) < _config.Item("manaJ").GetValue<Slider>().Value;
             string[] jungleMinions;
             if (LeagueSharp.Common.Utility.Map.GetMap().Type.Equals(LeagueSharp.Common.Utility.Map.MapType.TwistedTreeline))
             {
-                jungleMinions = new string[] {"TT_Spiderboss", "TT_NWraith", "TT_NGolem", "TT_NWolf"};
+                jungleMinions = new string[] { "TT_Spiderboss", "TT_NWraith", "TT_NGolem", "TT_NWolf" };
             }
             else
             {
@@ -533,21 +525,21 @@ using EloBuddy;
         {
             var iBilge = _config.Item("Bilge").GetValue<bool>();
             var iBilgeEnemyhp = target.Health <=
-                                (target.MaxHealth*(_config.Item("BilgeEnemyhp").GetValue<Slider>().Value)/100);
+                                (target.MaxHealth * (_config.Item("BilgeEnemyhp").GetValue<Slider>().Value) / 100);
             var iBilgemyhp = _player.Health <=
-                             (_player.MaxHealth*(_config.Item("Bilgemyhp").GetValue<Slider>().Value)/100);
+                             (_player.MaxHealth * (_config.Item("Bilgemyhp").GetValue<Slider>().Value) / 100);
             var iBlade = _config.Item("Blade").GetValue<bool>();
             var iBladeEnemyhp = target.Health <=
-                                (target.MaxHealth*(_config.Item("BladeEnemyhp").GetValue<Slider>().Value)/100);
+                                (target.MaxHealth * (_config.Item("BladeEnemyhp").GetValue<Slider>().Value) / 100);
             var iBlademyhp = _player.Health <=
-                             (_player.MaxHealth*(_config.Item("Blademyhp").GetValue<Slider>().Value)/100);
+                             (_player.MaxHealth * (_config.Item("Blademyhp").GetValue<Slider>().Value) / 100);
             var iOmen = _config.Item("Omen").GetValue<bool>();
             var iOmenenemys = ObjectManager.Get<AIHeroClient>().Count(hero => hero.IsValidTarget(450)) >=
                               _config.Item("Omenenemys").GetValue<Slider>().Value;
             var iTiamat = _config.Item("Tiamat").GetValue<bool>();
             var iHydra = _config.Item("Hydra").GetValue<bool>();
             var ilotis = _config.Item("lotis").GetValue<bool>();
-          
+
             if (_player.Distance(target) <= 450 && iBilge && (iBilgeEnemyhp || iBilgemyhp) && _bilge.IsReady())
             {
                 _bilge.Cast(target);
@@ -577,7 +569,7 @@ using EloBuddy;
             {
                 foreach (var hero in ObjectManager.Get<AIHeroClient>().Where(hero => hero.IsAlly || hero.IsMe))
                 {
-                    if (hero.Health <= (hero.MaxHealth*(_config.Item("lotisminhp").GetValue<Slider>().Value)/100) &&
+                    if (hero.Health <= (hero.MaxHealth * (_config.Item("lotisminhp").GetValue<Slider>().Value) / 100) &&
                         hero.Distance(_player.ServerPosition) <= _lotis.Range && _lotis.IsReady())
                         _lotis.Cast();
                 }
@@ -665,9 +657,10 @@ using EloBuddy;
             if (_r.IsReady() && _config.Item("UseRM").GetValue<bool>())
             {
                 var t = TargetSelector.GetTarget(_r.Range, TargetSelector.DamageType.Magical);
+                var pred = _r.GetPrediction(t);
                 if (t != null)
                     if (!t.HasBuff("JudicatorIntervention") && !t.HasBuff("Undying Rage") && _r.GetDamage(t) > t.Health)
-                        _r.Cast(t);
+                        _r.Cast(pred.CastPosition);
             }
         }
 
@@ -677,11 +670,11 @@ using EloBuddy;
             {
                 if (_config.Item("Usesmite").GetValue<KeyBind>().Active)
                 {
-                    Drawing.DrawText(Drawing.Width*0.90f, Drawing.Height*0.68f, System.Drawing.Color.DarkOrange,
+                    Drawing.DrawText(Drawing.Width * 0.90f, Drawing.Height * 0.68f, System.Drawing.Color.DarkOrange,
                         "Smite Is On");
                 }
                 else
-                    Drawing.DrawText(Drawing.Width*0.90f, Drawing.Height*0.68f, System.Drawing.Color.DarkRed,
+                    Drawing.DrawText(Drawing.Width * 0.90f, Drawing.Height * 0.68f, System.Drawing.Color.DarkRed,
                         "Smite Is Off");
             }
             if (_config.Item("CircleLag").GetValue<bool>())

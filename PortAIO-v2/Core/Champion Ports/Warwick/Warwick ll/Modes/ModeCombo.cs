@@ -39,15 +39,6 @@ using EloBuddy;
             MenuParent.AddSubMenu(MenuLocal);
 
             Game.OnUpdate += OnUpdate;
-            Orbwalking.BeforeAttack += OrbwalkingOnBeforeAttack;
-        }
-
-        private static void OrbwalkingOnBeforeAttack(Orbwalking.BeforeAttackEventArgs args)
-        {
-            if (W.IsReady() && args.Target.IsEnemy && args.Target.Health > ObjectManager.Player.TotalAttackDamage * 2)
-            {
-                W.Cast();
-            }
         }
 
         private static void OnUpdate(EventArgs args)
@@ -62,7 +53,7 @@ using EloBuddy;
         
         private static void ExecuteCombo()
         {
-            var t = CommonTargetSelector.GetTarget(E.Range, TargetSelector.DamageType.Physical);
+            var t = CommonTargetSelector.GetTarget(R.Range, TargetSelector.DamageType.Physical);
             if (!t.IsValidTarget())
             {
                 return;
@@ -82,6 +73,11 @@ using EloBuddy;
                 }
 
                 Q.CastOnUnit(t);
+            }
+
+            if (E.IsReady() && t.Distance(ObjectManager.Player) < E.Range - 25)
+            {
+                E.Cast();
             }
 
             if (R.IsReady())
@@ -107,19 +103,21 @@ using EloBuddy;
                     return;
                 }
 
+                var pred = R.GetPrediction(t);
+
                 if (MenuLocal.Item("Mode.R" + t.ChampionName).GetValue<StringList>().SelectedIndex != 0)
                 {
                     switch (MenuLocal.Item("Mode.R" + t.ChampionName).GetValue<StringList>().SelectedIndex)
                     {
                         case 1:
                         {
-                            R.CastOnUnit(t);
+                            R.Cast(pred.CastPosition);
                             break;
                         }
                         case 2:
                             if (t.Health <= CommonMath.GetComboDamage(t))
                             {
-                                R.CastOnUnit(t);
+                                R.Cast(pred.CastPosition);
                             }
                             break;
                     }

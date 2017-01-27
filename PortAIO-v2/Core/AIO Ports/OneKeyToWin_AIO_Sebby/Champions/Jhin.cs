@@ -211,7 +211,7 @@ namespace OneKeyToWin_AIO_Sebby.Champions
                         R.Cast(t);
                     else
                     {
-                        foreach(var enemy in HeroManager.Enemies.Where(enemy => enemy.IsValidTarget(R.Range) && InCone(t.ServerPosition)).OrderBy(enemy => enemy.Health))
+                        foreach(var enemy in HeroManager.Enemies.Where(enemy => enemy.IsValidTarget(R.Range) && InCone(t.ServerPosition) && enemy.IsHPBarRendered).OrderBy(enemy => enemy.Health))
                         {
                             R.Cast(t);
                             rPosLast = R.GetPrediction(enemy).CastPosition;

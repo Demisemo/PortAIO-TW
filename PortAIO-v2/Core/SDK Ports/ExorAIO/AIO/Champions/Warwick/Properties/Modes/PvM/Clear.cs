@@ -34,21 +34,6 @@ namespace ExorAIO.Champions.Warwick
             }
 
             /// <summary>
-            ///     The W Clear Logic.
-            /// </summary>
-            if (Vars.W.IsReady() && GameObjects.Player.Spellbook.IsAutoAttacking
-                && GameObjects.Player.ManaPercent
-                > ManaManager.GetNeededMana(Vars.W.Slot, Vars.Menu["spells"]["w"]["clear"])
-                && Vars.Menu["spells"]["w"]["clear"].GetValue<MenuSliderButton>().BValue)
-            {
-                Vars.W.Cast();
-            }
-            if (GameObjects.Player.Spellbook.IsAutoAttacking)
-            {
-                return;
-            }
-
-            /// <summary>
             ///     The Q Clear Logics.
             /// </summary>
             if (Vars.Q.IsReady()

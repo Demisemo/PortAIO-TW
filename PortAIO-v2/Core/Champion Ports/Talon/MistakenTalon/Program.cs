@@ -3,9 +3,9 @@ using System.Drawing;
 using LeagueSharp;
 using LeagueSharp.Common;
 
-using EloBuddy; 
- using LeagueSharp.Common; 
- namespace MistakenTalon
+using EloBuddy;
+using LeagueSharp.Common;
+namespace MistakenTalon
 {
     static class Program
     {
@@ -26,15 +26,17 @@ using EloBuddy;
             {
                 new Items.Item(3142, float.PositiveInfinity),
                 new Items.Item(3074, 400.0f),
-                new Items.Item(3077, 400.0f), 
+                new Items.Item(3077, 400.0f),
             };
             spells = new[]
             {
-                new Spell(SpellSlot.Q),
-                new Spell(SpellSlot.W, 625.0f),
-                new Spell(SpellSlot.E, 700.0f),
-                new Spell(SpellSlot.R, 650.0f)
+                new Spell(SpellSlot.Q, 550),
+                new Spell(SpellSlot.W, 900),
+                new Spell(SpellSlot.E, 800),
+                new Spell(SpellSlot.R, 500)
             };
+            spells[1].SetSkillshot(0.25f, 75, 2300, false, SkillshotType.SkillshotLine);
+
             SetupScriptConfig();
 
             Game.OnUpdate += Game_OnUpdate;
@@ -47,7 +49,7 @@ using EloBuddy;
             if (!scriptConfig.Item("t_resetaa").GetValue<bool>()) return;
             if (orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo) return;
             if (!unit.IsMe || !spells[0].IsReady() || !(target is AIHeroClient)) return;
-            spells[0].Cast();
+            spells[0].Cast(target as AIHeroClient);
             Orbwalking.ResetAutoAttackTimer();
         }
 
@@ -55,8 +57,6 @@ using EloBuddy;
         {
             if (scriptConfig.Item("t_draww").GetValue<bool>() && spells[1].IsReady())
                 Render.Circle.DrawCircle(ObjectManager.Player.Position, spells[1].Range, Color.RoyalBlue);
-            if (scriptConfig.Item("t_drawe").GetValue<bool>() && spells[2].IsReady())
-                Render.Circle.DrawCircle(ObjectManager.Player.Position, spells[2].Range, Color.Yellow);
         }
 
         private static void Game_OnUpdate(EventArgs args)
@@ -81,41 +81,41 @@ using EloBuddy;
             switch (scriptConfig.Item("t_ksmode").GetValue<StringList>().SelectedIndex)
             {
                 case 0: // only W
-                {
-                    var currTarget = GetTarget(spells[1].Range);
-                    if (currTarget == null) return;
-                    if (spells[1].IsReady() && ObjectManager.Player.GetSpellDamage(currTarget, SpellSlot.W)*2 >= currTarget.Health)
-                        spells[1].Cast(currTarget, isPacketCasting);
-                    break;
-                }
-                case 1: // only R
-                {
-                    var currTarget = GetTarget(spells[3].Range);
-                    if (currTarget == null) return;
-                    if (spells[3].IsReady() && ObjectManager.Player.GetSpellDamage(currTarget, SpellSlot.R)*2 >= currTarget.Health)
-                        CastR(isPacketCasting);
-                    break;
-                }
-                case 2: // W + R
-                {
-                    var currTarget = GetTarget(spells[3].IsReady() ? spells[3].Range : spells[1].Range);
-                    if (currTarget == null) return;
-                    var RDmg = ObjectManager.Player.GetSpellDamage(currTarget, SpellSlot.R)*2;
-                    var WDmg = ObjectManager.Player.GetSpellDamage(currTarget, SpellSlot.W)*2;
-                    var finaldmg = RDmg + WDmg;
-                    if (!spells[1].IsReady()) finaldmg -= WDmg;
-                    if (!spells[3].IsReady()) finaldmg -= RDmg;
-                    if ((finaldmg) >= currTarget.Health)
                     {
-                        if (spells[3].IsReady()) CastR(isPacketCasting);
-                        if (spells[1].IsReady()) spells[1].Cast(currTarget, isPacketCasting);
+                        var currTarget = GetTarget(spells[1].Range);
+                        if (currTarget == null) return;
+                        if (spells[1].IsReady() && ObjectManager.Player.GetSpellDamage(currTarget, SpellSlot.W) * 2 >= currTarget.Health)
+                            spells[1].Cast(currTarget, isPacketCasting);
+                        break;
                     }
-                    break;
-                }
+                case 1: // only R
+                    {
+                        var currTarget = GetTarget(spells[3].Range);
+                        if (currTarget == null) return;
+                        if (spells[3].IsReady() && ObjectManager.Player.GetSpellDamage(currTarget, SpellSlot.R) * 2 >= currTarget.Health)
+                            CastR(isPacketCasting);
+                        break;
+                    }
+                case 2: // W + R
+                    {
+                        var currTarget = GetTarget(spells[3].IsReady() ? spells[3].Range : spells[1].Range);
+                        if (currTarget == null) return;
+                        var RDmg = ObjectManager.Player.GetSpellDamage(currTarget, SpellSlot.R) * 2;
+                        var WDmg = ObjectManager.Player.GetSpellDamage(currTarget, SpellSlot.W) * 2;
+                        var finaldmg = RDmg + WDmg;
+                        if (!spells[1].IsReady()) finaldmg -= WDmg;
+                        if (!spells[3].IsReady()) finaldmg -= RDmg;
+                        if ((finaldmg) >= currTarget.Health)
+                        {
+                            if (spells[3].IsReady()) CastR(isPacketCasting);
+                            if (spells[1].IsReady()) spells[1].Cast(currTarget, isPacketCasting);
+                        }
+                        break;
+                    }
                 default:
-                {
-                    throw new IndexOutOfRangeException("The index for killsteal mode was outside the list's bounds.");
-                }
+                    {
+                        throw new IndexOutOfRangeException("The index for killsteal mode was outside the list's bounds.");
+                    }
             }
         }
 
@@ -140,9 +140,8 @@ using EloBuddy;
 
         private static void DoCombo()
         {
-            var currTarget = GetTarget(spells[2].IsReady() ? spells[2].Range : spells[1].Range);
+            var currTarget = GetTarget(spells[0].IsReady() ? spells[0].Range : spells[1].Range);
             if (currTarget == null) return;
-            //if (scriptConfig.Item("t_onlye").GetValue<bool>() && !currTarget.HasBuff("talonnoxiandiplomacybuff")) return;
             var isPacketCasting = scriptConfig.Item("t_castpackets").GetValue<bool>();
             CastSpells(currTarget, isPacketCasting);
         }
@@ -157,9 +156,6 @@ using EloBuddy;
 
         private static void CastSpells(AIHeroClient currTarget, bool isPacketCasting)
         {
-            if (scriptConfig.Item("t_usee").GetValue<bool>() && spells[2].IsReady() && ObjectManager.Player.Distance(currTarget) <= spells[2].Range)
-                spells[2].Cast(currTarget, isPacketCasting);
-
             if (scriptConfig.Item("t_items").GetValue<bool>())
                 CastItems(currTarget);
 
@@ -173,7 +169,7 @@ using EloBuddy;
             {
                 if (scriptConfig.Item("t_useifkillabler").GetValue<bool>())
                 {
-                    if (ObjectManager.Player.GetDamageSpell(currTarget, SpellSlot.R).CalculatedDamage*2 >=
+                    if (ObjectManager.Player.GetDamageSpell(currTarget, SpellSlot.R).CalculatedDamage * 2 >=
                         currTarget.Health)
                     {
                         CastR(isPacketCasting);
@@ -198,10 +194,8 @@ using EloBuddy;
 
             scriptConfig.AddSubMenu(new Menu("Combo", "Combo"));
             scriptConfig.SubMenu("Combo").AddItem(new MenuItem("t_usew", "Use W in combo").SetValue(true));
-            scriptConfig.SubMenu("Combo").AddItem(new MenuItem("t_usee", "Use E in combo").SetValue(true));
             scriptConfig.SubMenu("Combo").AddItem(new MenuItem("t_user", "Use R in combo").SetValue(true));
             scriptConfig.SubMenu("Combo").AddItem(new MenuItem("t_useifkillabler", "Use R only if killable").SetValue(true));
-            //scriptConfig.SubMenu("Combo").AddItem(new MenuItem("t_onlye", "Do combo only if enemy has E debuff").SetValue(false));
             scriptConfig.SubMenu("Combo").AddItem(new MenuItem("t_resetaa", "Reset AA using Q").SetValue(true));
 
             scriptConfig.AddSubMenu(new Menu("Killsteal", "Killsteal"));
@@ -210,7 +204,6 @@ using EloBuddy;
 
             scriptConfig.AddSubMenu(new Menu("Drawings", "Drawings"));
             scriptConfig.SubMenu("Drawings").AddItem(new MenuItem("t_draww", "Draw W range").SetValue(false));
-            scriptConfig.SubMenu("Drawings").AddItem(new MenuItem("t_drawe", "Draw E range").SetValue(false));
 
             scriptConfig.AddSubMenu(new Menu("Items", "Items"));
             scriptConfig.SubMenu("Items").AddItem(new MenuItem("t_items", "Use items").SetValue(true));

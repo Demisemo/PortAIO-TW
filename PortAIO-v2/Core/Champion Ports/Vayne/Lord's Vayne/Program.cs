@@ -91,76 +91,76 @@ namespace Lord_s_Vayne
                 if (Program.Player.ChampionName != ChampName) return;
                 Program.spellData = new Dictionary<string, SpellSlot>();
  
-                Program.menu = new Menu("Lord's-汎", "Lord's Vayne", true);
+                Program.menu = new Menu("Lord's Vayne", "Lord's Vayne", true);
             
-                Program.menu.AddSubMenu(new Menu("走砍", "Orbwalker"));
+                Program.menu.AddSubMenu(new Menu("Orbwalker", "Orbwalker"));
                 Program.orbwalker = new Orbwalking.Orbwalker(Program.menu.SubMenu("Orbwalker"));
              
-                var TargetSelectorMenu = new Menu("目標選擇器", "Target Selector");
+                var TargetSelectorMenu = new Menu("Target Selector", "Target Selector");
                 TargetSelector.AddToMenu(TargetSelectorMenu);
                
                 Program.menu.AddSubMenu(TargetSelectorMenu);
 
                 Program.menu.AddItem(
-                    new MenuItem("aaqaa", "自動 -> Q -> AA").SetValue(new KeyBind("X".ToCharArray()[0], KeyBindType.Press)));
+                    new MenuItem("aaqaa", "Auto -> Q -> AA").SetValue(new KeyBind("X".ToCharArray()[0], KeyBindType.Press)));
 
-                Program.qmenu = Program.menu.AddSubMenu(new Menu("翻滾", "Tumble"));
-                Program.qmenu.AddItem(new MenuItem("FastQ", "快速 Q").SetValue(true).SetValue(true).SetTooltip("Q Animation Cancelation"));
-                Program.qmenu.AddItem(new MenuItem("FastQs", "手動取消 Q 單擊").SetValue(true).SetValue(true).SetTooltip("Cancel Your Q when you manually cast it(Need to have \"Fast Q\" on too)")).Permashow(true, "Vayne | Vayne Manul Cancel", Color.Aqua); 
-                Program.qmenu.AddItem(new MenuItem("UseQC", "使用 Q 連招").SetValue(true));
-                Program.qmenu.AddItem(new MenuItem("QMode", "使用 Q 模式:", true).SetValue(new StringList(new[] { "Gosu", "Side", "Cursor", "SmartQ", "SafeQ", "AggroQ", "Burst", "Hiki"})));
+                Program.qmenu = Program.menu.AddSubMenu(new Menu("Tumble", "Tumble"));
+                Program.qmenu.AddItem(new MenuItem("FastQ", "Fast Q").SetValue(true).SetValue(true).SetTooltip("Q Animation Cancelation"));
+                Program.qmenu.AddItem(new MenuItem("FastQs", "Cancel Q on Manual Click").SetValue(true).SetValue(true).SetTooltip("Cancel Your Q when you manually cast it(Need to have \"Fast Q\" on too)")).Permashow(true, "Vayne | Vayne Manul Cancel", Color.Aqua); 
+                Program.qmenu.AddItem(new MenuItem("UseQC", "Use Q Combo").SetValue(true));
+                Program.qmenu.AddItem(new MenuItem("QMode", "Use Q Mode:", true).SetValue(new StringList(new[] { "Gosu", "Side", "Cursor", "SmartQ", "SafeQ", "AggroQ", "Burst", "Hiki"})));
             /*if (Program.qmenu.Item("QMode", true).GetValue<StringList>().SelectedIndex == 8)
             {
                 Program.qmenu.AddItem(new MenuItem("QOrderBy", "Q to position").SetValue(new StringList(new[] { "CLOSETOMOUSE", "CLOSETOTARGET" })));
             }*/
             if (Program.qmenu.Item("QMode", true).GetValue<StringList>().SelectedIndex == 8)
             {
-                Program.qmenu.AddItem(new MenuItem("smartq", "使用智能 Q").SetValue(true));
+                Program.qmenu.AddItem(new MenuItem("smartq", "Use Smart Q").SetValue(true));
                 Program.qmenu.AddItem(new MenuItem("qspam", "Ignore Checks AKA Spam Q").SetValue(true));
                 
             }
-                Program.qmenu.AddItem(new MenuItem("hq", "使用 Q 騷擾").SetValue(true));
-                Program.qmenu.AddItem(new MenuItem("restrictq", "限制使用Q次數?").SetValue(true));
-                Program.qmenu.AddItem(new MenuItem("UseQJ", "使用 Q 農兵").SetValue(true));                           
-                Program.qmenu.AddItem(new MenuItem("Junglemana", "多少x小兵數量使用Q").SetValue(new Slider(60, 1, 100)));
-                Program.qmenu.AddItem(new MenuItem("AntiMQ", "使用防突進 [Q]").SetValue(true));             
-                Program.qmenu.AddItem(new MenuItem("FocusTwoW", "疊2次數 W ").SetValue(true));
+                Program.qmenu.AddItem(new MenuItem("hq", "Use Q Harass").SetValue(true));
+                Program.qmenu.AddItem(new MenuItem("restrictq", "Restrict Q usage?").SetValue(true));
+                Program.qmenu.AddItem(new MenuItem("UseQJ", "Use Q Farm").SetValue(true));                           
+                Program.qmenu.AddItem(new MenuItem("Junglemana", "Minimum Mana to Use Q Farm").SetValue(new Slider(60, 1, 100)));
+                Program.qmenu.AddItem(new MenuItem("AntiMQ", "Use Anti - Melee [Q]").SetValue(true));             
+                Program.qmenu.AddItem(new MenuItem("FocusTwoW", "Focus 2 W Stacks").SetValue(true));
                 //qmenu.AddItem(new MenuItem("DrawQ", "Draw Q Arrow").SetValue(true));
 
 
-                Program.emenu = Program.menu.AddSubMenu(new Menu("E閃設置", "Condemn"));
-                Program.emenu.AddItem(new MenuItem("UseEC", "使用 E 連招").SetValue(true));
-                Program.emenu.AddItem(new MenuItem("he", "使用 E 騷擾").SetValue(true));
-                Program.emenu.AddItem(new MenuItem("UseCF", "使用 E閃現").SetValue(new KeyBind("U".ToCharArray()[0], KeyBindType.Press)));
-                Program.emenu.AddItem(new MenuItem("UseCFA", "使用 E閃現 (開/關)").SetValue(new KeyBind("O".ToCharArray()[0], KeyBindType.Toggle)).SetTooltip("Auto Flash Condemn when you have % HP")).Permashow(true, "Vayne | Auto Flash Condemn", Color.Aqua);
-                Program.emenu.AddItem(new MenuItem("UseCFHP", "使用 E閃現血量低於%").SetValue(new Slider(25))); 
-                Program.emenu.AddItem(new MenuItem("UseET", "使用 E (開/關)").SetValue(new KeyBind("T".ToCharArray()[0], KeyBindType.Toggle)));
-                Program.emenu.AddItem(new MenuItem("zzrot", "[測試] ZZrotE閃現").SetValue(new KeyBind("I".ToCharArray()[0], KeyBindType.Toggle))).Permashow(true, "Vayne | ZZRot Toggle", Color.Aqua);
+                Program.emenu = Program.menu.AddSubMenu(new Menu("Condemn", "Condemn"));
+                Program.emenu.AddItem(new MenuItem("UseEC", "Use E Combo").SetValue(true));
+                Program.emenu.AddItem(new MenuItem("he", "Use E Harass").SetValue(true));
+                Program.emenu.AddItem(new MenuItem("UseCF", "Use Flash Condemn").SetValue(new KeyBind("U".ToCharArray()[0], KeyBindType.Press)));
+                Program.emenu.AddItem(new MenuItem("UseCFA", "Use Flash Condemn (Toggle)").SetValue(new KeyBind("O".ToCharArray()[0], KeyBindType.Toggle)).SetTooltip("Auto Flash Condemn when you have % HP")).Permashow(true, "Vayne | Auto Flash Condemn", Color.Aqua);
+                Program.emenu.AddItem(new MenuItem("UseCFHP", "Use Flash Condemn if % HP").SetValue(new Slider(25))); 
+                Program.emenu.AddItem(new MenuItem("UseET", "Use E (Toggle)").SetValue(new KeyBind("T".ToCharArray()[0], KeyBindType.Toggle)));
+                Program.emenu.AddItem(new MenuItem("zzrot", "[Beta] ZZrot Condemn").SetValue(new KeyBind("I".ToCharArray()[0], KeyBindType.Toggle))).Permashow(true, "Vayne | ZZRot Toggle", Color.Aqua);
                 // emenu.AddItem(new MenuItem("FlashE", "Flash E").SetValue(true).SetValue(new KeyBind("Y".ToCharArray()[0], KeyBindType.Press)));
 
 
                 //emenu.AddItem(new MenuItem("Gap_E", "Use E To Gabcloser").SetValue(true));
                 // emenu.AddItem(new MenuItem("GapD", "Anti GapCloser Delay").SetValue(new Slider(0, 0, 1000)).SetTooltip("Sets a delay before the Condemn for Antigapcloser is casted."));
-                Program.emenu.AddItem(new MenuItem("EMode", "使用 E 模式:", true).SetValue(new StringList(new[] { "Lord's", "Gosu", "Flowers", "VHR", "Marksman", "Sharpshooter", "OKTW", "Shine", "PRADASMART", "PRADAPERFECT", "OLDPRADA", "PRADALEGACY" })));
-                Program.emenu.AddItem(new MenuItem("PushDistance", "E 推的距離").SetValue(new Slider(415, 475, 300)));
-                Program.emenu.AddItem(new MenuItem("EHitchance", "E 命中率").SetValue(new Slider(50, 1, 100)).SetTooltip("只用於Prada Condemn方法"));
-                Program.emenu.AddItem(new MenuItem("UseEaa", "自動使用 E ").SetValue(new KeyBind("M".ToCharArray()[0], KeyBindType.Press)));
+                Program.emenu.AddItem(new MenuItem("EMode", "Use E Mode:", true).SetValue(new StringList(new[] { "Lord's", "Gosu", "Flowers", "VHR", "Marksman", "Sharpshooter", "OKTW", "Shine", "PRADASMART", "PRADAPERFECT", "OLDPRADA", "PRADALEGACY" })));
+                Program.emenu.AddItem(new MenuItem("PushDistance", "E Push Distance").SetValue(new Slider(415, 475, 300)));
+                Program.emenu.AddItem(new MenuItem("EHitchance", "E Hitchance").SetValue(new Slider(50, 1, 100)).SetTooltip("Only use this for Prada Condemn Methods"));
+                Program.emenu.AddItem(new MenuItem("UseEaa", "Use E after auto").SetValue(new KeyBind("M".ToCharArray()[0], KeyBindType.Press)));
 
 
-                Program.rmenu = Program.menu.AddSubMenu(new Menu("大招", "Ult"));
-                Program.rmenu.AddItem(new MenuItem("visibleR", "智能使用 R").SetValue(true).SetTooltip("Wether you want to set a delay to stay in R before you Q"));
-                Program.rmenu.AddItem(new MenuItem("Qtime", "等待時間").SetValue(new Slider(700, 0, 1000)));
+                Program.rmenu = Program.menu.AddSubMenu(new Menu("Ult", "Ult"));
+                Program.rmenu.AddItem(new MenuItem("visibleR", "Smart Invisible R").SetValue(true).SetTooltip("Wether you want to set a delay to stay in R before you Q"));
+                Program.rmenu.AddItem(new MenuItem("Qtime", "Duration to wait").SetValue(new Slider(700, 0, 1000)));
 
-                Program.imenu = Program.menu.AddSubMenu(new Menu("中斷技能設置", "Interrupt Settings"));
-                Program.imenu.AddItem(new MenuItem("Int_E", "使用E中斷技能").SetValue(true));
-                Program.imenu.AddItem(new MenuItem("Interrupt", "中斷技能危險技能", true).SetValue(true));
-                Program.imenu.AddItem(new MenuItem("AntiAlistar", "中斷技能亞歷斯塔 W", true).SetValue(true));
-                Program.imenu.AddItem(new MenuItem("AntiRengar", "中斷技能雷葛爾 跳", true).SetValue(true));
-                Program.imenu.AddItem(new MenuItem("AntiKhazix", "中斷技能卡力斯 R", true).SetValue(true));
-                Program.imenu.AddItem(new MenuItem("AntiKhazix", "中斷技能卡力斯 R", true).SetValue(true));
+                Program.imenu = Program.menu.AddSubMenu(new Menu("Interrupt Settings", "Interrupt Settings"));
+                Program.imenu.AddItem(new MenuItem("Int_E", "Use E To Interrupt").SetValue(true));
+                Program.imenu.AddItem(new MenuItem("Interrupt", "Interrupt Danger Spells", true).SetValue(true));
+                Program.imenu.AddItem(new MenuItem("AntiAlistar", "Interrupt Alistar W", true).SetValue(true));
+                Program.imenu.AddItem(new MenuItem("AntiRengar", "Interrupt Rengar Jump", true).SetValue(true));
+                Program.imenu.AddItem(new MenuItem("AntiKhazix", "Interrupt Khazix R", true).SetValue(true));
+                Program.imenu.AddItem(new MenuItem("AntiKhazix", "Interrupt Khazix R", true).SetValue(true));
 
 
-                Program.gmenu = Program.menu.AddSubMenu(new Menu("防突進", "Gap Closer"));
+                Program.gmenu = Program.menu.AddSubMenu(new Menu("Gap Closer", "Gap Closer"));
                 Program.gmenu.AddItem(new MenuItem("Gapcloser", "Anti Gapcloser", true).SetValue(false));
                 foreach (var target in HeroManager.Enemies)
                 {
@@ -171,8 +171,8 @@ namespace Lord_s_Vayne
 
 
                 
-                Program.menu.AddItem(new MenuItem("useR", "連招時使用R").SetValue(false));
-                Program.menu.AddItem(new MenuItem("enemys", "當敵人數量 >=").SetValue(new Slider(2, 1, 5)));
+                Program.menu.AddItem(new MenuItem("useR", "Use R Combo").SetValue(false));
+                Program.menu.AddItem(new MenuItem("enemys", "If Enemys Around >=").SetValue(new Slider(2, 1, 5)));
 
 
 

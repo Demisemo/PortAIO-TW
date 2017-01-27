@@ -34,15 +34,13 @@ namespace ExorAIO.Champions.Warwick
             }
 
             /// <summary>
-            ///     The W Combo Logic.
+            ///     The E Combo Logic.
             /// </summary>
-            if (Vars.W.IsReady() && GameObjects.Player.Spellbook.IsAutoAttacking
-                && Vars.Menu["spells"]["w"]["combo"].GetValue<MenuBool>().Value)
+            if (Vars.E.IsReady() && Vars.Menu["spells"]["e"]["combo"].GetValue<MenuBool>().Value)
             {
-                if (!Vars.Menu["miscellaneous"]["keeprmana"]
-                    || GameObjects.Player.Mana > Vars.W.Instance.SData.Mana + Vars.R.Instance.SData.Mana)
+                if (!Vars.Menu["miscellaneous"]["keeprmana"] || GameObjects.Player.Mana > Vars.E.Instance.SData.Mana + Vars.R.Instance.SData.Mana)
                 {
-                    Vars.W.Cast();
+                    Vars.E.Cast();
                 }
             }
 
@@ -79,7 +77,7 @@ namespace ExorAIO.Champions.Warwick
                         && Vars.Menu["spells"]["r"]["combo"].GetValue<MenuBool>().Value
                         && Vars.Menu["spells"]["r"]["whitelist"][t.ChampionName.ToLower()].GetValue<MenuBool>().Value))
                 {
-                    Vars.R.CastOnUnit(target);
+                    Vars.R.Cast(Vars.R.GetPrediction(target).CastPosition);
                 }
             }
         }

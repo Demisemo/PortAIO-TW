@@ -87,20 +87,20 @@ namespace UniversalGankAlerter
         {
             _previewCircle = new PreviewCircle();
 
-            _menu = new Menu("警告打野出現", "universalgankalerter", true);
-            _sliderRadius = new MenuItem("range", "觸發範圍").SetValue(new Slider(3000, 500, 5000));
+            _menu = new Menu("Universal GankAlerter", "universalgankalerter", true);
+            _sliderRadius = new MenuItem("range", "Trigger range").SetValue(new Slider(3000, 500, 5000));
             _sliderRadius.ValueChanged += SliderRadiusValueChanged;
-            _sliderCooldown = new MenuItem("cooldown", "觸發冷卻時間 (秒)").SetValue(new Slider(10, 0, 60));
-            _sliderLineDuration = new MenuItem("lineduration", "線路持續時間 (秒)").SetValue(new Slider(10, 0, 20));
-            _enemyJunglerOnly = new MenuItem("jungleronly", "只警告打野").SetValue(false);
-            _allyJunglerOnly = new MenuItem("allyjungleronly", "只警告打野").SetValue(true);
-            _showChampionNames = new MenuItem("shownames", "顯示英雄名稱").SetValue(true);
-            _drawMinimapLines = new MenuItem("drawminimaplines", "顯示小地圖路線").SetValue(false);
-            _dangerPing = new MenuItem("dangerping", "顯示Ping (本地)").SetValue(false);
-            _enemies = new Menu("敵人", "enemies");
+            _sliderCooldown = new MenuItem("cooldown", "Trigger cooldown (sec)").SetValue(new Slider(10, 0, 60));
+            _sliderLineDuration = new MenuItem("lineduration", "Line duration (sec)").SetValue(new Slider(10, 0, 20));
+            _enemyJunglerOnly = new MenuItem("jungleronly", "Warn jungler only (smite)").SetValue(false);
+            _allyJunglerOnly = new MenuItem("allyjungleronly", "Warn jungler only (smite)").SetValue(true);
+            _showChampionNames = new MenuItem("shownames", "Show champion name").SetValue(true);
+            _drawMinimapLines = new MenuItem("drawminimaplines", "Draw minimap lines").SetValue(false);
+            _dangerPing = new MenuItem("dangerping", "Danger Ping (local)").SetValue(false);
+            _enemies = new Menu("Enemies", "enemies");
             _enemies.AddItem(_enemyJunglerOnly);
 
-            _allies = new Menu("隊友", "allies");
+            _allies = new Menu("Allies", "allies");
             _allies.AddItem(_allyJunglerOnly);
 
             _menu.AddItem(_sliderRadius);
@@ -245,7 +245,7 @@ namespace UniversalGankAlerter
                     float dist = _hero.Distance(ObjectManager.Player.Position);
                     return Program.Instance().ShowChampionNames && !_hero.IsDead &&
                            Game.Time - _lineStart < Program.Instance().LineDuration &&
-                           (!_hero.IsVisible || !Render.OnScreen(Drawing.WorldToScreen(_hero.Position))) &&
+                           (!_hero.IsHPBarRendered || !Render.OnScreen(Drawing.WorldToScreen(_hero.Position))) &&
                            dist < Program.Instance().Radius && dist > 300 + textoffset;
                 },
                 Centered = true,
@@ -328,7 +328,7 @@ namespace UniversalGankAlerter
                 }
             }
 
-            if (newDistance < Program.Instance().Radius && _hero.IsVisible)
+            if (newDistance < Program.Instance().Radius && _hero.IsHPBarRendered)
             {
                 if (_distance >= Program.Instance().Radius || !_visible)
                 {
@@ -343,7 +343,7 @@ namespace UniversalGankAlerter
                 }
             }
             _distance = newDistance;
-            _visible = _hero.IsVisible;
+            _visible = _hero.IsHPBarRendered;
         }
 
         private bool IsJungler(AIHeroClient hero)

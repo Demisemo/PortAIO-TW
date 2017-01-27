@@ -531,119 +531,119 @@ namespace KurisuRiven
         #region Riven: Menu
         private static void OnMenuLoad()
         {
-            menu = new Menu("Kurisu-雷玟", "kurisuriven", true);
+            menu = new Menu("Kurisu's Riven", "kurisuriven", true);
 
-            var orbwalkah = new Menu("走砍", "rorb");
+            var orbwalkah = new Menu("Orbwalk", "rorb");
             orbwalker = new Orbwalking.Orbwalker(orbwalkah);
             menu.AddSubMenu(orbwalkah);
 
-            var keybinds = new Menu("熱鍵", "keybinds");
-            keybinds.AddItem(new MenuItem("combokey", "連招")).SetValue(new KeyBind(32, KeyBindType.Press));
-            keybinds.AddItem(new MenuItem("harasskey", "騷擾")).SetValue(new KeyBind(67, KeyBindType.Press));
-            keybinds.AddItem(new MenuItem("clearkey", "清野/清線")).SetValue(new KeyBind(86, KeyBindType.Press));
-            keybinds.AddItem(new MenuItem("fleekey", "逃跑")).SetValue(new KeyBind(65, KeyBindType.Press));
-            keybinds.AddItem(new MenuItem("shycombo", "爆發連招")).SetValue(new KeyBind('T', KeyBindType.Press));
-            keybinds.AddItem(new MenuItem("semiq", "自動 Q 騷擾/清野")).SetValue(true);
+            var keybinds = new Menu("Keybinds", "keybinds");
+            keybinds.AddItem(new MenuItem("combokey", "Combo")).SetValue(new KeyBind(32, KeyBindType.Press));
+            keybinds.AddItem(new MenuItem("harasskey", "Harass")).SetValue(new KeyBind(67, KeyBindType.Press));
+            keybinds.AddItem(new MenuItem("clearkey", "Jungle/Laneclear")).SetValue(new KeyBind(86, KeyBindType.Press));
+            keybinds.AddItem(new MenuItem("fleekey", "Flee")).SetValue(new KeyBind(65, KeyBindType.Press));
+            keybinds.AddItem(new MenuItem("shycombo", "Burst Combo")).SetValue(new KeyBind('T', KeyBindType.Press));
+            keybinds.AddItem(new MenuItem("semiq", "Auto Q Harass/Jungle")).SetValue(true);
             menu.AddSubMenu(keybinds);
 
-            var drMenu = new Menu("顯示", "drawings");
-            drMenu.AddItem(new MenuItem("linewidth", "線寬")).SetValue(new Slider(1, 1, 6));
-            drMenu.AddItem(new MenuItem("drawengage", "顯示參與範圍")).SetValue(new Circle(true, Color.FromArgb(150, Color.White)));
-            drMenu.AddItem(new MenuItem("drawr2", "顯示 R2 範圍")).SetValue(new Circle(true, Color.FromArgb(150, Color.White)));
-            drMenu.AddItem(new MenuItem("drawburst", "顯示爆發連招範圍")).SetValue(new Circle(true, Color.FromArgb(150, Color.LawnGreen)));
-            drMenu.AddItem(new MenuItem("drawf", "顯示目標")).SetValue(new Circle(true, Color.FromArgb(255, Color.GreenYellow)));
-            drMenu.AddItem(new MenuItem("drawdmg", "顯示連招傷害")).SetValue(true);
+            var drMenu = new Menu("Drawings", "drawings");
+            drMenu.AddItem(new MenuItem("linewidth", "Line Width")).SetValue(new Slider(1, 1, 6));
+            drMenu.AddItem(new MenuItem("drawengage", "Draw Engage Range")).SetValue(new Circle(true, Color.FromArgb(150, Color.White)));
+            drMenu.AddItem(new MenuItem("drawr2", "Draw R2 Range")).SetValue(new Circle(true, Color.FromArgb(150, Color.White)));
+            drMenu.AddItem(new MenuItem("drawburst", "Draw Burst Range")).SetValue(new Circle(true, Color.FromArgb(150, Color.LawnGreen)));
+            drMenu.AddItem(new MenuItem("drawf", "Draw Target")).SetValue(new Circle(true, Color.FromArgb(255, Color.GreenYellow)));
+            drMenu.AddItem(new MenuItem("drawdmg", "Draw Combo Damage Fill")).SetValue(true);
             menu.AddSubMenu(drMenu);
 
-            var combo = new Menu("連招", "combo");
+            var combo = new Menu("Combo", "combo");
 
-            var qmenu = new Menu("Q  設置", "rivenq");
-            qmenu.AddItem(new MenuItem("wq3", "騷擾 + Q3 (回返)")).SetValue(true);
-            qmenu.AddItem(new MenuItem("qint", "中斷技能使用 Q3")).SetValue(true);
-            qmenu.AddItem(new MenuItem("keepq", "使用 Q 技能最後時間")).SetValue(true);
-            qmenu.AddItem(new MenuItem("usegap", "防突進時使用 Q")).SetValue(true);
-            qmenu.AddItem(new MenuItem("gaptimez", "防突進 Q 延遲(ms)")).SetValue(new Slider(115, 0, 200));
-            qmenu.AddItem(new MenuItem("safeq", "使用Q當多個敵人")).SetValue(false);
+            var qmenu = new Menu("Q  Settings", "rivenq");
+            qmenu.AddItem(new MenuItem("wq3", "Ward + Q3 (Flee)")).SetValue(true);
+            qmenu.AddItem(new MenuItem("qint", "Interrupt with 3rd Q")).SetValue(true);
+            qmenu.AddItem(new MenuItem("keepq", "Use Q Before Expiry")).SetValue(true);
+            qmenu.AddItem(new MenuItem("usegap", "Gapclose with Q")).SetValue(true);
+            qmenu.AddItem(new MenuItem("gaptimez", "Gapclose Q Delay (ms)")).SetValue(new Slider(115, 0, 200));
+            qmenu.AddItem(new MenuItem("safeq", "Block Q into multiple Enemies")).SetValue(false);
 
             combo.AddSubMenu(qmenu);
 
-            var wmenu = new Menu("W 設置", "rivenw");
-            var newmenu = new Menu("需要目標", "req").SetFontStyle(FontStyle.Regular, SharpDX.Color.LawnGreen);
+            var wmenu = new Menu("W Settings", "rivenw");
+            var newmenu = new Menu("Required Targets", "req").SetFontStyle(FontStyle.Regular, SharpDX.Color.LawnGreen);
             foreach (var hero in HeroManager.Enemies)
                 newmenu.AddItem(new MenuItem("w" + hero.ChampionName, hero.ChampionName))
-                    .SetValue(false).SetTooltip("只有W，如果它會打 " + hero.ChampionName).DontSave();
+                    .SetValue(false).SetTooltip("Only W if it will hit " + hero.ChampionName).DontSave();
             wmenu.AddSubMenu(newmenu);
 
-            wmenu.AddItem(new MenuItem("usecombow", "使用連招 W ")).SetValue(true);
-            wmenu.AddItem(new MenuItem("wint", "使用中斷技能")).SetValue(true);
-            wmenu.AddItem(new MenuItem("wgap", "使用防突進")).SetValue(true);
+            wmenu.AddItem(new MenuItem("usecombow", "Use W in Combo")).SetValue(true);
+            wmenu.AddItem(new MenuItem("wint", "Use on Interrupt")).SetValue(true);
+            wmenu.AddItem(new MenuItem("wgap", "Use on Gapcloser")).SetValue(true);
             combo.AddSubMenu(wmenu);
 
-            var emenu = new Menu("E  設置", "rivene");
+            var emenu = new Menu("E  Settings", "rivene");
 
-            emenu.AddItem(new MenuItem("usecomboe", "使用連招 E ")).SetValue(true);
-            emenu.AddItem(new MenuItem("vhealth", "血量低於%使用 E <=")).SetValue(new Slider(60));
-            emenu.AddItem(new MenuItem("safee", "多數敵人使用E")).SetValue(true);
+            emenu.AddItem(new MenuItem("usecomboe", "Use E in Combo")).SetValue(true);
+            emenu.AddItem(new MenuItem("vhealth", "Use E if HP% <=")).SetValue(new Slider(60));
+            emenu.AddItem(new MenuItem("safee", "Block E into multiple Enemies")).SetValue(true);
             combo.AddSubMenu(emenu);
 
-            var rmenu = new Menu("R1 設置", "rivenr");
-            rmenu.AddItem(new MenuItem("useignote", "連招時使用點燃")).SetValue(true);
-            rmenu.AddItem(new MenuItem("user", "連招時使用R1")).SetValue(new KeyBind('H', KeyBindType.Toggle, true)).Permashow();
-            rmenu.AddItem(new MenuItem("ultwhen", "使用 R1")).SetValue(new StringList(new[] { "Normal Kill", "Hard Kill", "Always" }, 2));
-            rmenu.AddItem(new MenuItem("overk", "當敵人血量 % 不使用R1 <=")).SetValue(new Slider(25, 1, 99));
-            rmenu.AddItem(new MenuItem("userq", "當使用 Q 計算 <=")).SetValue(new Slider(2, 1, 3));
-            rmenu.AddItem(new MenuItem("multib", "爆發連招模式")).SetValue(new StringList(new[] { "計算傷害", "總是" }, 1));
-            rmenu.AddItem(new MenuItem("flashb", "-> 閃現爆發連招")).SetValue(true).SetFontStyle(FontStyle.Regular, SharpDX.Color.LawnGreen);
+            var rmenu = new Menu("R1 Settings", "rivenr");
+            rmenu.AddItem(new MenuItem("useignote", "Combo with Ignite")).SetValue(true);
+            rmenu.AddItem(new MenuItem("user", "Use R1 in Combo")).SetValue(new KeyBind('H', KeyBindType.Toggle, true)).Permashow();
+            rmenu.AddItem(new MenuItem("ultwhen", "Use R1 when")).SetValue(new StringList(new[] { "Normal Kill", "Hard Kill", "Always" }, 2));
+            rmenu.AddItem(new MenuItem("overk", "Dont R1 if target HP % <=")).SetValue(new Slider(25, 1, 99));
+            rmenu.AddItem(new MenuItem("userq", "Use only if Q Count <=")).SetValue(new Slider(2, 1, 3));
+            rmenu.AddItem(new MenuItem("multib", "Burst when")).SetValue(new StringList(new[] { "Damage Check", "Always" }, 1));
+            rmenu.AddItem(new MenuItem("flashb", "-> Flash in Burst")).SetValue(true).SetFontStyle(FontStyle.Regular, SharpDX.Color.LawnGreen);
             //rmenu.AddItem(new MenuItem("flashc", "-> Flash in Combo")).SetValue(false).SetFontStyle(FontStyle.Regular, SharpDX.Color.LawnGreen);
 
             combo.AddSubMenu(rmenu);
 
-            var r2menu = new Menu("R2 設置", "rivenr2");
-            var newmenu2 = new Menu("需要目標", "req2").SetFontStyle(FontStyle.Regular, SharpDX.Color.LawnGreen);
+            var r2menu = new Menu("R2 Settings", "rivenr2");
+            var newmenu2 = new Menu("Required Targets", "req2").SetFontStyle(FontStyle.Regular, SharpDX.Color.LawnGreen);
             foreach (var hero in HeroManager.Enemies)
                 newmenu2.AddItem(new MenuItem("r" + hero.ChampionName, hero.ChampionName))
-                    .SetValue(false).SetTooltip("當 R2 是否會擊中" + hero.ChampionName).DontSave();
+                    .SetValue(false).SetTooltip("Only R2 if it will hit " + hero.ChampionName).DontSave();
             r2menu.AddSubMenu(newmenu2);
 
-            r2menu.AddItem(new MenuItem("usews", "使用連招 R2")).SetValue(true);
-            r2menu.AddItem(new MenuItem("rhitc", "-> 命中率"))
-                .SetValue(new StringList(new[] { "中", "高", "非常高" }, 2));
-            r2menu.AddItem(new MenuItem("saver", "智能保留 R2")).SetValue(false);
-            r2menu.AddItem(new MenuItem("wsmode", "使用 R2 模式")).SetValue(new StringList(new[] { "可擊殺時", "最大傷害" }, 1));
-            r2menu.AddItem(new MenuItem("keepr", "使用 R2 技能最後時間")).SetValue(true);
+            r2menu.AddItem(new MenuItem("usews", "Use R2 in Combo")).SetValue(true);
+            r2menu.AddItem(new MenuItem("rhitc", "-> Hitchance"))
+                .SetValue(new StringList(new[] { "Medium", "High", "Very High" }, 2));
+            r2menu.AddItem(new MenuItem("saver", "Smart Save R2")).SetValue(false);
+            r2menu.AddItem(new MenuItem("wsmode", "Use R2 when")).SetValue(new StringList(new[] { "Kill Only", "Max Damage" }, 1));
+            r2menu.AddItem(new MenuItem("keepr", "Use R2 Before Expiry")).SetValue(true);
             combo.AddSubMenu(r2menu);
 
             menu.AddSubMenu(combo);
 
-            var harass = new Menu("騷擾", "harass");
-            harass.AddItem(new MenuItem("useharassw", "使用W")).SetValue(true);
-            harass.AddItem(new MenuItem("usegaph", "使用E")).SetValue(true);
-            harass.AddItem(new MenuItem("qtoo", "使用騷擾時E回返: "))
-                .SetValue(new StringList(new[] {"遠離目標", "回自身塔方向", "鼠標位置"}, 1));
-            harass.AddItem(new MenuItem("useitemh", "使用 九頭蛇/海神斧")).SetValue(true);
+            var harass = new Menu("Harass", "harass");
+            harass.AddItem(new MenuItem("useharassw", "Use W in Harass")).SetValue(true);
+            harass.AddItem(new MenuItem("usegaph", "Use E in Harass")).SetValue(true);
+            harass.AddItem(new MenuItem("qtoo", "Use Escape/Flee: "))
+                .SetValue(new StringList(new[] {"Away from Target", "To Ally Turret", "To Cursor"}, 1));
+            harass.AddItem(new MenuItem("useitemh", "Use Tiamat/Hydra")).SetValue(true);
             menu.AddSubMenu(harass);
 
-            var farming = new Menu("農兵", "farming");
+            var farming = new Menu("Farm", "farming");
 
-            var wc = new Menu("清野", "waveclear");
-            wc.AddItem(new MenuItem("usejungleq", "使用Q")).SetValue(true);
-            wc.AddItem(new MenuItem("usejunglew", "使用W")).SetValue(true);
-            wc.AddItem(new MenuItem("usejunglee", "使用E")).SetValue(true);
+            var wc = new Menu("Jungle", "waveclear");
+            wc.AddItem(new MenuItem("usejungleq", "Use Q in Jungle")).SetValue(true);
+            wc.AddItem(new MenuItem("usejunglew", "Use W in Jungle")).SetValue(true);
+            wc.AddItem(new MenuItem("usejunglee", "Use E in Jungle")).SetValue(true);
             farming.AddSubMenu(wc);
 
-            var jg = new Menu("清線", "jungle");
-            jg.AddItem(new MenuItem("clearnearenemy", "當敵人時不要清線")).SetValue(false);
-            jg.AddItem(new MenuItem("uselaneq", "使用Q")).SetValue(true);
-            jg.AddItem(new MenuItem("uselanew", "使用W")).SetValue(true);
-            jg.AddItem(new MenuItem("wminion", "使用 W 小兵數量")).SetValue(new Slider(3, 1, 6));
-            jg.AddItem(new MenuItem("usewlaneaa", "使用W當不可殺的小兵")).SetValue(true);
-            jg.AddItem(new MenuItem("uselanee", "使用E")).SetValue(true);
+            var jg = new Menu("WaveClear", "jungle");
+            jg.AddItem(new MenuItem("clearnearenemy", "Dont Clear Near Enemy")).SetValue(false);
+            jg.AddItem(new MenuItem("uselaneq", "Use Q in WaveClear")).SetValue(true);
+            jg.AddItem(new MenuItem("uselanew", "Use W in WaveClear")).SetValue(true);
+            jg.AddItem(new MenuItem("wminion", "Use W in WaveClear Minions >=")).SetValue(new Slider(3, 1, 6));
+            jg.AddItem(new MenuItem("usewlaneaa", "Use W on Unkillable Minion")).SetValue(true);
+            jg.AddItem(new MenuItem("uselanee", "Use E in WaveClear")).SetValue(true);
             farming.AddSubMenu(jg);
 
             menu.AddSubMenu(farming);
 
-            var skmenu = new Menu("造型設置", "skmenu");
-            var skinitem = new MenuItem("useskin", "啟用");
+            var skmenu = new Menu("El Skins", "skmenu");
+            var skinitem = new MenuItem("useskin", "Enabled");
             skmenu.AddItem(skinitem).SetValue(false);
 
             skinitem.ValueChanged += (sender, eventArgs) =>
@@ -654,7 +654,7 @@ namespace KurisuRiven
                 }
             };
 
-            skmenu.AddItem(new MenuItem("skinid", "造型編號:")).SetValue(new Slider(8, 0, 12));
+            skmenu.AddItem(new MenuItem("skinid", "Skin Id")).SetValue(new Slider(8, 0, 12));
             menu.AddSubMenu(skmenu);
 
             menu.AddToMainMenu();

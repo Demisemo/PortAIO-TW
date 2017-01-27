@@ -21,6 +21,8 @@ using EloBuddy;
             MenuLocal = new Menu("Perma Active", "Perma");
             {
                 MenuLocal.AddItem(new MenuItem("Perma.Q", "Q:").SetValue(true)).SetFontStyle(FontStyle.Regular, PlayerSpells.Q.MenuColor());
+                MenuLocal.AddItem(new MenuItem("Perma.E", "E:").SetValue(true)).SetFontStyle(FontStyle.Regular, PlayerSpells.E.MenuColor());
+                MenuLocal.AddItem(new MenuItem("Perma.E.HP", "Min. E HP %:").SetValue(new Slider(20, 100, 0))).SetFontStyle(FontStyle.Regular, PlayerSpells.E.MenuColor());
                 MenuLocal.AddItem(new MenuItem("Perma.Ignite", "Ignite: Killable Enemy:").SetValue(new StringList(new []{ "Off", "Combo Mode", "Everytime" }, 2))).SetFontStyle(FontStyle.Regular, PlayerSpells.W.MenuColor());
                 MenuLocal.AddItem(new MenuItem("Perma.Smite", "Smite: Killable Enemy:").SetValue(new StringList(new[] { "Off", "Combo Mode", "Everytime" }, 2))).SetFontStyle(FontStyle.Regular, PlayerSpells.W.MenuColor());
             }
@@ -31,6 +33,17 @@ using EloBuddy;
 
         private static void GameOnOnUpdate(EventArgs args)
         {
+            #region Spell: E
+            if (MenuLocal.Item("Perma.E").GetValue<bool>() && Modes.ModeConfig.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
+            {
+                var oEnemy = HeroManager.Enemies.FirstOrDefault(e => e.IsValidTarget(500));
+                if (oEnemy != null && ObjectManager.Player.HealthPercent < MenuLocal.Item("Perma.E.HP").GetValue<int>())
+                {
+                    PlayerSpells.Cast.E();
+                }
+            }
+            #endregion Spell: Q
+
             #region Spell: Q
             if (MenuLocal.Item("Perma.Q").GetValue<bool>() && Modes.ModeConfig.Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
             {

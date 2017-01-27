@@ -45,10 +45,12 @@ using EloBuddy;
 
         public static void Init()
         {
-            Q = new Spell(SpellSlot.Q, 400f);
-            W = new Spell(SpellSlot.W, 1250f);
-            E = new Spell(SpellSlot.E, 1750);
-            R = new Spell(SpellSlot.R, 700f);
+            Q = new Spell(SpellSlot.Q, 350f);
+            W = new Spell(SpellSlot.W, 4000f);
+            E = new Spell(SpellSlot.E, 375);
+            R = new Spell(SpellSlot.R, 335f); // Warwick's Starting MveSpd
+
+            R.SetSkillshot(0.25f, 90f, 2200f, false, SkillshotType.SkillshotLine);
 
             SpellList.AddRange(new[] { Q, W, E, R });
 
@@ -121,24 +123,12 @@ using EloBuddy;
                 }
             }
 
-            public static void W()
+            public static void E()
             {
-                if (!PlayerSpells.W.IsReady())
+                if (!PlayerSpells.E.IsReady())
                     return;
 
-                PlayerSpells.W.Cast();
-            }
-
-            public static void W(Obj_AI_Base oBase)
-            {
-                if (!PlayerSpells.W.IsReady())
-                    return;
-
-                if (ModeConfig.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
-                {
-                    if (oBase.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + 65))
-                        PlayerSpells.W.CastOnUnit(ObjectManager.Player);
-                }
+                PlayerSpells.E.Cast();
             }
 
             public static void Ignite(AIHeroClient oHero)
@@ -231,6 +221,7 @@ using EloBuddy;
 
         private static void GameOnOnUpdate(EventArgs args)
         {
+            R.Range = ObjectManager.Player.MoveSpeed * 2.5f;
         }
     }
 }

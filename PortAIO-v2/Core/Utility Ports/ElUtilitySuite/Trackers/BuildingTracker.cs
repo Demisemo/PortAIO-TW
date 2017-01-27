@@ -50,15 +50,15 @@ namespace ElUtilitySuite.Trackers
         {
             var predicate = new Func<Menu, bool>(x => x.Name == "Trackers");
             var menu = !rootMenu.Children.Any(predicate)
-                           ? rootMenu.AddSubMenu(new Menu("計時器", "Trackers"))
+                           ? rootMenu.AddSubMenu(new Menu("Trackers", "Trackers"))
                            : rootMenu.Children.First(predicate);
 
-            var buildingMenu = menu.AddSubMenu(new Menu("防禦塔/水晶塔計時器", "healthbuilding"));
+            var buildingMenu = menu.AddSubMenu(new Menu("Tower and Inhib tracker", "healthbuilding"));
             {
-                buildingMenu.AddItem(new MenuItem("DrawHealth", "激活").SetValue(true));
-                buildingMenu.AddItem(new MenuItem("DrawTurrets", "防禦塔").SetValue(true));
-                buildingMenu.AddItem(new MenuItem("DrawInhibs", "水晶塔").SetValue(true));
-                buildingMenu.AddItem(new MenuItem("Turret.FontSize", "提示字體大小").SetValue(new Slider(13, 13, 30)));
+                buildingMenu.AddItem(new MenuItem("DrawHealth", "Activated").SetValue(true));
+                buildingMenu.AddItem(new MenuItem("DrawTurrets", "Turrets").SetValue(true));
+                buildingMenu.AddItem(new MenuItem("DrawInhibs", "Inhibitors").SetValue(true));
+                buildingMenu.AddItem(new MenuItem("Turret.FontSize", "Tower Font size").SetValue(new Slider(13, 13, 30)));
             }
 
             this.Menu = menu;

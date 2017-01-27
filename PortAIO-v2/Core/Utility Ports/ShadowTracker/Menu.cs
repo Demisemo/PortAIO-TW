@@ -13,21 +13,21 @@ using EloBuddy; namespace ShadowTracker
         {
             try // try start
             {
-                _MainMenu = new Menu("敵人閃現進迷霧中的位置", "ShadowTracker", true);
+                _MainMenu = new Menu("ShadowTracker", "ShadowTracker", true);
                 _MainMenu.AddToMainMenu();
 
-                var Draw = new Menu("顯示", "Draw");
+                var Draw = new Menu("Draw", "Draw");
                 {
-                    Draw.AddItem(new MenuItem("Skill", "技能").SetValue(true));
-                    Draw.AddItem(new MenuItem("Spell", "咒語").SetValue(true));
-                    Draw.AddItem(new MenuItem("Item", "項目").SetValue(true));
+                    Draw.AddItem(new MenuItem("Skill", "Skill").SetValue(true));
+                    Draw.AddItem(new MenuItem("Spell", "Spell").SetValue(true));
+                    Draw.AddItem(new MenuItem("Item", "Item").SetValue(true));
                 }
                 _MainMenu.AddSubMenu(Draw);                
             } // try end     
             catch (Exception e)
             {
                 Console.Write(e);
-                Chat.Print("當腳本不能使用、任何BUG，聯絡作者: by KorFresh (Code 1)");
+                Chat.Print("ShadowTracker is not working. plz send message by KorFresh (Code 1)");
             }           
             
         }

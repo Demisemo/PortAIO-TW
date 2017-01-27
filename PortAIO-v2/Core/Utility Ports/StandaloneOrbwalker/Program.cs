@@ -22,8 +22,8 @@ namespace Standalone_Orbwalker
 
         static void Game_OnGameLoad(EventArgs args)
         {
-            _menu = new Menu("獨立走砍","Orb",true);
-            var orbMenu = new Menu("走砍", "orbStand");
+            _menu = new Menu("Standalone Orbwalker","Orb",true);
+            var orbMenu = new Menu("Orbwalker", "orbStand");
             _orbwalker = new Orbwalking.Orbwalker(orbMenu);
             _menu.AddSubMenu(orbMenu);
             _menu.AddToMainMenu();

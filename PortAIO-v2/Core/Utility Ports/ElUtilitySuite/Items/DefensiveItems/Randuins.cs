@@ -23,7 +23,7 @@ namespace ElUtilitySuite.Items.DefensiveItems
         /// <value>
         ///     The name of the item.
         /// </value>
-        public override string Name => "蘭頓之兆";
+        public override string Name => "Randuin's Omen";
 
         #endregion
 
@@ -34,9 +34,9 @@ namespace ElUtilitySuite.Items.DefensiveItems
         /// </summary>
         public override void CreateMenu()
         {
-            this.Menu.AddItem(new MenuItem("UseRanduinsCombo", "使用").SetValue(true));
-            this.Menu.AddItem(new MenuItem("Mode-randuins", "使用模式: ")).SetValue(new StringList(new[] { "總是使用", "連招時使用" }, 1));
-            this.Menu.AddItem(new MenuItem("RanduinsCount", "當X敵人使用").SetValue(new Slider(3, 1, 5)));
+            this.Menu.AddItem(new MenuItem("UseRanduinsCombo", "Activate").SetValue(true));
+            this.Menu.AddItem(new MenuItem("Mode-randuins", "Activation mode: ")).SetValue(new StringList(new[] { "Use always", "Use in combo" }, 1));
+            this.Menu.AddItem(new MenuItem("RanduinsCount", "Use on enemies hit").SetValue(new Slider(3, 1, 5)));
         }
 
         /// <summary>

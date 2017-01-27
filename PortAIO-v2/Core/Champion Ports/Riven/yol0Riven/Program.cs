@@ -46,26 +46,26 @@ using EloBuddy;
             if (Player.ChampionName != "Riven")
                 return;
 
-            _menu = new Menu("yol0-雷玟", "yol0Riven", true);
-            _menu.AddSubMenu(new Menu("走砍", "Orbwalker"));
-            _menu.AddSubMenu(new Menu("目標選擇器", "Target Selector"));
-            _menu.AddSubMenu(new Menu("連招", "Combo"));
-            _menu.AddSubMenu(new Menu("搶頭", "KS"));
-            _menu.AddSubMenu(new Menu("雜項", "Misc"));
-            _menu.AddSubMenu(new Menu("顯示", "Draw"));
+            _menu = new Menu("yol0 Riven", "yol0Riven", true);
+            _menu.AddSubMenu(new Menu("Orbwalker", "Orbwalker"));
+            _menu.AddSubMenu(new Menu("Target Selector", "Target Selector"));
+            _menu.AddSubMenu(new Menu("Combo", "Combo"));
+            _menu.AddSubMenu(new Menu("Killsteal", "KS"));
+            _menu.AddSubMenu(new Menu("Misc", "Misc"));
+            _menu.AddSubMenu(new Menu("Drawing", "Draw"));
 
             _orbwalker = new Orbwalking.Orbwalker(_menu.SubMenu("Orbwalker"));
             TargetSelector.AddToMenu(_menu.SubMenu("Target Selector"));
 
-            _menu.SubMenu("Combo").AddItem(new MenuItem("useQ", "使用Q").SetValue(true));
-            _menu.SubMenu("Combo").AddItem(new MenuItem("useR", "使用R").SetValue(true));
+            _menu.SubMenu("Combo").AddItem(new MenuItem("useQ", "Use Q to gapclose").SetValue(true));
+            _menu.SubMenu("Combo").AddItem(new MenuItem("useR", "Use Ultimate").SetValue(true));
 
-            _menu.SubMenu("KS").AddItem(new MenuItem("ksQ", "使用 Q 搶頭").SetValue(true));
-            _menu.SubMenu("KS").AddItem(new MenuItem("ksW", "使用 W 搶頭").SetValue(true));
-            _menu.SubMenu("KS").AddItem(new MenuItem("ksT", "使用海神斧/九頭蛇 搶頭").SetValue(true));
-            _menu.SubMenu("KS").AddItem(new MenuItem("ksR", "使用 R2 搶頭").SetValue(true));
-            _menu.SubMenu("KS").AddItem(new MenuItem("ksRA", "啟用搶頭使用R").SetValue(false));
-            _menu.SubMenu("KS").AddSubMenu(new Menu("不使用R2搶頭", "noKS"));
+            _menu.SubMenu("KS").AddItem(new MenuItem("ksQ", "KS with Q").SetValue(true));
+            _menu.SubMenu("KS").AddItem(new MenuItem("ksW", "KS with W").SetValue(true));
+            _menu.SubMenu("KS").AddItem(new MenuItem("ksT", "KS with Tiamat/Hydra").SetValue(true));
+            _menu.SubMenu("KS").AddItem(new MenuItem("ksR", "KS with R2").SetValue(true));
+            _menu.SubMenu("KS").AddItem(new MenuItem("ksRA", "Activate ult for KS").SetValue(false));
+            _menu.SubMenu("KS").AddSubMenu(new Menu("Don't use R2 for KS", "noKS"));
             foreach (var enemy in HeroManager.Enemies)
             {
                 _menu.SubMenu("KS")
@@ -74,8 +74,8 @@ using EloBuddy;
             }
 
             _menu.SubMenu("Misc")
-                .AddItem(new MenuItem("Flee", "逃跑模式").SetValue(new KeyBind("T".ToArray()[0], KeyBindType.Press)));
-            _menu.SubMenu("Misc").AddSubMenu(new Menu("自動暈眩", "暈眩"));
+                .AddItem(new MenuItem("Flee", "Flee Mode").SetValue(new KeyBind("T".ToArray()[0], KeyBindType.Press)));
+            _menu.SubMenu("Misc").AddSubMenu(new Menu("Auto Stun", "Stun"));
             foreach (var enemy in HeroManager.Enemies)
             {
                 _menu.SubMenu("Misc")
@@ -83,15 +83,15 @@ using EloBuddy;
                     .AddItem(new MenuItem(enemy.ChampionName, "Stun " + enemy.ChampionName).SetValue(true));
             }
 
-            _menu.SubMenu("Misc").AddItem(new MenuItem("gapclose", "自動 W 防突進").SetValue(true));
-            _menu.SubMenu("Misc").AddItem(new MenuItem("interrupt", "自動 W 中斷技能").SetValue(true));
-            _menu.SubMenu("Misc").AddItem(new MenuItem("keepalive", "保持 Q 靈活").SetValue(true));
+            _menu.SubMenu("Misc").AddItem(new MenuItem("gapclose", "Auto W Gapclosers").SetValue(true));
+            _menu.SubMenu("Misc").AddItem(new MenuItem("interrupt", "Auto W Interruptible Spells").SetValue(true));
+            _menu.SubMenu("Misc").AddItem(new MenuItem("keepalive", "Keep Q Alive").SetValue(true));
 
             _menu.SubMenu("Draw")
-                .AddItem(new MenuItem("drawRange", "顯示參與範圍").SetValue(new Circle(true, Color.Green)));
+                .AddItem(new MenuItem("drawRange", "Draw Engage Range").SetValue(new Circle(true, Color.Green)));
             _menu.SubMenu("Draw")
-                .AddItem(new MenuItem("drawTarget", "顯示當前目標").SetValue(new Circle(true, Color.Red)));
-            _menu.SubMenu("Draw").AddItem(new MenuItem("drawDamage", "顯示損傷").SetValue(true));
+                .AddItem(new MenuItem("drawTarget", "Draw Current Target").SetValue(new Circle(true, Color.Red)));
+            _menu.SubMenu("Draw").AddItem(new MenuItem("drawDamage", "Draw Damage on Healthbar").SetValue(true));
 
 
             //LeagueSharp.Common.Utility.HpBar//DamageIndicator.DamageToUnit = GetDamage;

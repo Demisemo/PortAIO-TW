@@ -132,10 +132,7 @@ using EloBuddy;
             Events.OnGapCloser += OnGapcloser;
             Events.OnInterruptableTarget += OnInterruptableTarget;
             DelayAction.Add(3000, () => MyRange = Player.GetRealAutoAttackRange());
-            //Variables.Orbwalker.Enabled = true;
-            //DelayAction.Add(1000, () => Variables.Orbwalker.Enabled = true);
-            //DelayAction.Add(5000, () => Variables.Orbwalker.Enabled = true);
-            //DelayAction.Add(10000, () => Variables.Orbwalker.Enabled = true);
+
             Menu = new Menu("tyler1", "Tyler1", true);
             AutoCatch = Menu.Add(new MenuBool("tyler1auto", "Auto catch axes?", true));
             CatchOnlyCloseToMouse = Menu.Add(new MenuBool("tyler1onlyclose", "Catch only axes close to mouse?", true));
@@ -332,6 +329,10 @@ using EloBuddy;
         private static void Combo()
         {
             var target = Variables.TargetSelector.GetTarget(E.Range, DamageType.Physical);
+            if (target == null)
+            {
+                return;
+            }
             if (target.Distance(Player) < MyRange + 100)
             {
                 if (TotalAxesCount < 2) Q.Cast();
@@ -366,9 +367,7 @@ using EloBuddy;
         private static void CatchAxes()
         {
             Vector3 Mouse = Game.CursorPos;
-            if (!ObjectManager
-                .Get<GameObject>(
-                ).Any(x => x.Name.Equals("Draven_Base_Q_reticle_self.troy") && !x.IsDead) || !AutoCatch)
+            if (!ObjectManager .Get<GameObject>().Any(x => x.Name.Equals("Draven_Base_Q_reticle_self.troy") && !x.IsDead) || !AutoCatch)
             {
                 Variables.Orbwalker.MovementState = true;
             }

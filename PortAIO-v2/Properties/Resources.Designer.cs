@@ -3185,6 +3185,16 @@ namespace PortAIO.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap tsframe {
+            get {
+                object obj = ResourceManager.GetObject("tsframe", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap TwistedFate {
             get {
                 object obj = ResourceManager.GetObject("TwistedFate", resourceCulture);

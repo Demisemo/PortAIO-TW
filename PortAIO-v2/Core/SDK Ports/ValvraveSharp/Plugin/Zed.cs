@@ -149,7 +149,7 @@ using EloBuddy;
                     }
                     isWaitAttackAfterR = false;
                 };
-            Obj_AI_Base.OnProcessSpellCast += (sender, args) =>
+            Obj_AI_Base.OnSpellCast += (sender, args) =>
                 {
                     if (!sender.IsMe)
                     {
@@ -157,30 +157,34 @@ using EloBuddy;
                     }
                     if (args.Slot == SpellSlot.W && args.SData.Name == "ZedW")
                     {
+                        Console.WriteLine("Set wCast true - OnSpellCast");
                         rCasted = false;
                         wCasted = true;
                         lastW = Variables.TickCount;
                     }
                     else if (args.Slot == SpellSlot.R && args.SData.Name == "ZedR")
                     {
+                        Console.WriteLine("Set rCast true - OnSpellCast");
                         wCasted = false;
                         rCasted = true;
                     }
                 };
             GameObjectNotifier<Obj_AI_Minion>.OnCreate += (sender, minion) =>
                 {
-                    if (!minion.IsAlly || minion.CharData.BaseSkinName != "zedshadow")
+                    if (!minion.IsAlly || !minion.BaseSkinName.ToLower().Contains("shadow"))
                     {
                         return;
                     }
                     if (wCasted)
                     {
+                        Console.WriteLine("Set wShadow - Minion.OnCreate");
                         wShadowT = Variables.TickCount;
                         wShadow = minion;
                         wCasted = rCasted = false;
                     }
                     else if (rCasted)
                     {
+                        Console.WriteLine("Set rShadow - Minion.OnCreate");
                         rShadowT = Variables.TickCount;
                         RShadow = minion;
                         wCasted = rCasted = false;
@@ -189,7 +193,7 @@ using EloBuddy;
             Obj_AI_Base.OnBuffGain += (sender, args) =>
                 {
                     var shadow = sender as Obj_AI_Minion;
-                    if (shadow == null || !shadow.IsAlly || shadow.CharData.BaseSkinName != "zedshadow")
+                    if (shadow == null || !shadow.IsAlly || !shadow.BaseSkinName.ToLower().Contains("shadow"))
                     {
                         return;
                     }
@@ -198,6 +202,7 @@ using EloBuddy;
                         case "zedwshadowbuff":
                             if (!wShadow.Compare(shadow))
                             {
+                                Console.WriteLine("Set wShadow - OnBuffGain");
                                 wShadowT = Variables.TickCount;
                                 wShadow = shadow;
                             }
@@ -205,6 +210,7 @@ using EloBuddy;
                         case "zedrshadowbuff":
                             if (!RShadow.Compare(shadow))
                             {
+                                Console.WriteLine("Set rShadow - OnBuffGain");
                                 rShadowT = Variables.TickCount;
                                 RShadow = shadow;
                             }
@@ -220,20 +226,23 @@ using EloBuddy;
                     }
                     if (shadow.Compare(wShadow))
                     {
+                        Console.WriteLine("Delete wShadow - OnPlayAnimation");
                         wShadow = null;
                     }
                     else if (shadow.Compare(RShadow))
                     {
+                        Console.WriteLine("Delete rShadow - OnPlayAnimation");
                         RShadow = null;
                     }
                 };
             GameObjectNotifier<MissileClient>.OnCreate += (sender, args) =>
                 {
                     var spellCaster = args.SpellCaster as AIHeroClient;
-                    if (spellCaster == null || !spellCaster.IsMe || args.SData.Name != "ZedWMissile")
+                    if (spellCaster == null || !spellCaster.IsMe || !args.SData.Name.Contains("ZedW"))
                     {
                         return;
                     }
+                    Console.WriteLine("Set wMissile - OnCreate");
                     wMissile = args;
                     lastW = Variables.TickCount;
                 };
@@ -243,17 +252,19 @@ using EloBuddy;
                     {
                         return;
                     }
+                    Console.WriteLine("Delete wMissile - OnDelete");
                     wMissile = null;
                 };
             GameObject.OnCreate += (sender, args) =>
                 {
-                    if (sender.Name != "Zed_Base_R_buf_tell.troy")
+                    if (sender.Name != "Zed_Base_R_Dash.troy")
                     {
                         return;
                     }
                     var target = GameObjects.EnemyHeroes.FirstOrDefault(i => i.IsValidTarget() && HaveR(i));
-                    if (target != null && target.Distance(sender) < 150)
+                    if (target != null && target.Distance(sender) < 200)
                     {
+                        Console.WriteLine("Set DeathMark - OnCreate");
                         deathMark = sender;
                     }
                 };
@@ -421,6 +432,7 @@ using EloBuddy;
             {
                 return;
             }
+
             var pred = Q.GetPrediction(target, !isLaneClear, -1, CollisionableObjects.YasuoWall);
             if (pred.Hitchance >= Q.MinHitChance)
             {
@@ -429,6 +441,7 @@ using EloBuddy;
             else
             {
                 PredictionOutput predShadow = null;
+
                 if (WShadowCanQ)
                 {
                     Q2.UpdateSourcePosition(wShadow.ServerPosition, wShadow.ServerPosition);
@@ -444,9 +457,14 @@ using EloBuddy;
                     Q2.UpdateSourcePosition(RShadow.ServerPosition, RShadow.ServerPosition);
                     predShadow = Q2.GetPrediction(target, !isLaneClear, -1, CollisionableObjects.YasuoWall);
                 }
+
                 if (predShadow != null && predShadow.Hitchance >= Q.MinHitChance)
                 {
                     Q.Cast(predShadow.CastPosition);
+                }
+                else
+                {
+                    Q.Cast(target);
                 }
             }
         }

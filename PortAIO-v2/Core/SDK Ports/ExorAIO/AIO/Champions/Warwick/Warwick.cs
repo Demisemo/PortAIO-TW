@@ -37,7 +37,7 @@ namespace ExorAIO.Champions.Warwick
             if (Vars.R.IsReady() && args.Sender.IsValidTarget(Vars.R.Range)
                 && Vars.Menu["spells"]["r"]["interrupter"].GetValue<MenuBool>().Value)
             {
-                Vars.R.CastOnUnit(args.Sender);
+                Vars.R.Cast(args.Sender);
             }
         }
 
@@ -51,6 +51,8 @@ namespace ExorAIO.Champions.Warwick
             {
                 return;
             }
+
+            Vars.R.Range = GameObjects.Player.MoveSpeed * 2.5f;
 
             /// <summary>
             ///     Initializes the Automatic actions.

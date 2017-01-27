@@ -20,7 +20,7 @@ using EloBuddy;
 
         private static Orbwalking.Orbwalker orbwalker;
 
-        private static Spell Q, W, E, R;
+        private static Spell Q, W, /*E,*/ R;
 
         private static List<Spell> SpellList;
 
@@ -52,14 +52,14 @@ using EloBuddy;
             #region Spell Data
 
             // set spells
-            Q = new Spell(SpellSlot.Q, Orbwalking.GetRealAutoAttackRange(Player) + 100);
-            W = new Spell(SpellSlot.W, 650);
-            E = new Spell(SpellSlot.E, 700);
-            R = new Spell(SpellSlot.R, 650);
+            Q = new Spell(SpellSlot.Q, 550);
+            W = new Spell(SpellSlot.W, 900);
+            R = new Spell(SpellSlot.R, 500);
+            W.SetSkillshot(0.25f, 75, 2300, false, SkillshotType.SkillshotLine);
 
             W.SetSkillshot(0.25f, 75, 2300, false, SkillshotType.SkillshotLine);
 
-            SpellList = new List<Spell> { Q, E, W, R };
+            SpellList = new List<Spell> { Q, W, R };
 
             ignite = Player.GetSpellSlot("summonerdot");
 
@@ -74,7 +74,6 @@ using EloBuddy;
             Game.OnUpdate += OnGameUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
             Orbwalking.AfterAttack += AfterAttack;
-            AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
             new AssassinManager();
         }
 
@@ -87,27 +86,12 @@ using EloBuddy;
             switch (orbwalker.ActiveMode)
             {
                 case Orbwalking.OrbwalkingMode.Combo:
-                    if (unit.IsMe && Q.IsReady() && target is AIHeroClient)
+                    if (unit.IsMe && Q.IsReady() && target is AIHeroClient && target.IsValidTarget(165))
                     {
-                        Q.Cast();
+                        Q.Cast(target as AIHeroClient);
                         Orbwalking.ResetAutoAttackTimer();
                     }
                     break;
-            }
-        }
-
-        private static void AntiGapcloser_OnEnemyGapcloser(ActiveGapcloser gapcloser)
-        {
-            var antiGapActive = Menu.Item("Antigap").IsActive();
-            var target = TargetSelector.GetTarget(W.Range, TargetSelector.DamageType.Physical);
-            if (target == null)
-            {
-                return;
-            }
-
-            if (antiGapActive && E.IsReady() && gapcloser.Sender.Distance(Player) < 700)
-            {
-                E.Cast(target);
             }
         }
 
@@ -120,7 +104,6 @@ using EloBuddy;
             }
 
             var useW = Menu.Item("WCombo").IsActive();
-            var useE = Menu.Item("ECombo").IsActive();
             var rCombo = Menu.Item("RCombo").IsActive();
             var onlyKill = Menu.Item("RWhenKill").IsActive();
             var smartUlt = Menu.Item("SmartUlt").IsActive();
@@ -135,11 +118,6 @@ using EloBuddy;
             switch (ultType)
             {
                 case 0:
-
-                    if (useE && E.IsReady())
-                    {
-                        E.Cast(target);
-                    }
                     FightItems();
                     if (target.IsValidTarget(Q.Range))
                     {
@@ -156,8 +134,7 @@ using EloBuddy;
                         W.Cast(target);
                     }
 
-                    if (onlyKill && E.IsReady() && rCombo && Q.IsReady()
-                        && ObjectManager.Get<AIHeroClient>().Count(aiHero => aiHero.IsValidTarget(R.Range)) >= ultCount)
+                    if (onlyKill && rCombo && Q.IsReady() && ObjectManager.Get<AIHeroClient>().Count(aiHero => aiHero.IsValidTarget(R.Range)) >= ultCount)
                     {
                         if (comboDamage >= target.Health)
                         {
@@ -173,8 +150,7 @@ using EloBuddy;
                         }
                     }
 
-                    if (!onlyKill && E.IsReady() && rCombo && Q.IsReady()
-                        && ObjectManager.Get<AIHeroClient>().Count(aiHero => aiHero.IsValidTarget(R.Range)) >= ultCount)
+                    if (!onlyKill && rCombo && Q.IsReady() && ObjectManager.Get<AIHeroClient>().Count(aiHero => aiHero.IsValidTarget(R.Range)) >= ultCount)
                     {
                         R.Cast();
                     }
@@ -182,31 +158,6 @@ using EloBuddy;
                     break;
 
                 case 1:
-
-                    if (R.IsReady() && R.IsInRange(target))
-                    {
-                        R.Cast();
-                    }
-
-                    if (useE && E.IsReady())
-                    {
-                        E.Cast(target);
-                    }
-
-                    if (useW && W.IsReady())
-                    {
-                        W.Cast(target);
-                    }
-
-                    FightItems();
-                    break;
-
-                case 2:
-
-                    if (useE && E.IsReady())
-                    {
-                        E.Cast(target);
-                    }
 
                     if (R.IsReady() && R.IsInRange(target))
                     {
@@ -236,7 +187,6 @@ using EloBuddy;
         private static void Drawing_OnDraw(EventArgs args)
         {
             var drawOff = Menu.Item("ElTalon.Drawingsoff").IsActive();
-            var drawE = Menu.Item("ElTalon.DrawE").GetValue<Circle>();
             var drawW = Menu.Item("ElTalon.DrawW").GetValue<Circle>();
             var drawR = Menu.Item("ElTalon.DrawR").GetValue<Circle>();
 
@@ -253,17 +203,6 @@ using EloBuddy;
                         ObjectManager.Player.Position,
                         W.Range,
                         W.IsReady() ? Color.Green : Color.Red);
-                }
-            }
-
-            if (drawE.Active)
-            {
-                if (E.Level > 0)
-                {
-                    Render.Circle.DrawCircle(
-                        ObjectManager.Player.Position,
-                        E.Range,
-                        E.IsReady() ? Color.Green : Color.Red);
                 }
             }
 
@@ -309,11 +248,6 @@ using EloBuddy;
             if (W.IsReady())
             {
                 damage += Player.GetSpellDamage(enemy, SpellSlot.W);
-            }
-
-            if (E.IsReady())
-            {
-                damage += Player.GetSpellDamage(enemy, SpellSlot.E);
             }
 
             if (R.IsReady())
@@ -383,7 +317,6 @@ using EloBuddy;
 
             var qHarass = Menu.Item("HarassQ").IsActive();
             var wHarass = Menu.Item("HarassW").IsActive();
-            var eHarass = Menu.Item("HarassE").IsActive();
 
             foreach (var spell in SpellList.Where(y => y.IsReady()))
             {
@@ -392,17 +325,12 @@ using EloBuddy;
                     if (spell.Slot == SpellSlot.Q && qHarass && Q.IsReady() && target.IsValidTarget(Q.Range)
                         && Q.IsReady())
                     {
-                        Q.Cast();
+                        Q.Cast(target);
                     }
 
                     if (spell.Slot == SpellSlot.W && wHarass && W.IsReady())
                     {
                         W.CastIfHitchanceEquals(target, HitChance.VeryHigh);
-                    }
-
-                    if (spell.Slot == SpellSlot.E && eHarass && E.IsReady())
-                    {
-                        E.Cast(target);
                     }
                 }
             }
@@ -433,7 +361,6 @@ using EloBuddy;
             comboMenu.AddItem(new MenuItem("fsfsafsaasffsadddd111dsasd", ""));
             comboMenu.AddItem(new MenuItem("QCombo", "Use Q").SetValue(true));
             comboMenu.AddItem(new MenuItem("WCombo", "Use W").SetValue(true));
-            comboMenu.AddItem(new MenuItem("ECombo", "Use E").SetValue(true));
             comboMenu.AddItem(new MenuItem("RCombo", "Use R").SetValue(true));
             comboMenu.AddItem(new MenuItem("fsfsafsaasffsa", ""));
             comboMenu.AddItem(new MenuItem("RWhenKill", "Use R only when killable").SetValue(true));
@@ -444,7 +371,7 @@ using EloBuddy;
             comboMenu.SubMenu("Combo mode")
                 .AddItem(
                     new MenuItem("ElTalon.Combo.Mode", "Mode").SetValue(
-                        new StringList(new[] { "Default [E->AA->Q->W->R]", "R->E->W->Q", "E->R->W->Q" })));
+                        new StringList(new[] { "Default [AA->Q->W->R]", "R->W->Q"})));
 
             comboMenu.AddItem(new MenuItem("ComboActive", "Combo!").SetValue(new KeyBind(32, KeyBindType.Press)));
 
@@ -456,7 +383,6 @@ using EloBuddy;
             harassMenu.AddItem(new MenuItem("fsfsafsaasffsadddd", ""));
             harassMenu.AddItem(new MenuItem("HarassQ", "Use Q").SetValue(true));
             harassMenu.AddItem(new MenuItem("HarassW", "Use W").SetValue(true));
-            harassMenu.AddItem(new MenuItem("HarassE", "Use E").SetValue(false));
 
             harassMenu.SubMenu("HarassMana")
                 .AddItem(new MenuItem("HarassMana", "[Harass] Minimum Mana").SetValue(new Slider(30, 0, 100)));
@@ -467,13 +393,11 @@ using EloBuddy;
             waveClearMenu.AddItem(new MenuItem("fsfsafsaasffsadddd111", ""));
             waveClearMenu.AddItem(new MenuItem("WaveClearQ", "Use Q").SetValue(true));
             waveClearMenu.AddItem(new MenuItem("WaveClearW", "Use W").SetValue(true));
-            waveClearMenu.AddItem(new MenuItem("WaveClearE", "Use E").SetValue(false));
             waveClearMenu.SubMenu("Mana")
                 .AddItem(new MenuItem("LaneClearMana", "[WaveClear] Minimum Mana").SetValue(new Slider(30, 0, 100)));
             waveClearMenu.AddItem(new MenuItem("fsfsafsaasffsadddd11sss1", ""));
 
             var settingsMenu = Menu.AddSubMenu(new Menu("Misc", "SuperSecretSettings"));
-            settingsMenu.AddItem(new MenuItem("Antigap", "[BETA] Use E for gapclosers").SetValue(false));
 
             waveClearMenu.SubMenu("Items").AddItem(new MenuItem("HydraClear", "Use hydra").SetValue(true));
             waveClearMenu.SubMenu("Items").AddItem(new MenuItem("TiamatClear", "Use tiamat").SetValue(true));
@@ -484,19 +408,7 @@ using EloBuddy;
             var miscMenu = Menu.AddSubMenu(new Menu("Drawings", "Misc"));
             miscMenu.AddItem(new MenuItem("ElTalon.Drawingsoff", "Drawings off").SetValue(false));
             miscMenu.AddItem(new MenuItem("ElTalon.DrawW", "Draw W").SetValue(new Circle()));
-            miscMenu.AddItem(new MenuItem("ElTalon.DrawE", "Draw E").SetValue(new Circle()));
             miscMenu.AddItem(new MenuItem("ElTalon.DrawR", "Draw R").SetValue(new Circle()));
-
-            var dmgAfterComboItem = new MenuItem("ElTalon.DrawComboDamage", "Draw combo damage").SetValue(true);
-            miscMenu.AddItem(dmgAfterComboItem);
-
-            //LeagueSharp.Common.Utility.HpBar//DamageIndicator.DamageToUnit = GetComboDamage;
-            //LeagueSharp.Common.Utility.HpBar//DamageIndicator.Enabled = dmgAfterComboItem.GetValue<bool>();
-            dmgAfterComboItem.ValueChanged +=
-                delegate(object sender, OnValueChangeEventArgs eventArgs)
-                    {
-                        //LeagueSharp.Common.Utility.HpBar//DamageIndicator.Enabled = eventArgs.GetNewValue<bool>();
-                    };
 
             var credits = Menu.AddSubMenu(new Menu("Credits", "jQuery"));
             credits.AddItem(new MenuItem("Paypal", "if you would like to donate via paypal:"));
@@ -513,7 +425,6 @@ using EloBuddy;
         {
             var qWaveClear = Menu.Item("WaveClearQ").IsActive();
             var wWaveClear = Menu.Item("WaveClearW").IsActive();
-            var eWaveClear = Menu.Item("WaveClearE").IsActive();
             var hydraClear = Menu.Item("HydraClear").IsActive();
             var tiamatClear = Menu.Item("TiamatClear").IsActive();
 
@@ -529,17 +440,12 @@ using EloBuddy;
             {
                 if (qWaveClear && Q.IsReady() && target.IsValidTarget(Q.Range))
                 {
-                    Q.Cast();
+                    Q.Cast(target);
                 }
 
                 if (wWaveClear && W.IsReady() && target.IsValidTarget(W.Range))
                 {
                     W.Cast(target);
-                }
-
-                if (eWaveClear && E.IsReady() && target.IsValidTarget(E.Range))
-                {
-                    E.CastOnUnit(target);
                 }
             }
 
@@ -564,7 +470,6 @@ using EloBuddy;
 
             var qWaveClear = Menu.Item("WaveClearQ").IsActive();
             var wWaveClear = Menu.Item("WaveClearW").IsActive();
-            var eWaveClear = Menu.Item("WaveClearE").IsActive();
             var hydraClear = Menu.Item("HydraClear").IsActive();
             var tiamatClear = Menu.Item("TiamatClear").IsActive();
             var minions = MinionManager.GetMinions(Player.ServerPosition, W.Range, MinionTypes.All, MinionTeam.NotAlly);
@@ -573,7 +478,7 @@ using EloBuddy;
             {
                 if (qWaveClear && Q.IsReady() && minion.IsValidTarget(Q.Range))
                 {
-                    Q.Cast();
+                    Q.Cast(minion);
                 }
 
                 if (wWaveClear && W.IsReady() && minion.IsValidTarget(W.Range))
@@ -583,11 +488,6 @@ using EloBuddy;
                         var farmLocation = W.GetCircularFarmLocation(minions);
                         W.Cast(farmLocation.Position);
                     }
-                }
-
-                if (eWaveClear && E.IsReady() && minion.IsValidTarget(E.Range))
-                {
-                    E.CastOnUnit(minion);
                 }
             }
 

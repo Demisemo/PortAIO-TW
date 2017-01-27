@@ -24,17 +24,6 @@ using EloBuddy;
             {
                 MenuLocal.AddItem(new MenuItem("Lane.Use.QL", "Q: Last Hit:").SetValue(true)).SetFontStyle(FontStyle.Regular, Q.MenuColor());
                 MenuLocal.AddItem(new MenuItem("Lane.Use.QH", "Q: Health Prediction:").SetValue(true)).SetFontStyle(FontStyle.Regular, Q.MenuColor());
-
-                string[] strW = new string[6];
-                {
-                    strW[0] = "Off";
-                    for (var i = 1; i < 6; i++)
-                    {
-                        strW[i] = "If need to AA count >= " + (i + 3);
-                    }
-                    MenuLocal.AddItem(new MenuItem("Lane.Use.W", "W:").SetValue(new StringList(strW, 4))).SetFontStyle(FontStyle.Regular, W.MenuColor());
-                }
-
                 MenuLocal.AddItem(new MenuItem("Lane.Item.Use", "Items:").SetValue(true)).SetFontStyle(FontStyle.Regular, Colors.ColorItems);
                 MenuLocal.AddItem(new MenuItem("Lane.MinMana", "Min. Mana: %").SetValue(new Slider(30, 100, 0))).SetFontStyle(FontStyle.Regular, SharpDX.Color.LightSkyBlue).SetTag(2);
             }
@@ -89,19 +78,6 @@ using EloBuddy;
                             .Where(m => m.CanKillableWith(Q) && Q.CanCast(m)))
                 {
                     Champion.PlayerSpells.Cast.Q(minion);
-                }
-            }
-
-            if (MenuLocal.Item("Lane.Use.W").GetValue<StringList>().SelectedIndex != 0 && W.IsReady())
-            {
-                var totalAa =
-                    (int)
-                        (minions.Where(m => m.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + 65))
-                            .Sum(m => (int) m.Health)/ObjectManager.Player.TotalAttackDamage);
-
-                if (totalAa >= MenuLocal.Item("Jungle.W.Use").GetValue<StringList>().SelectedIndex * 3)
-                {
-                    Champion.PlayerSpells.Cast.W();
                 }
             }
         }

@@ -22,10 +22,9 @@ using EloBuddy;
         }
         private static void Talon_OnGameLoad()
         {
-            Q = new Spell(SpellSlot.Q);
-            W = new Spell(SpellSlot.W, 600f);
-            E = new Spell(SpellSlot.E, 700f);
-            R = new Spell(SpellSlot.R, 500f);
+            Q = new Spell(SpellSlot.Q, 550);
+            W = new Spell(SpellSlot.W, 900);
+            R = new Spell(SpellSlot.R, 500);
             W.SetSkillshot(0.25f, 75, 2300, false, SkillshotType.SkillshotLine);
 
 
@@ -37,17 +36,13 @@ using EloBuddy;
             
             CreateMenuBool("Combo", "Combo.Q", "Use Q", true);
             CreateMenuBool("Combo", "Combo.W", "Use W", true);
-            CreateMenuBool("Combo", "Combo.E", "Use E", true);
             CreateMenuBool("Combo", "Combo.R", "Use R", true);
-            menu.SubMenu("Combo").AddItem(new MenuItem("Combo.EDelay", "E delay").SetValue(new Slider(0, 0, 4000)));
 
 
             menu.AddSubMenu(new Menu("Harass", "Harass"));
             
             CreateMenuBool("Harass", "Harass.Q", "Use Q", true);
-            CreateMenuBool("Harass", "Harass.W", "Use E", true);
-            CreateMenuBool("Harass", "Harass.E", "Use E", true);
-            //menu.SubMenu("Harass").AddItem(new MenuItem("Harass.EDelay", "E delay").SetValue(new Slider(0, 0, 1000)));
+            CreateMenuBool("Harass", "Harass.W", "Use W", true);
 
 
             menu.AddSubMenu(new Menu("Gap closer", "GC"));
@@ -55,8 +50,7 @@ using EloBuddy;
 
             menu.AddSubMenu(new Menu("Kill Steal", "KS"));
             CreateMenuBool("KS", "KS.Q", "Use Q", true);
-            CreateMenuBool("KS", "KS.W", "Use E", true);
-            CreateMenuBool("KS", "KS.E", "Use E", false);
+            CreateMenuBool("KS", "KS.W", "Use W", true);
 
             menu.AddSubMenu(new Menu("Farm", "Farm"));
             CreateMenuBool("Farm", "Farm.Q", "Use Q", true);
@@ -72,26 +66,8 @@ using EloBuddy;
 
             menu.AddSubMenu(new Menu("Drawing", "Draw"));
             CreateMenuBool("Draw", "Draw.W", "Draw W", true);
-            CreateMenuBool("Draw", "Draw.E", "Draw E", true);
             CreateMenuBool("Draw", "Draw.R", "Draw R", true);
-            CreateMenuBool("Draw", "Draw.CBDamage", "Draw Combo Damage", true);
-            menu.SubMenu("Draw").AddItem(new MenuItem("Draw.DrawColor", "Fill color").SetValue(new Circle(true, Color.FromArgb(204, 255, 0, 1))));
 
-            //DrawDamage.DamageToUnit = GetComboDamage;
-            //DrawDamage.Enabled = GetValueMenuBool("Draw.CBDamage");
-            //DrawDamage.Fill = menu.Item("Draw.DrawColor").GetValue<Circle>().Active;
-            //DrawDamage.FillColor = menu.Item("Draw.DrawColor").GetValue<Circle>().Color;
-
-            menu.Item("Draw.CBDamage").ValueChanged += delegate(object sender, OnValueChangeEventArgs eventArgs)
-            {
-                //DrawDamage.Enabled = eventArgs.GetNewValue<bool>();
-            };
-
-            menu.Item("Draw.DrawColor").ValueChanged += delegate(object sender, OnValueChangeEventArgs eventArgs)
-            {
-                //DrawDamage.Fill = eventArgs.GetNewValue<Circle>().Active;
-                //DrawDamage.FillColor = eventArgs.GetNewValue<Circle>().Color;
-            };
             menu.AddToMainMenu();
 
             Game.OnUpdate += Game_OnUpdate;
@@ -109,7 +85,6 @@ using EloBuddy;
                 if(args.SData.Name == R.Instance.SData.Name)
                 {
                     lastR = Utils.TickCount;
-                    //Orbwalking.ResetAutoAttackTimer();
                 }
 
                 if (args.SData.Name == Q.Instance.SData.Name)
@@ -117,7 +92,6 @@ using EloBuddy;
                     lastQ = Utils.TickCount;
                     Orbwalking.ResetAutoAttackTimer();
                 }
-                    //Orbwalking.ResetAutoAttackTimer();
             }
         }
 
@@ -162,24 +136,18 @@ using EloBuddy;
             if (GetValueMenuBool("Draw.W"))
                 Drawing.DrawCircle(player.Position, W.Range, Color.YellowGreen);
 
-            if (GetValueMenuBool("Draw.E"))
-                Drawing.DrawCircle(player.Position, E.Range, Color.Green);
-
             if (GetValueMenuBool("Draw.R"))
                 Drawing.DrawCircle(player.Position, R.Range, Color.Red);
         }
 
         private static void Combo()
         {
-            var target = TargetSelector.GetTarget(E.Range, TargetSelector.DamageType.Physical);
+            var target = TargetSelector.GetTarget(R.Range, TargetSelector.DamageType.Physical);
 
             if (target == null) return;
 
             if (R.IsReady() && GetValueMenuBool("Combo.R"))
                 R.CastOnUnit(player);
-
-            if (E.IsReady() && E.IsInRange(target) && GetValueMenuBool("Combo.E") && Utils.TickCount - lastR > GetValueMenuSlider("Combo.EDelay"))
-                E.CastOnUnit(target);
 
             if (W.IsReady() && W.IsInRange(target) && GetValueMenuBool("Combo.W"))
                 W.Cast(target);
@@ -187,12 +155,9 @@ using EloBuddy;
 
         private static void Harass()
         {
-            var target = TargetSelector.GetTarget(E.Range, TargetSelector.DamageType.Physical);
+            var target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Physical);
 
             if (target == null) return;
-
-            if (E.IsReady() && E.IsInRange(target) && GetValueMenuBool("Harass.E"))
-                E.CastOnUnit(target);
 
             if (W.IsReady() && W.IsInRange(target) && GetValueMenuBool("Harass.W"))
                 W.Cast(target);
@@ -211,7 +176,7 @@ using EloBuddy;
             {
                 if(Q.IsReady() && GetValueMenuBool("Farm.Q"))
                 {
-                    Q.Cast();
+                    Q.Cast(minion);
                     EloBuddy.Player.IssueOrder(GameObjectOrder.AttackUnit, minion);
                 }
             }
@@ -230,7 +195,7 @@ using EloBuddy;
             {
                 if (Q.IsReady() && GetValueMenuBool("LC.Q"))
                 {
-                    Q.Cast();
+                    Q.Cast(minion);
                    
                 }
             }
@@ -244,9 +209,6 @@ using EloBuddy;
 
             if (W.IsReady())
                 damage += player.GetSpellDamage(enemy, SpellSlot.W);
-
-            if (E.IsReady())
-                damage += player.GetSpellDamage(enemy, SpellSlot.E);
 
             if (R.IsReady() && R.Level > 0)
                 damage += player.GetSpellDamage(enemy, SpellSlot.R);

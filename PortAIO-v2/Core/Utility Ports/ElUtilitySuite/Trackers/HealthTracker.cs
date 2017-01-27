@@ -85,23 +85,23 @@ namespace ElUtilitySuite.Trackers
                            : rootMenu.AddSubMenu(new Menu("Trackers", "Trackers"));
 
             var enemySidebarMenu =
-                menu.AddSubMenu(new Menu("血量檢測", "healthenemies"))
+                menu.AddSubMenu(new Menu("Health tracker", "healthenemies"))
                     .SetFontStyle(FontStyle.Regular, SharpDX.Color.Chartreuse);
             {
-                enemySidebarMenu.AddItem(new MenuItem("DrawHealth_", "激活").SetValue(true));
-                enemySidebarMenu.AddItem(new MenuItem("DrawHealth_percent", "英雄血量 %").SetValue(true));
-                enemySidebarMenu.AddItem(new MenuItem("DrawHealth_ultimate", "英雄大招").SetValue(true));
+                enemySidebarMenu.AddItem(new MenuItem("DrawHealth_", "Activated").SetValue(true));
+                enemySidebarMenu.AddItem(new MenuItem("DrawHealth_percent", "Champion health %").SetValue(true));
+                enemySidebarMenu.AddItem(new MenuItem("DrawHealth_ultimate", "Champion ultimate").SetValue(true));
                 enemySidebarMenu.AddItem(
-                    new MenuItem("HealthTracker.OffsetText", "文字").SetValue(new Slider(30)));
+                    new MenuItem("HealthTracker.OffsetText", "Offset Text").SetValue(new Slider(30)));
                 enemySidebarMenu.AddItem(
-                    new MenuItem("HealthTracker.OffsetTop", "上下").SetValue(new Slider(75, 0, 1500)));
+                    new MenuItem("HealthTracker.OffsetTop", "Offset Top").SetValue(new Slider(75, 0, 1500)));
                 enemySidebarMenu.AddItem(
-                    new MenuItem("HealthTracker.OffsetRight", "左右").SetValue(new Slider(170, 0, 1500)));
+                    new MenuItem("HealthTracker.OffsetRight", "Offset Right").SetValue(new Slider(170, 0, 1500)));
                 enemySidebarMenu.AddItem(
-                    new MenuItem("HealthTracker.Spacing", "間距").SetValue(new Slider(10, 0, 30)));
-                enemySidebarMenu.AddItem(new MenuItem("FontSize", "文字大小").SetValue(new Slider(15, 13, 30)));
+                    new MenuItem("HealthTracker.Spacing", "Spacing").SetValue(new Slider(10, 0, 30)));
+                enemySidebarMenu.AddItem(new MenuItem("FontSize", "Font size").SetValue(new Slider(15, 13, 30)));
 
-                enemySidebarMenu.AddItem(new MenuItem("Health.Version", "顯示選項: "))
+                enemySidebarMenu.AddItem(new MenuItem("Health.Version", "Display options: "))
                     .SetValue(new StringList(new[] { "Compact", "Clean", }));
             }
 

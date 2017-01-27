@@ -25,7 +25,7 @@ namespace ElUtilitySuite.Items.OffensiveItems
         /// <value>
         ///     The name of the item.
         /// </value>
-        public override string Name => "海克斯科技 GLP 800";
+        public override string Name => "Hextech GLP 800";
 
         #endregion
 
@@ -36,8 +36,8 @@ namespace ElUtilitySuite.Items.OffensiveItems
         /// </summary>
         public override void CreateMenu()
         {
-            this.Menu.AddItem(new MenuItem("UseHextech800Combo", "連招時使用").SetValue(true));
-            this.Menu.AddItem(new MenuItem("Hextech800EnemyHp", "當敵人血量低於%使用").SetValue(new Slider(70)));
+            this.Menu.AddItem(new MenuItem("UseHextech800Combo", "Use on Combo").SetValue(true));
+            this.Menu.AddItem(new MenuItem("Hextech800EnemyHp", "Use on Enemy Hp %").SetValue(new Slider(70)));
         }
 
         /// <summary>

@@ -25,7 +25,7 @@ namespace ElUtilitySuite.Items.OffensiveItems
         /// <value>
         ///     The name of the item.
         /// </value>
-        public override string Name => "殞落王者之劍";
+        public override string Name => "Blade of the Ruined King";
 
         #endregion
 
@@ -36,9 +36,9 @@ namespace ElUtilitySuite.Items.OffensiveItems
         /// </summary>
         public override void CreateMenu()
         {
-            this.Menu.AddItem(new MenuItem("UseBotrkCombo", "連招時使用").SetValue(true));
-            this.Menu.AddItem(new MenuItem("BotrkEnemyHp", "當敵人血量低於%使用").SetValue(new Slider(100)));
-            this.Menu.AddItem(new MenuItem("BotrkMyHp", "當自身血量低於%使用").SetValue(new Slider(100)));
+            this.Menu.AddItem(new MenuItem("UseBotrkCombo", "Use on Combo").SetValue(true));
+            this.Menu.AddItem(new MenuItem("BotrkEnemyHp", "Use on Enemy Hp %").SetValue(new Slider(100)));
+            this.Menu.AddItem(new MenuItem("BotrkMyHp", "Use on My Hp %").SetValue(new Slider(100)));
         }
 
         /// <summary>

@@ -56,7 +56,7 @@ namespace ExorAIO.Champions.Warwick
                         && t.Health > (float)GameObjects.Player.GetSpellDamage(t, SpellSlot.Q) * 2
                         && t.Health < (float)GameObjects.Player.GetSpellDamage(t, SpellSlot.R)))
                 {
-                    Vars.R.CastOnUnit(target);
+                    Vars.R.Cast(Vars.R.GetPrediction(target).CastPosition);
                 }
             }
         }

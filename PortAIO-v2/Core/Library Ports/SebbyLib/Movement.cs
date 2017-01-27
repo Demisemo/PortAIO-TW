@@ -290,21 +290,6 @@ namespace SebbyLib.Movement
                 {
                     result.Hitchance = HitChance.OutOfRange;
                 }
-
-                /* This does not need to be handled for the updated predictions, but left as a reference.*/
-                if (input.RangeCheckFrom.Distance(result.CastPosition, true) > Math.Pow(input.Range, 2))
-                {
-                    if (result.Hitchance != HitChance.OutOfRange)
-                    {
-                        result.CastPosition = input.RangeCheckFrom +
-                                              input.Range *
-                                              (result.UnitPosition - input.RangeCheckFrom).To2D().Normalized().To3D();
-                    }
-                    else
-                    {
-                        result.Hitchance = HitChance.OutOfRange;
-                    }
-                }
             }
 
             //Set hit chance
@@ -345,7 +330,7 @@ namespace SebbyLib.Movement
                 return HitChance.Medium;
             }
 
-            var wayPoint = input.Unit.Path.ToList().To2D().Last().To3D();
+            var wayPoint = EloBuddy.SDK.Prediction.Position.GetRealPath(input.Unit).ToList().To2D().Last().To3D();
             var delay = input.Delay
                         + (Math.Abs(input.Speed - float.MaxValue) > float.Epsilon
                                ? hero.Distance(input.From) / input.Speed

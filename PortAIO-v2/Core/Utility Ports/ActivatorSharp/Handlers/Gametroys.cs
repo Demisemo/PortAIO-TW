@@ -30,7 +30,9 @@ namespace Activator.Handlers
 
         static void GameObject_OnDelete(GameObject obj, EventArgs args)
         {
-            if (obj.IsValid<MissileClient>())
+            var caster = obj as MissileClient;
+
+            if (caster == null)
                 return;
 
             foreach (var troy in Gametroy.Troys)
@@ -47,9 +49,6 @@ namespace Activator.Handlers
 
         static void GameObject_OnCreate(GameObject obj, EventArgs args)
         {
-            if (obj.IsValid<MissileClient>())
-                return;
-
             foreach (var troy in Gametroy.Troys)
             {
                 if (obj.Name.ToLower().Contains(troy.Name.ToLower()))

@@ -6,11 +6,14 @@ using SharpDX;
 using SebbyLib;
 
 using EloBuddy; 
-using LeagueSharp.Common; 
-namespace OneKeyToWin_AIO_Sebby.Core
+ using LeagueSharp.Common; 
+ namespace OneKeyToWin_AIO_Sebby.Core
 {
-    class OKTWdash : Program
+    class OKTWdash
     {
+        private static AIHeroClient Player { get { return ObjectManager.Player; } }
+        private static Menu Config = Program.Config;
+        private static Orbwalking.Orbwalker Orbwalker = Program.Orbwalker;
         private static Spell DashSpell;
 
         public OKTWdash(Spell qwer)

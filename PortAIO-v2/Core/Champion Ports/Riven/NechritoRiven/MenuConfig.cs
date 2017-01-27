@@ -16,7 +16,7 @@ namespace NechritoRiven
     {
         #region Constants
 
-        private const string MenuName = "Nechrito-雷玟";
+        private const string MenuName = "Nechrito Riven";
 
         #endregion
 
@@ -132,75 +132,75 @@ namespace NechritoRiven
         {
             config = new Menu(MenuName, MenuName, true).SetFontStyle(FontStyle.Bold, Color.Cyan);
 
-            var orbwalker = new Menu("走砍", "rorb");
+            var orbwalker = new Menu("Orbwalker", "rorb");
             Orbwalker = new Orbwalking.Orbwalker(orbwalker);
             config.AddSubMenu(orbwalker);
 
-            var animation = new Menu("減少QA動畫", "Animation");
+            var animation = new Menu("Animations", "Animation");
             animation.AddItem(new MenuItem("QD", "Q1 Ping").SetValue(new Slider(205, 205, 340)));
             animation.AddItem(new MenuItem("Q2D", "Q2 Ping").SetValue(new Slider(205, 205, 340)));
             animation.AddItem(new MenuItem("Q3D", "Q3 Ping").SetValue(new Slider(340, 340, 380)));
-            animation.AddItem(new MenuItem("CancelPing", "包括Ping").SetValue(true));
-            animation.AddItem(new MenuItem("EmoteList", "表情").SetValue(new StringList(new[] { "說笑話", "嘲諷", "跳舞", "大笑", "切換" }, 3)));
+            animation.AddItem(new MenuItem("CancelPing", "Include Ping").SetValue(true));
+            animation.AddItem(new MenuItem("EmoteList", "Emotes").SetValue(new StringList(new[] { "Laugh", "Taunt", "Joke", "Dance", "None" }, 3)));
             config.AddSubMenu(animation);
 
-            var combo = new Menu("連招", "Combo");
-            combo.AddItem(new MenuItem("Q3Wall", "過牆").SetValue(true));
-            combo.AddItem(new MenuItem("FlashOften", "閃現爆發連招模式").SetValue(false).SetTooltip("Will flash if killable, always."));
-            combo.AddItem(new MenuItem("OverKillCheck", "R2 最大傷害").SetValue(true));
-            combo.AddItem(new MenuItem("Doublecast", "Doublecast").SetValue(true)).SetTooltip("快速連招時每秒傷害");
-            combo.AddItem(new MenuItem("UltHarass", "在騷擾中使用大招 (只在擊殺時)").SetValue(false));
-            combo.AddItem(new MenuItem("UseR1", "使用 R").SetValue(new KeyBind('G', KeyBindType.Toggle)));
-            combo.AddItem(new MenuItem("AlwaysF", "使用 閃現").SetValue(new KeyBind('L', KeyBindType.Toggle)));
+            var combo = new Menu("Combo", "Combo");
+            combo.AddItem(new MenuItem("Q3Wall", "Walljump").SetValue(true));
+            combo.AddItem(new MenuItem("FlashOften", "Flash Burst Frequently").SetValue(false).SetTooltip("Will flash if killable, always."));
+            combo.AddItem(new MenuItem("OverKillCheck", "R2 Max Damage").SetValue(true));
+            combo.AddItem(new MenuItem("Doublecast", "Doublecast").SetValue(true)).SetTooltip("Fast Combo, less dmg");
+            combo.AddItem(new MenuItem("UltHarass", "Use Ult In Harass (Killable only)").SetValue(false));
+            combo.AddItem(new MenuItem("UseR1", "Use R").SetValue(new KeyBind('G', KeyBindType.Toggle)));
+            combo.AddItem(new MenuItem("AlwaysF", "Use Flash").SetValue(new KeyBind('L', KeyBindType.Toggle)));
             config.AddSubMenu(combo);
 
-            var lane = new Menu("農兵", "Lane");
-            lane.AddItem(new MenuItem("LaneEnemy", "停止如果附近有敵人").SetValue(true));
-            lane.AddItem(new MenuItem("laneQFast", "快速清線").SetValue(true));
-            lane.AddItem(new MenuItem("LaneQ", "使用 Q").SetValue(true));
-            lane.AddItem(new MenuItem("LaneW", "使用 W").SetValue(true));
-            lane.AddItem(new MenuItem("LaneE", "使用 E").SetValue(true));
+            var lane = new Menu("Lane", "Lane");
+            lane.AddItem(new MenuItem("LaneEnemy", "Stop If Nearby Enemy").SetValue(true));
+            lane.AddItem(new MenuItem("laneQFast", "Fast Clear").SetValue(true));
+            lane.AddItem(new MenuItem("LaneQ", "Use Q").SetValue(true));
+            lane.AddItem(new MenuItem("LaneW", "Use W").SetValue(true));
+            lane.AddItem(new MenuItem("LaneE", "Use E").SetValue(true));
             config.AddSubMenu(lane);
 
-            var jngl = new Menu("清野", "Jungle");
-            jngl.AddItem(new MenuItem("JungleQ", "使用 Q").SetValue(true));
-            jngl.AddItem(new MenuItem("JungleW", "使用 W").SetValue(true));
-            jngl.AddItem(new MenuItem("JungleE", "使用 E").SetValue(true));
+            var jngl = new Menu("Jungle", "Jungle");
+            jngl.AddItem(new MenuItem("JungleQ", "Use Q").SetValue(true));
+            jngl.AddItem(new MenuItem("JungleW", "Use W").SetValue(true));
+            jngl.AddItem(new MenuItem("JungleE", "Use E").SetValue(true));
             config.AddSubMenu(jngl);
 
-            var killsteal = new Menu("搶頭", "Killsteal");
-            killsteal.AddItem(new MenuItem("ignite", "使用 點燃").SetValue(true));
-            killsteal.AddItem(new MenuItem("ksW", "使用 W").SetValue(true));
-            killsteal.AddItem(new MenuItem("ksR2", "使用 R2").SetValue(true));
+            var killsteal = new Menu("Killsteal", "Killsteal");
+            killsteal.AddItem(new MenuItem("ignite", "Use Ignite").SetValue(true));
+            killsteal.AddItem(new MenuItem("ksW", "Use W").SetValue(true));
+            killsteal.AddItem(new MenuItem("ksR2", "Use R2").SetValue(true));
             config.AddSubMenu(killsteal);
 
-            var misc = new Menu("雜項", "Misc");
-            misc.AddItem(new MenuItem("GapcloserMenu", "防突進").SetValue(true));
-            misc.AddItem(new MenuItem("InterruptMenu", "中斷技能").SetValue(true));
-            misc.AddItem(new MenuItem("KeepQ", "保持 Q 靈活").SetValue(true));
-            misc.AddItem(new MenuItem("QMove", "Q 移動").SetValue(new KeyBind('K', KeyBindType.Press))).SetTooltip("將Q的移動到鼠標");
+            var misc = new Menu("Misc", "Misc");
+            misc.AddItem(new MenuItem("GapcloserMenu", "Anti-Gapcloser").SetValue(true));
+            misc.AddItem(new MenuItem("InterruptMenu", "Interrupter").SetValue(true));
+            misc.AddItem(new MenuItem("KeepQ", "Keep Q Alive").SetValue(true));
+            misc.AddItem(new MenuItem("QMove", "Q Move").SetValue(new KeyBind('K', KeyBindType.Press))).SetTooltip("Will Q Move to mouse");
             config.AddSubMenu(misc);
 
-            var draw = new Menu("顯示", "Draw");
-            draw.AddItem(new MenuItem("DrawForceFlash", "閃現 狀態").SetValue(true));
-            draw.AddItem(new MenuItem("DrawAlwaysR", "R 狀態").SetValue(true));
-            draw.AddItem(new MenuItem("R2Draw", "R2 傷害").SetValue(false));
-            draw.AddItem(new MenuItem("Dind", "傷害指示器").SetValue(true));
-            draw.AddItem(new MenuItem("FleeSpot", "顯示逃跑點").SetValue(true));
-            draw.AddItem(new MenuItem("DrawCB", "連招").SetValue(true));
-            draw.AddItem(new MenuItem("DrawBT", "爆發連招").SetValue(false));
-            draw.AddItem(new MenuItem("DrawFH", "快速騷擾").SetValue(false));
-            draw.AddItem(new MenuItem("DrawHS", "騷擾").SetValue(false));
+            var draw = new Menu("Draw", "Draw");
+            draw.AddItem(new MenuItem("DrawForceFlash", "Flash Status").SetValue(true));
+            draw.AddItem(new MenuItem("DrawAlwaysR", "R Status").SetValue(true));
+            draw.AddItem(new MenuItem("R2Draw", "R2 Dmg").SetValue(false));
+            draw.AddItem(new MenuItem("Dind", "Damage Indicator").SetValue(true));
+            draw.AddItem(new MenuItem("FleeSpot", "Draw Flee Spots").SetValue(true));
+            draw.AddItem(new MenuItem("DrawCB", "Combo Engage").SetValue(true));
+            draw.AddItem(new MenuItem("DrawBT", "BurstMode Engage").SetValue(false));
+            draw.AddItem(new MenuItem("DrawFH", "FastHarassMode Engage").SetValue(false));
+            draw.AddItem(new MenuItem("DrawHS", "Harass Engage").SetValue(false));
             config.AddSubMenu(draw);
 
-            var flee = new Menu("逃跑", "Flee");
-            flee.AddItem(new MenuItem("WallFlee", "逃跑時過牆").SetValue(true).SetTooltip("在逃跑模式時跳過牆"));
-            flee.AddItem(new MenuItem("FleeYoumuu", "使用妖夢鬼刀").SetValue(true).SetTooltip("逃跑時後使用妖夢鬼刀"));
+            var flee = new Menu("Flee", "Flee");
+            flee.AddItem(new MenuItem("WallFlee", "WallJump in Flee").SetValue(true).SetTooltip("Jumps over walls in flee mode"));
+            flee.AddItem(new MenuItem("FleeYoumuu", "Youmuu's Ghostblade").SetValue(true).SetTooltip("Will flee with ghostblade"));
             config.AddSubMenu(flee);
 
-            var skin = new Menu("造型更換", "SkinChanger");
-            skin.AddItem(new MenuItem("UseSkin", "使用造型更換").SetValue(false)).SetTooltip("可各種切換造型");
-            skin.AddItem(new MenuItem("SkinList", "造型").SetValue(new StringList(new[]
+            var skin = new Menu("SkinChanger", "SkinChanger");
+            skin.AddItem(new MenuItem("UseSkin", "Use SkinChanger").SetValue(false)).SetTooltip("Toggles Skinchanger");
+            skin.AddItem(new MenuItem("SkinList", "Skin").SetValue(new StringList(new[]
                             {
                 "Default",
                 "Redeemed",
@@ -222,9 +222,9 @@ namespace NechritoRiven
 
             config.AddSubMenu(skin);
 
-            config.AddItem(new MenuItem("version", "版本: 6.24.5").SetFontStyle(FontStyle.Bold, Color.Cyan));
+            config.AddItem(new MenuItem("version", "Version: 6.24.5").SetFontStyle(FontStyle.Bold, Color.Cyan));
 
-            config.AddItem(new MenuItem("paypal", "贊助Paypal: nechrito@live.se").SetFontStyle(FontStyle.Regular, Color.Cyan));
+            config.AddItem(new MenuItem("paypal", "Paypal: nechrito@live.se").SetFontStyle(FontStyle.Regular, Color.Cyan));
 
             config.AddToMainMenu();
         }

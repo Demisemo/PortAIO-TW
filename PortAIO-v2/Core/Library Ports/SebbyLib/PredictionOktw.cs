@@ -293,9 +293,9 @@ namespace SebbyLib.Prediction
             //Check if the unit position is in range
             if (Math.Abs(input.Range - float.MaxValue) > float.Epsilon)
             {
-                if (result.Hitchance >= HitChance.High &&
-                    input.RangeCheckFrom.Distance(input.Unit.Position, true) >
-                    Math.Pow(input.Range + input.RealRadius * 3 / 4, 2))
+                if (result.Hitchance >= HitChance.High
+                    && input.RangeCheckFrom.Distance(input.Unit.Position, true)
+                    > Math.Pow(input.Range + input.RealRadius * 3 / 4, 2))
                 {
                     result.Hitchance = HitChance.Medium;
                 }
@@ -369,10 +369,10 @@ namespace SebbyLib.Prediction
             }
 
             // PREPARE MATH ///////////////////////////////////////////////////////////////////////////////////
-            var path = input.Unit.Path.ToList().To2D();
+            var path = EloBuddy.SDK.Prediction.Position.GetRealPath(input.Unit).ToList().To2D();
 
 
-            var lastWaypiont = input.Unit.Path.Last();
+            var lastWaypiont = EloBuddy.SDK.Prediction.Position.GetRealPath(input.Unit).ToList().Last();
 
             var distanceUnitToWaypoint = lastWaypiont.Distance(input.Unit.ServerPosition);
             var distanceFromToUnit = input.From.Distance(input.Unit.ServerPosition);
@@ -486,7 +486,7 @@ namespace SebbyLib.Prediction
 
 
 
-            if (input.Unit.Path.ToList().To2D().Count == 1)
+            if (EloBuddy.SDK.Prediction.Position.GetRealPath(input.Unit).ToList().To2D().Count == 1)
             {
                 if (UnitTracker.GetLastAutoAttackTime(input.Unit) < 0.1d && totalDelay < 0.7)
                 {

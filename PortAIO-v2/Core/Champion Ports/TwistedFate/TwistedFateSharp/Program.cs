@@ -8,15 +8,17 @@ using System.Runtime.Remoting.Messaging;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
+using TwistedFate.Common;
 using Color = System.Drawing.Color;
-using EloBuddy;
 #endregion
 
+using EloBuddy; 
+using LeagueSharp.Common; 
 namespace TwistedFate
 {
     internal class Program
     {
-        private static Menu Config;
+        public static Menu Config;
 
         private static Spell Q;
         private static readonly float Qangle = 28*(float) Math.PI/180;
@@ -25,6 +27,12 @@ namespace TwistedFate
         private static int LastPingT = 0;
         private static AIHeroClient Player;
         private static int CastQTick;
+        public static int PickTick = 0;
+        public static Menu MenuTools { get; private set; }
+
+        public static void Main()
+        {
+        }
 
         private static void Ping(Vector2 position)
         {
@@ -48,7 +56,7 @@ namespace TwistedFate
             TacticalMap.ShowPing(PingCategory.Fallback, PingLocation, true);
         }
 
-        public static void Game_OnGameLoad() // made public so aio handler can launch TF script
+        public static void Game_OnGameLoad()
         {
             if (ObjectManager.Player.ChampionName != "TwistedFate") return;
             Player = ObjectManager.Player;
@@ -58,13 +66,13 @@ namespace TwistedFate
             //Make the menu
             Config = new Menu("Twisted Fate", "TwistedFate", true);
 
-            var TargetSelectorMenu = new Menu("Target Selector", "Target Selector");
-            TargetSelector.AddToMenu(TargetSelectorMenu);
-            Config.AddSubMenu(TargetSelectorMenu);
+            MenuTools = new Menu("Tools", "Tools");
+            Config.AddSubMenu(MenuTools);
+            
 
             var SowMenu = new Menu("Orbwalking", "Orbwalking");
             SOW = new Orbwalking.Orbwalker(SowMenu);
-            Config.AddSubMenu(SowMenu);
+            MenuTools.AddSubMenu(SowMenu);
 
             /* Q */
             var q = new Menu("Q - Wildcards", "Q");
@@ -90,6 +98,12 @@ namespace TwistedFate
                 Config.AddSubMenu(w);
             }
 
+            var menuLane = new Menu("Lane", "Lane");
+            {
+                menuLane.AddItem(new MenuItem("Lane.BlueCard.MinMana", "Keep up mana > % [0 = Off]").SetValue(new Slider(50, 0, 100)));
+                Config.AddSubMenu(menuLane);
+            }
+
             var menuItems = new Menu("Items", "Items");
             {
                 menuItems.AddItem(new MenuItem("itemBotrk", "Botrk").SetValue(true));
@@ -109,19 +123,11 @@ namespace TwistedFate
             var misc = new Menu("Misc", "Misc");
             {
                 misc.AddItem(new MenuItem("PingLH", "Ping low health enemies (Only local)").SetValue(true));
-                misc.AddItem(new MenuItem("DontGoldCardDuringCombo", "Don't select gold card on combo").SetValue(false));
-
+                misc.AddItem(new MenuItem("Misc.InstantSelection", "Anti-Cheat: Never select card instantly").SetValue(new KeyBind("G".ToCharArray()[0], KeyBindType.Toggle))).SetFontStyle(FontStyle.Regular, SharpDX.Color.Aqua).Permashow();
+                misc.AddItem(new MenuItem("Misc.SelectRandomCard", "Anti-Cheat: Select a random card for killable enemy").SetValue(false)).SetFontStyle(FontStyle.Regular, SharpDX.Color.Aqua).Permashow();
+                misc.AddItem(new MenuItem("Misc.SelectGoldCardInRisk", "Anti-Cheat: Select instantly Gold Card if I'm in risk").SetValue(false)).SetFontStyle(FontStyle.Regular, SharpDX.Color.Aqua).Permashow();
                 Config.AddSubMenu(misc);
             }
-
-            //Damage after combo:
-            var dmgAfterComboItem = new MenuItem("DamageAfterCombo", "Draw damage after combo").SetValue(true);
-            //LeagueSharp.Common.Utility.HpBar//DamageIndicator.DamageToUnit = ComboDamage;
-            //LeagueSharp.Common.Utility.HpBar//DamageIndicator.Enabled = dmgAfterComboItem.GetValue<bool>();
-            dmgAfterComboItem.ValueChanged += delegate(object sender, OnValueChangeEventArgs eventArgs)
-            {
-                //LeagueSharp.Common.Utility.HpBar//DamageIndicator.Enabled = eventArgs.GetNewValue<bool>();
-            };
 
             /*Drawing*/
             var drawings = new Menu("Drawings", "Drawings");
@@ -133,7 +139,6 @@ namespace TwistedFate
                 drawings.AddItem(
                     new MenuItem("Rcircle2", "R Range (minimap)").SetValue(new Circle(true,
                         Color.FromArgb(255, 255, 255, 255))));
-                drawings.AddItem(dmgAfterComboItem);
                 Config.AddSubMenu(drawings);
             }
 
@@ -141,11 +146,60 @@ namespace TwistedFate
 
             Config.AddToMainMenu();
 
+            var x = new CommonBuffManager();
+            CommonGeometry.Init();
+
+
+            CommonAutoLevel.Init(MenuTools);
+
             Game.OnUpdate += Game_OnGameUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
+            Drawing.OnDraw += Drawing_OnDraw_PassiveTimes;
             Drawing.OnEndScene += DrawingOnOnEndScene;
             Obj_AI_Base.OnProcessSpellCast += AIHeroClient_OnProcessSpellCast;
             Orbwalking.BeforeAttack += OrbwalkingOnBeforeAttack;
+        }
+
+        private static void Drawing_OnDraw_PassiveTimes(EventArgs args)
+        {
+            var passiveBuffs =
+                     (from b in ObjectManager.Player.Buffs
+                      join b1 in CommonBuffManager.PassiveBuffs on b.DisplayName equals b1.BuffName
+                      select new { b, b1 }).Distinct();
+
+            foreach (var buffName in passiveBuffs)
+            {
+                //Chat.Print(buffName.b1.BuffName);
+                for (int i = 0; i < passiveBuffs.Count(); i++)
+                {
+                    if (buffName.b.EndTime >= Game.Time)
+                    {
+                        CommonGeometry.DrawBox(new Vector2(ObjectManager.Player.HPBarPosition.X + 10, (i * 8) + ObjectManager.Player.HPBarPosition.Y + 32), 130, 6, Color.FromArgb(100, 255, 200, 37), 1, Color.Black);
+
+                        var buffTime = buffName.b.EndTime - buffName.b.StartTime;
+                        CommonGeometry.DrawBox(new Vector2(ObjectManager.Player.HPBarPosition.X + 11, (i * 8) + ObjectManager.Player.HPBarPosition.Y + 33), (130 / buffTime) * (buffName.b.EndTime - Game.Time), 4, buffName.b1.Color, 1, buffName.b1.Color);
+
+                        TimeSpan timeSpan = TimeSpan.FromSeconds(buffName.b.EndTime - Game.Time);
+                        var timer = $"{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}";
+                        CommonGeometry.DrawText(CommonGeometry.TextPassive, timer, ObjectManager.Player.HPBarPosition.X + 142, (i * 8) + ObjectManager.Player.HPBarPosition.Y + 29, SharpDX.Color.Wheat);
+                    }
+                }
+            }
+
+            foreach (var hero in HeroManager.AllHeroes)
+            {
+                var jungleBuffs = (from b in hero.Buffs join b1 in CommonBuffManager.JungleBuffs on b.DisplayName equals b1.BuffName select new {b, b1}).Distinct();
+
+                foreach (var buffName in jungleBuffs.ToList())
+                {
+                    var nDiff1 = buffName.b.EndTime - buffName.b.StartTime < 10 ? (Game.Time - buffName.b.StartTime) * 10 : Game.Time - buffName.b.StartTime;
+                    var nDiff2 = buffName.b.EndTime - buffName.b.StartTime < 10 ? (buffName.b.EndTime - buffName.b.StartTime) * 10 : buffName.b.EndTime - buffName.b.StartTime;
+                    var circle1 = new CommonGeometry.Circle2(new Vector2(hero.Position.X + 3, hero.Position.Y - 3), 140 + (buffName.b1.Number*20), nDiff1, nDiff2).ToPolygon();
+                    circle1.Draw(Color.Black, 3);
+
+                    var circle = new CommonGeometry.Circle2(hero.Position.To2D(), 140 + (buffName.b1.Number*20), nDiff1, nDiff2).ToPolygon(); circle.Draw(buffName.b1.Color, 3);
+                }
+            }
         }
 
         private static void OrbwalkingOnBeforeAttack(Orbwalking.BeforeAttackEventArgs args)
@@ -162,7 +216,7 @@ namespace TwistedFate
                 return;
             }
 
-            if (args.Slot == SpellSlot.R && Config.Item("AutoY").GetValue<bool>())
+            if (args.SData.Name.Equals("Gate", StringComparison.InvariantCultureIgnoreCase) && Config.Item("AutoY").GetValue<bool>())
             {
                 CardSelector.StartSelecting(Cards.Yellow);
             }
@@ -233,7 +287,7 @@ namespace TwistedFate
             var startPoint = ObjectManager.Player.ServerPosition.To2D();
             var originalDirection = Q.Range*(unitPosition - startPoint).Normalized();
 
-            foreach (var enemy in HeroManager.Enemies)
+            foreach (var enemy in ObjectManager.Get<AIHeroClient>())
             {
                 if (enemy.IsValidTarget() && enemy.NetworkId != unit.NetworkId)
                 {
@@ -302,12 +356,49 @@ namespace TwistedFate
             return (float) dmg;
         }
 
+        static double GetCardDamage(int slot)
+        {
+            var dmg = 0d;
+            int[] blue = new[] {40, 60, 80, 100, 120};
+            int[] red = new[] { 30, 45, 60, 75, 90 };
+            double[] gold = new[] { 15, 22.5, 30, 37.5, 45 };
+
+
+            var dmg1 = ObjectManager.Player.TotalAttackDamage + (ObjectManager.Player.TotalMagicalDamage / 2);
+
+            if (slot == 0)
+            {
+                dmg = blue[ObjectManager.Player.Spellbook.GetSpell(SpellSlot.W).Level - 1] + dmg1;
+            }
+            else if (slot == 1)
+            {
+                dmg = red[ObjectManager.Player.Spellbook.GetSpell(SpellSlot.W).Level - 1] + dmg1;
+            }
+            else if (slot == 2)
+            {
+                dmg = gold[ObjectManager.Player.Spellbook.GetSpell(SpellSlot.W).Level - 1] + dmg1;
+            }
+
+            return dmg;
+        }
+
+
+        static void SelectACard(Cards aCard)
+        {
+            if (PickTick == 0)
+            {
+                PickTick = Utils.TickCount;
+            }
+
+            CardSelector.StartSelecting(aCard);
+        }
+
         private static void Game_OnGameUpdate(EventArgs args)
         {
             if (Config.Item("PingLH").GetValue<bool>())
                 foreach (
                     var enemy in
-                        HeroManager.Enemies
+                        ObjectManager.Get<AIHeroClient>()
                             .Where(
                                 h =>
                                     ObjectManager.Player.Spellbook.CanUseSpell(SpellSlot.R) == SpellState.Ready &&
@@ -332,30 +423,72 @@ namespace TwistedFate
 
             var combo = Config.Item("Combo").GetValue<KeyBind>().Active;
 
-            //Select cards.
-            if (Config.Item("SelectYellow").GetValue<KeyBind>().Active ||
-                combo && !Config.Item("DontGoldCardDuringCombo").GetValue<bool>())
+            //Choose a random card if enemy killable
+            if (combo && Config.Item("Misc.SelectRandomCard").GetValue<bool>())
             {
-                CardSelector.StartSelecting(Cards.Yellow);
+                var wName = ObjectManager.Player.Spellbook.GetSpell(SpellSlot.W).Name;
+                var t = TargetSelector.GetTarget(Orbwalking.GetRealAutoAttackRange(null) + 65, TargetSelector.DamageType.Magical);
+                if (t.IsValidTarget() && ObjectManager.Player.CanAttack)
+                {
+                    if (
+                        (wName.Equals("Bluecardlock", StringComparison.InvariantCultureIgnoreCase) && t.Health <= GetCardDamage(0))
+                        || (wName.Equals("Redcardlock", StringComparison.InvariantCultureIgnoreCase) && t.Health <= GetCardDamage(1))
+                        || (wName.Equals("Goldcardlock", StringComparison.InvariantCultureIgnoreCase) && t.Health <= GetCardDamage(2))
+                       )
+                    {
+                        ObjectManager.Player.Spellbook.CastSpell(SpellSlot.W, false);
+                        Program.PickTick = 0;
+                    }
+                }
+            }
+
+            if (SOW.ActiveMode != Orbwalking.OrbwalkingMode.Combo && SOW.ActiveMode != Orbwalking.OrbwalkingMode.None)
+            {
+                if (Config.Item("Lane.BlueCard.MinMana").GetValue<Slider>().Value > 0 && Player.ManaPercent < Config.Item("Lane.BlueCard.MinMana").GetValue<Slider>().Value)
+                {
+                    var minions = MinionManager.GetMinions(Orbwalking.GetRealAutoAttackRange(null) + 165);
+                    {
+                        if (minions.Count > 0)
+                        {
+                            SelectACard(Cards.Blue);
+                        }
+                    }
+                }
+
+            }
+
+            //Select cards.
+            if (Config.Item("SelectYellow").GetValue<KeyBind>().Active || combo)
+            {
+                SelectACard(Cards.Yellow);
             }
 
             if (Config.Item("SelectBlue").GetValue<KeyBind>().Active)
             {
-                CardSelector.StartSelecting(Cards.Blue);
+                SelectACard(Cards.Blue);
             }
 
             if (Config.Item("SelectRed").GetValue<KeyBind>().Active)
             {
-                CardSelector.StartSelecting(Cards.Red);
+                SelectACard(Cards.Red);
             }
+/*
+            if (CardSelector.Status == SelectStatus.Selected && combo)
+            {
+                var target = SOW.GetTarget();
+                if (target.IsValidTarget() && target is AIHeroClient && Items.HasItem("DeathfireGrasp") && ComboDamage((AIHeroClient)target) >= target.Health)
+                {
+                    Items.UseItem("DeathfireGrasp", (AIHeroClient) target);
+                }
+            }
+*/
 
             //Auto Q
             var autoQI = Config.Item("AutoQI").GetValue<bool>();
             var autoQD = Config.Item("AutoQD").GetValue<bool>();
 
-
             if (ObjectManager.Player.Spellbook.CanUseSpell(SpellSlot.Q) == SpellState.Ready && (autoQD || autoQI))
-                foreach (var enemy in HeroManager.Enemies)
+                foreach (var enemy in ObjectManager.Get<AIHeroClient>())
                 {
                     if (enemy.IsValidTarget(Q.Range*2))
                     {

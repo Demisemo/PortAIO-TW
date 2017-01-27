@@ -13,108 +13,108 @@ namespace Flowers_Riven_Reborn.Manager.Menu
         internal static void Init()
         {
             Menu =
-                new Menu("花邊-雷玟", "Flowers' Riven Reborn", true).SetFontStyle(
+                new Menu("Flowers' Riven Reborn", "Flowers' Riven Reborn", true).SetFontStyle(
                     System.Drawing.FontStyle.Regular, menuColor);
 
-            var targetMenu = Menu.AddSubMenu(new Menu("目標選擇器", "Target Selector"));
+            var targetMenu = Menu.AddSubMenu(new Menu("Target Selector", "Target Selector"));
             {
                 TargetSelector.AddToMenu(targetMenu);
             }
 
-            var orbMenu = Menu.AddSubMenu(new Menu("走砍", "Orbwalking"));
+            var orbMenu = Menu.AddSubMenu(new Menu("Orbwalking", "Orbwalking"));
             {
                 Orbwalker = new Orbwalking.Orbwalker(orbMenu);
             }
 
-            var comboMenu = Menu.AddSubMenu(new Menu("連招", "Combo"));
+            var comboMenu = Menu.AddSubMenu(new Menu("Combo", "Combo"));
             {
-                comboMenu.AddItem(new MenuItem("ComboQ", "使用 Q 防突進", true).SetValue(true));
-                comboMenu.AddItem(new MenuItem("ComboW", "使用 W", true).SetValue(true));
-                comboMenu.AddItem(new MenuItem("ComboQW", "使用 Q1 + W", true).SetValue(false));
-                comboMenu.AddItem(new MenuItem("ComboEW", "使用 E + W", true).SetValue(true));
-                comboMenu.AddItem(new MenuItem("ComboE", "使用 E", true).SetValue(true));
-                comboMenu.AddItem(new MenuItem("ComboR", "使用 R", true).SetValue(true));
+                comboMenu.AddItem(new MenuItem("ComboQ", "Use Q| Gapcloser", true).SetValue(true));
+                comboMenu.AddItem(new MenuItem("ComboW", "Use W", true).SetValue(true));
+                comboMenu.AddItem(new MenuItem("ComboQW", "Use Q1 + W", true).SetValue(false));
+                comboMenu.AddItem(new MenuItem("ComboEW", "Use E + W", true).SetValue(true));
+                comboMenu.AddItem(new MenuItem("ComboE", "Use E", true).SetValue(true));
+                comboMenu.AddItem(new MenuItem("ComboR", "Use R", true).SetValue(true));
                 comboMenu.AddItem(
-                    new MenuItem("R1Combo", "使用 R1", true).SetValue(new KeyBind('G', KeyBindType.Toggle, true))).Permashow();
+                    new MenuItem("R1Combo", "Use R1", true).SetValue(new KeyBind('G', KeyBindType.Toggle, true))).Permashow();
                 comboMenu.AddItem(
-                    new MenuItem("R2Mode", "使用 R2 模式: ", true).SetValue(
-                        new StringList(new[] { "只擊殺時", "花邊邏輯", "快速邏輯", "關閉" }, 1)));
-                comboMenu.AddItem(new MenuItem("ComboIgnite", "使用點燃", true).SetValue(true));
+                    new MenuItem("R2Mode", "Use R2 Mode: ", true).SetValue(
+                        new StringList(new[] { "Only Killable", "myLogic", "First Cast", "Off" }, 1)));
+                comboMenu.AddItem(new MenuItem("ComboIgnite", "Use Ignite", true).SetValue(true));
             }
 
-            var burstMenu = Menu.AddSubMenu(new Menu("爆發連招", "Burst"));
+            var burstMenu = Menu.AddSubMenu(new Menu("Burst", "Burst"));
             {
-                burstMenu.AddItem(new MenuItem("BurstFlash", "使用 閃現", true).SetValue(true));
-                burstMenu.AddItem(new MenuItem("BurstIgnite", "使用 點燃", true).SetValue(true));
-                burstMenu.AddItem(new MenuItem("Note...", "注意: ", true));
-                burstMenu.AddItem(new MenuItem("target...", "左鍵單擊目標", true));
-                burstMenu.AddItem(new MenuItem("range...", "和目標在爆發連招範圍", true));
-                burstMenu.AddItem(new MenuItem("press...", "然後爆發連招熱鍵", true));
+                burstMenu.AddItem(new MenuItem("BurstFlash", "Use Flash", true).SetValue(true));
+                burstMenu.AddItem(new MenuItem("BurstIgnite", "Use Ignite", true).SetValue(true));
+                burstMenu.AddItem(new MenuItem("Note...", "Note: ", true));
+                burstMenu.AddItem(new MenuItem("target...", "Left Cilck the Target", true));
+                burstMenu.AddItem(new MenuItem("range...", "And Target in Burst Range", true));
+                burstMenu.AddItem(new MenuItem("press...", "And then Press the Burst Key", true));
             }
 
-            var harassMenu = Menu.AddSubMenu(new Menu("騷擾", "Harass"));
+            var harassMenu = Menu.AddSubMenu(new Menu("Harass", "Harass"));
             {
-                harassMenu.AddItem(new MenuItem("HarassQ", "使用 Q", true).SetValue(true));
-                harassMenu.AddItem(new MenuItem("HarassW", "使用 W", true).SetValue(true));
-                harassMenu.AddItem(new MenuItem("HarassE", "使用 E", true).SetValue(true));
+                harassMenu.AddItem(new MenuItem("HarassQ", "Use Q", true).SetValue(true));
+                harassMenu.AddItem(new MenuItem("HarassW", "Use W", true).SetValue(true));
+                harassMenu.AddItem(new MenuItem("HarassE", "Use E", true).SetValue(true));
                 harassMenu.AddItem(
-                    new MenuItem("HarassMode", "騷擾模式", true).SetValue(new StringList(new[] { "智能", "爆發" })));
+                    new MenuItem("HarassMode", "Harass Mode", true).SetValue(new StringList(new[] { "Smart", "Burst" })));
             }
 
-            var clearMenu = Menu.AddSubMenu(new Menu("清線/清野", "Clear"));
+            var clearMenu = Menu.AddSubMenu(new Menu("Clear", "Clear"));
             {
-                var laneClearMenu = clearMenu.AddSubMenu(new Menu("清線", "LaneClear"));
+                var laneClearMenu = clearMenu.AddSubMenu(new Menu("LaneClear", "LaneClear"));
                 {
-                    laneClearMenu.AddItem(new MenuItem("LaneClearQ", "使用 Q", true).SetValue(true));
-                    laneClearMenu.AddItem(new MenuItem("LaneClearW", "使用 W", true).SetValue(true));
+                    laneClearMenu.AddItem(new MenuItem("LaneClearQ", "Use Q", true).SetValue(true));
+                    laneClearMenu.AddItem(new MenuItem("LaneClearW", "Use W", true).SetValue(true));
                 }
 
-                var jungleClearMenu = clearMenu.AddSubMenu(new Menu("清野", "JungleClear"));
+                var jungleClearMenu = clearMenu.AddSubMenu(new Menu("JungleClear", "JungleClear"));
                 {
-                    jungleClearMenu.AddItem(new MenuItem("JungleClearQ", "使用 Q", true).SetValue(true));
-                    jungleClearMenu.AddItem(new MenuItem("JungleClearW", "使用 W", true).SetValue(true));
-                    jungleClearMenu.AddItem(new MenuItem("JungleClearWLogic", "使用 W 智能", true).SetValue(false));
-                    jungleClearMenu.AddItem(new MenuItem("JungleClearE", "使用 E", true).SetValue(true));
+                    jungleClearMenu.AddItem(new MenuItem("JungleClearQ", "Use Q", true).SetValue(true));
+                    jungleClearMenu.AddItem(new MenuItem("JungleClearW", "Use W", true).SetValue(true));
+                    jungleClearMenu.AddItem(new MenuItem("JungleClearWLogic", "Use W| Smart", true).SetValue(false));
+                    jungleClearMenu.AddItem(new MenuItem("JungleClearE", "Use E", true).SetValue(true));
                 }
             }
 
-            var killStealMenu = Menu.AddSubMenu(new Menu("搶頭", "KillSteal"));
+            var killStealMenu = Menu.AddSubMenu(new Menu("KillSteal", "KillSteal"));
             {
-                killStealMenu.AddItem(new MenuItem("KillStealW", "使用 W", true).SetValue(true));
+                killStealMenu.AddItem(new MenuItem("KillStealW", "Use W", true).SetValue(true));
                 killStealMenu.AddItem(
-                    new MenuItem("KillStealE", "使用 E", true).SetValue(true).SetTooltip("E 防突進和 R2 搶頭"));
-                killStealMenu.AddItem(new MenuItem("KillStealR", "使用 R", true).SetValue(true));
+                    new MenuItem("KillStealE", "Use E", true).SetValue(true).SetTooltip("E Gapcloser and R2 Kill"));
+                killStealMenu.AddItem(new MenuItem("KillStealR", "Use R", true).SetValue(true));
             }
 
-            var miscMenu = Menu.AddSubMenu(new Menu("雜項", "Misc"));
+            var miscMenu = Menu.AddSubMenu(new Menu("Misc", "Misc"));
             {
-                var qMenu = miscMenu.AddSubMenu(new Menu("Q 設置", "Q Setting"));
+                var qMenu = miscMenu.AddSubMenu(new Menu("Q Setting", "Q Setting"));
                 {
-                    var qDelayMenu = qMenu.AddSubMenu(new Menu("延遲設置", "Delay Settings"));
+                    var qDelayMenu = qMenu.AddSubMenu(new Menu("Delay Settings", "Delay Settings"));
                     {
-                        qDelayMenu.AddItem(new MenuItem("Q1Delay", "Q1 延遲: ", true).SetValue(new Slider(280, 200, 350)));
-                        qDelayMenu.AddItem(new MenuItem("Q2Delay", "Q2 延遲: ", true).SetValue(new Slider(280, 200, 350)));
-                        qDelayMenu.AddItem(new MenuItem("Q3Delay", "Q3 延遲: ", true).SetValue(new Slider(380, 300, 450)));
-                        qDelayMenu.AddItem(new MenuItem("AutoSetDelay", "包括Ping?", true).SetValue(false)).ValueChanged +=
+                        qDelayMenu.AddItem(new MenuItem("Q1Delay", "Q1 Delay: ", true).SetValue(new Slider(280, 200, 350)));
+                        qDelayMenu.AddItem(new MenuItem("Q2Delay", "Q2 Delay: ", true).SetValue(new Slider(280, 200, 350)));
+                        qDelayMenu.AddItem(new MenuItem("Q3Delay", "Q3 Delay: ", true).SetValue(new Slider(380, 300, 450)));
+                        qDelayMenu.AddItem(new MenuItem("AutoSetDelay", "Inlcude the Ping?", true).SetValue(false)).ValueChanged +=
                             DelayChanged;
-                        qDelayMenu.AddItem(new MenuItem("MinDelay", "設置 QA 延遲?", true).SetValue(false)).ValueChanged +=
+                        qDelayMenu.AddItem(new MenuItem("MinDelay", "Set my Min QA Delay?", true).SetValue(false)).ValueChanged +=
                             myDelayChanged;
                     }
 
-                    qMenu.AddItem(new MenuItem("KeepQALive", "保持 Q 靈活", true).SetValue(true));
-                    qMenu.AddItem(new MenuItem("Dance", "使用表情動作減少 QA 動畫", true).SetValue(false));
+                    qMenu.AddItem(new MenuItem("KeepQALive", "Keep Q alive", true).SetValue(true));
+                    qMenu.AddItem(new MenuItem("Dance", "Dance Emote in QA", true).SetValue(false));
                     qMenu.AddItem(
-                        new MenuItem("QMode", "Q 模式 : ", true).SetValue(
-                            new StringList(new[] { "目標位置", "鼠標", "最大 Q 選擇目標", "最大 Q 鼠標位置" })));
+                        new MenuItem("QMode", "Q Mode : ", true).SetValue(
+                            new StringList(new[] { "Target Position", "Mouse", "Max Q To Target", "Max Q To Mouse" })));
                 }
 
-                var wMenu = miscMenu.AddSubMenu(new Menu("W 設置", "W Setting"));
+                var wMenu = miscMenu.AddSubMenu(new Menu("W Setting", "W Setting"));
                 {
-                    wMenu.AddItem(new MenuItem("AntiGapCloserW", "防突進", true).SetValue(true));
-                    wMenu.AddItem(new MenuItem("InterruptTargetW", "中斷技能", true).SetValue(true));
+                    wMenu.AddItem(new MenuItem("AntiGapCloserW", "AntiGapCloser", true).SetValue(true));
+                    wMenu.AddItem(new MenuItem("InterruptTargetW", "Interrupt Danger Spell", true).SetValue(true));
                 }
 
-                var eMenu = miscMenu.AddSubMenu(new Menu("E 設置", "E Settings"));
+                var eMenu = miscMenu.AddSubMenu(new Menu("E Settings", "E Settings"));
                 {
                     foreach (var target in HeroManager.Enemies)
                     {
@@ -219,24 +219,24 @@ namespace Flowers_Riven_Reborn.Manager.Menu
                     eMenu.AddItem(new MenuItem("EShielddogde", "Use E Shield Spell", true).SetValue(true));
                 }
 
-                var skinMenu = miscMenu.AddSubMenu(new Menu("造型", "SkinChance"));
+                var skinMenu = miscMenu.AddSubMenu(new Menu("SkinChance", "SkinChance"));
                 {
                     SkinManager.AddToMenu(skinMenu, 7);
                 }
             }
 
-            var drawMenu = Menu.AddSubMenu(new Menu("顯示", "Drawings"));
+            var drawMenu = Menu.AddSubMenu(new Menu("Drawings", "Drawings"));
             {
-                drawMenu.AddItem(new MenuItem("DrawW", "顯示 W 範圍", true).SetValue(false));
-                drawMenu.AddItem(new MenuItem("DrawBurst", "顯示爆發連招範圍", true).SetValue(true));
-                drawMenu.AddItem(new MenuItem("DrawRStatus", "顯示 R 狀態", true).SetValue(true));
+                drawMenu.AddItem(new MenuItem("DrawW", "Draw W Range", true).SetValue(false));
+                drawMenu.AddItem(new MenuItem("DrawBurst", "Draw Burst Range", true).SetValue(true));
+                drawMenu.AddItem(new MenuItem("DrawRStatus", "Draw R Status", true).SetValue(true));
                 //DamageIndicator.AddToMenu(drawMenu, DamageCalculate.GetComboDamage);
             }
 
             Menu.AddItem(new MenuItem("asdvre1w56", "  "));
-            Menu.AddItem(new MenuItem("Credit", "作者 : NightMoon")).SetFontStyle(
+            Menu.AddItem(new MenuItem("Credit", "Credit : NightMoon")).SetFontStyle(
                     System.Drawing.FontStyle.Regular, menuColor);
-            Menu.AddItem(new MenuItem("Version", "版本 : 2.0.0.0")).SetFontStyle(
+            Menu.AddItem(new MenuItem("Version", "Version : 2.0.0.0")).SetFontStyle(
                     System.Drawing.FontStyle.Regular, menuColor);
 
             Menu.AddToMainMenu();

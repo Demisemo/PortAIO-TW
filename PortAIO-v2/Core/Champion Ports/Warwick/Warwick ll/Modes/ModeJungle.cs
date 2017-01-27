@@ -7,9 +7,9 @@ using WarwickII.Champion;
 using WarwickII.Common;
 using Color = SharpDX.Color;
 
-using EloBuddy; 
- using LeagueSharp.Common; 
- namespace WarwickII.Modes
+using EloBuddy;
+using LeagueSharp.Common;
+namespace WarwickII.Modes
 {
     internal static class ModeJungle
     {
@@ -25,17 +25,7 @@ using EloBuddy;
             MenuLocal = new Menu("Jungle", "Jungle");
             {
                 MenuLocal.AddItem(new MenuItem("Jungle.Q.Use", "Q:").SetValue(new StringList(new[] { "Off", "On: Just for Big Mobs", "Use for All Mobs" }, 1))).SetFontStyle(FontStyle.Regular, PlayerSpells.Q.MenuColor());
-
-                string[] strESimple = new string[5];
-                {
-                    strESimple[0] = "Off";
-                    strESimple[1] = "Big Mobs";
-                    for (var i = 2; i < 5; i++)
-                    {
-                        strESimple[i] = "If Need to AA Count >= " + (i + 2);
-                    }
-                    MenuLocal.AddItem(new MenuItem("Jungle.W.Use", "W:").SetValue(new StringList(strESimple, 4))).SetFontStyle(FontStyle.Regular, PlayerSpells.W.MenuColor());
-                }
+                MenuLocal.AddItem(new MenuItem("Jungle.E.Use", "E:").SetValue(new StringList(new[] { "Off", "On: Just for Big Mobs", "Use for All Mobs" }, 1))).SetFontStyle(FontStyle.Regular, PlayerSpells.E.MenuColor());
 
                 MenuLocal.AddItem(new MenuItem("Jungle.MinMana", "Min. Mana %:").SetValue(new Slider(20, 100, 0))).SetFontStyle(FontStyle.Regular, Color.LightGreen);
                 MenuLocal.AddItem(new MenuItem("Jungle.Item.Use", "Use Items").SetValue(true)).SetFontStyle(FontStyle.Regular, Colors.ColorItems);
@@ -46,7 +36,7 @@ using EloBuddy;
 
         static void InitSimpleMenu()
         {
- 
+
         }
 
         private static void OnUpdate(EventArgs args)
@@ -97,23 +87,17 @@ using EloBuddy;
                 }
             }
 
-
-            if (MenuLocal.Item("Jungle.W.Use").GetValue<StringList>().SelectedIndex != 0 && W.IsReady() &&
-                mob.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + 65))
+            var jUseE = MenuLocal.Item("Jungle.E.Use").GetValue<StringList>().SelectedIndex;
+            if (jUseE != 0 && E.IsReady() && mob.Distance(ObjectManager.Player) < PlayerSpells.E.Range)
             {
-                var totalAa =
-                    ObjectManager.Get<Obj_AI_Minion>()
-                        .Where(
-                            m =>
-                                m.Team == GameObjectTeam.Neutral &&
-                                m.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + 65))
-                        .Sum(m => (int) m.Health);
-
-                totalAa = (int) (totalAa / ObjectManager.Player.TotalAttackDamage);
-                if (totalAa >= MenuLocal.Item("Jungle.W.Use").GetValue<StringList>().SelectedIndex + 2 ||
-                    CommonManaManager.GetMobType(mobs[0], CommonManaManager.FromMobClass.ByType) == CommonManaManager.MobTypes.Big)
+                if (CommonManaManager.GetMobType(mob, CommonManaManager.FromMobClass.ByType) == CommonManaManager.MobTypes.Big)
                 {
-                    Champion.PlayerSpells.Cast.W();
+                    Champion.PlayerSpells.Cast.E();
+                }
+
+                if (jUseE == 2)
+                {
+                    Champion.PlayerSpells.Cast.E();
                 }
             }
         }

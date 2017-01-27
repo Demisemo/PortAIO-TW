@@ -32,19 +32,9 @@ namespace ExorAIO.Champions.Warwick
             }
 
             /// <summary>
-            ///     The Automatic W Logic.
-            /// </summary>
-            if (Vars.W.IsReady() && GameObjects.Player.CountAllyHeroesInRange(Vars.W.Range) > 1
-                && Vars.Menu["spells"]["w"]["logical"].GetValue<MenuBool>().Value)
-            {
-                Vars.W.Cast();
-            }
-
-            /// <summary>
             ///     The Automatic E Logic.
             /// </summary>
-            if (Vars.E.IsReady() && GameObjects.Player.Spellbook.GetSpell(SpellSlot.E).ToggleState == 1
-                && Vars.Menu["spells"]["e"]["logical"].GetValue<MenuBool>().Value)
+            if (Vars.E.IsReady() && Vars.Menu["spells"]["e"]["logical"].GetValue<MenuBool>().Value && ObjectManager.Player.HealthPercent <= 25 && ObjectManager.Player.CountEnemyHeroesInRange(500) >= 1)
             {
                 Vars.E.Cast();
             }

@@ -40,15 +40,14 @@ namespace ExorAIO.Champions.Warwick
                 Vars.SpellsMenu.Add(Vars.QMenu);
 
                 /// <summary>
-                ///     Sets the menu for the W.
+                ///     Sets the menu for the E.
                 /// </summary>
-                Vars.WMenu = new Menu("w", "Use W to:");
+                Vars.EMenu = new Menu("e", "Use E to:");
                 {
-                    Vars.WMenu.Add(new MenuBool("combo", "Combo", true));
-                    Vars.WMenu.Add(new MenuBool("clear", "Clear", true));
-                    Vars.WMenu.Add(new MenuBool("logical", "Logical", true));
+                    Vars.EMenu.Add(new MenuBool("combo", "Combo", true));
+                    Vars.EMenu.Add(new MenuBool("logical", "Logical", true));
                 }
-                Vars.SpellsMenu.Add(Vars.WMenu);
+                Vars.SpellsMenu.Add(Vars.EMenu);
 
                 /// <summary>
                 ///     Sets the menu for the R.

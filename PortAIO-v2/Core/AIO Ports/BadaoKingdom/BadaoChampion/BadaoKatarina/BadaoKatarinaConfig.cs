@@ -27,47 +27,47 @@ namespace BadaoKingdom.BadaoChampion.BadaoKatarina
             BadaoMainVariables.R = new Spell(SpellSlot.R, 550);
 
             // main menu
-            config = new Menu("Badao-卡特蓮娜" + ObjectManager.Player.ChampionName, ObjectManager.Player.ChampionName, true);
+            config = new Menu("BadaoKingdom " + ObjectManager.Player.ChampionName, ObjectManager.Player.ChampionName, true);
             config.SetFontStyle(System.Drawing.FontStyle.Bold, SharpDX.Color.YellowGreen);
 
             // orbwalker menu
-            Menu orbwalkerMenu = new Menu("走砍", "Orbwalker");
+            Menu orbwalkerMenu = new Menu("Orbwalker", "Orbwalker");
             BadaoMainVariables.Orbwalker = new Orbwalking.Orbwalker(orbwalkerMenu);
             config.AddSubMenu(orbwalkerMenu);
 
             // TS
-            Menu ts = config.AddSubMenu(new Menu("目標選擇器", "Target Selector")); ;
+            Menu ts = config.AddSubMenu(new Menu("Target Selector", "Target Selector")); ;
             TargetSelector.AddToMenu(ts);
 
             // Combo
-            Menu Combo = config.AddSubMenu(new Menu("連招", "Combo"));
-            ComboCancelRForKS = Combo.AddItem(new MenuItem("ComboCancelRForKS", "不使用R去搶頭")).SetValue(true);
-            ComboCancelRNoTarget = Combo.AddItem(new MenuItem("ComboCancelRNoTarget", "如果沒有目標敵人，請取消R")).SetValue(true);
+            Menu Combo = config.AddSubMenu(new Menu("Combo", "Combo"));
+            ComboCancelRForKS = Combo.AddItem(new MenuItem("ComboCancelRForKS", "Cancel R for KS")).SetValue(true);
+            ComboCancelRNoTarget = Combo.AddItem(new MenuItem("ComboCancelRNoTarget", "Cancel R if no target")).SetValue(true);
 
             // Harass
-            Menu Harass = config.AddSubMenu(new Menu("騷擾", "Harass"));
-            HarassWE = Harass.AddItem(new MenuItem("HarassWE", "W-E 旋轉")).SetValue(true);
+            Menu Harass = config.AddSubMenu(new Menu("Harass", "Harass"));
+            HarassWE = Harass.AddItem(new MenuItem("HarassWE", "W-E spin")).SetValue(true);
 
             // LaneClear
-            Menu LaneClear = config.AddSubMenu(new Menu("清線", "LaneClear"));
-            LaneClearQ = LaneClear.AddItem(new MenuItem("LaneClearQ", "使用Q")).SetValue(true);
-            LaneClearW = LaneClear.AddItem(new MenuItem("LaneClearW", "使用W")).SetValue(true);
+            Menu LaneClear = config.AddSubMenu(new Menu("LaneClear", "LaneClear"));
+            LaneClearQ = LaneClear.AddItem(new MenuItem("LaneClearQ", "Q")).SetValue(true);
+            LaneClearW = LaneClear.AddItem(new MenuItem("LaneClearW", "W")).SetValue(true);
 
             // LastHit
-            Menu LastHit = config.AddSubMenu(new Menu("農兵", "LastHit"));
-            LastHitQ = LastHit.AddItem(new MenuItem("LastHitQ", "使用Q")).SetValue(true);
+            Menu LastHit = config.AddSubMenu(new Menu("LastHit", "LastHit"));
+            LastHitQ = LastHit.AddItem(new MenuItem("LastHitQ", "Q")).SetValue(true);
 
             //// JungleClear
             //Menu JungleClear = config.AddSubMenu(new Menu("JungleClear", "JungleClear"));
 
             // Auto
-            Menu Auto = config.AddSubMenu(new Menu("自動", "Auto"));
-            AutoKs = Auto.AddItem(new MenuItem("AutoKs", "搶頭")).SetValue(true);
+            Menu Auto = config.AddSubMenu(new Menu("Auto", "Auto"));
+            AutoKs = Auto.AddItem(new MenuItem("AutoKs", "KS")).SetValue(true);
 
             //FleeAndWallJump
-            Menu FleeJump = config.AddSubMenu(new Menu("逃跑", "Flee And Walljump"));
-            FleeKey = FleeJump.AddItem(new MenuItem("FleeKey", "逃跑熱鍵").SetValue(new KeyBind('G', KeyBindType.Press)));
-            JumpKey = FleeJump.AddItem(new MenuItem("JumpKey", "過牆熱鍵").SetValue(new KeyBind('H', KeyBindType.Press)));
+            Menu FleeJump = config.AddSubMenu(new Menu("Flee And Walljump", "Flee And Walljump"));
+            FleeKey = FleeJump.AddItem(new MenuItem("FleeKey", "Flee Key").SetValue(new KeyBind('G', KeyBindType.Press)));
+            JumpKey = FleeJump.AddItem(new MenuItem("JumpKey", "WallJump Key").SetValue(new KeyBind('H', KeyBindType.Press)));
 
             // attach to mainmenu
             config.AddToMainMenu();

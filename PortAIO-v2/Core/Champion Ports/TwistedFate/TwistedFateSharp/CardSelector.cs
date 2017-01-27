@@ -1,12 +1,15 @@
 #region
 
 using System;
+using System.Drawing;
+using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
-using EloBuddy;
 
 #endregion
 
+using EloBuddy; 
+using LeagueSharp.Common; 
 namespace TwistedFate
 {
     public enum Cards
@@ -24,7 +27,6 @@ namespace TwistedFate
         Selected,
         Cooldown,
     }
-
 
     public static class CardSelector
     {
@@ -44,6 +46,7 @@ namespace TwistedFate
         private static void SendWPacket()
         {
             ObjectManager.Player.Spellbook.CastSpell(SpellSlot.W, false);
+            Program.PickTick = 0;
         }
 
         public static void StartSelecting(Cards card)
@@ -51,7 +54,7 @@ namespace TwistedFate
             if (ObjectManager.Player.Spellbook.GetSpell(SpellSlot.W).Name == "PickACard" && Status == SelectStatus.Ready)
             {
                 Select = card;
-                if (Utils.TickCount - LastWSent > 170 + Game.Ping / 2)
+                if (Utils.TickCount - LastWSent > 100 + Game.Ping / 2)
                 {
                     ObjectManager.Player.Spellbook.CastSpell(SpellSlot.W, ObjectManager.Player);
                     LastWSent = Utils.TickCount;
@@ -61,40 +64,38 @@ namespace TwistedFate
 
         private static void Game_OnGameUpdate(EventArgs args)
         {
+            if (Program.Config.Item("Misc.InstantSelection").GetValue<KeyBind>().Active &&
+                Program.PickTick + 750 > Utils.TickCount)
+            {
+                return;
+            }
+
             var wName = ObjectManager.Player.Spellbook.GetSpell(SpellSlot.W).Name;
             var wState = ObjectManager.Player.Spellbook.CanUseSpell(SpellSlot.W);
 
-            if ((wState == SpellState.Ready &&
-                 wName == "PickACard" &&
-                 (Status != SelectStatus.Selecting || Utils.TickCount - LastWSent > 500)) ||
-                ObjectManager.Player.IsDead)
+            if ((wState == SpellState.Ready && wName == "PickACard" && (Status != SelectStatus.Selecting || Utils.TickCount - LastWSent > 500)) || ObjectManager.Player.IsDead)
             {
                 Status = SelectStatus.Ready;
-            } else
-            if (wState == SpellState.Cooldown &&
-                wName == "PickACard")
+            }
+            else if (wState == SpellState.Cooldown && wName == "PickACard")
             {
                 Select = Cards.None;
                 Status = SelectStatus.Cooldown;
             }
-            else
-            if (wState == SpellState.Surpressed &&
-                !ObjectManager.Player.IsDead)
+            else if (wState == SpellState.Surpressed && !ObjectManager.Player.IsDead)
             {
                 Status = SelectStatus.Selected;
             }
-            
+
             if (Select == Cards.Blue && wName.Equals("BlueCardLock", StringComparison.InvariantCultureIgnoreCase))
             {
                 SendWPacket();
             }
-            else
-            if (Select == Cards.Yellow && wName.Equals("GoldCardLock", StringComparison.InvariantCultureIgnoreCase))
+            else if (Select == Cards.Yellow && wName.Equals("GoldCardLock", StringComparison.InvariantCultureIgnoreCase))
             {
                 SendWPacket();
             }
-            else
-            if (Select == Cards.Red && wName.Equals("RedCardLock", StringComparison.InvariantCultureIgnoreCase))
+            else if (Select == Cards.Red && wName.Equals("RedCardLock", StringComparison.InvariantCultureIgnoreCase))
             {
                 SendWPacket();
             }
@@ -112,7 +113,9 @@ namespace TwistedFate
                 Status = SelectStatus.Selecting;
             }
 
-            if (args.SData.Name.Equals("GoldCardLock", StringComparison.InvariantCultureIgnoreCase) || args.SData.Name.Equals("BlueCardLock", StringComparison.InvariantCultureIgnoreCase) || args.SData.Name.Equals("RedCardLock", StringComparison.InvariantCultureIgnoreCase))
+            if (args.SData.Name.Equals("GoldCardLock", StringComparison.InvariantCultureIgnoreCase) ||
+                args.SData.Name.Equals("BlueCardLock", StringComparison.InvariantCultureIgnoreCase) ||
+                args.SData.Name.Equals("RedCardLock", StringComparison.InvariantCultureIgnoreCase))
             {
                 Status = SelectStatus.Selected;
             }

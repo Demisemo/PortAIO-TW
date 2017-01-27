@@ -54,31 +54,31 @@ using EloBuddy; namespace Evade
 
         public static void CreateMenu()
         {
-            Menu = new Menu("躲避#", "Evade", true);
+            Menu = new Menu("Evade", "Evade", true);
 
             //Create the evade spells submenus.
-            var evadeSpells = new Menu("躲避技能", "evadeSpells");
+            var evadeSpells = new Menu("Evade spells", "evadeSpells");
             foreach (var spell in EvadeSpellDatabase.Spells)
             {
                 var subMenu = new Menu(spell.Name, spell.Name);
 
                 subMenu.AddItem(
-                    new MenuItem("DangerLevel" + spell.Name, "危險級別").SetValue(
+                    new MenuItem("DangerLevel" + spell.Name, "Danger level").SetValue(
                         new Slider(spell.DangerLevel, 5, 1)));
 
                 if (spell.IsTargetted && spell.ValidTargets.Contains(SpellValidTargets.AllyWards))
                 {
-                    subMenu.AddItem(new MenuItem("WardJump" + spell.Name, "過牆").SetValue(true));
+                    subMenu.AddItem(new MenuItem("WardJump" + spell.Name, "WardJump").SetValue(true));
                 }
 
-                subMenu.AddItem(new MenuItem("Enabled" + spell.Name, "啟用").SetValue(true));
+                subMenu.AddItem(new MenuItem("Enabled" + spell.Name, "Enabled").SetValue(true));
 
                 evadeSpells.AddSubMenu(subMenu);
             }
             Menu.AddSubMenu(evadeSpells);
 
             //Create the skillshots submenus.
-            var skillShots = new Menu("技能", "Skillshots");
+            var skillShots = new Menu("Skillshots", "Skillshots");
 
             foreach (var hero in ObjectManager.Get<AIHeroClient>())
             {
@@ -91,15 +91,15 @@ using EloBuddy; namespace Evade
                             var subMenu = new Menu(spell.MenuItemName, spell.MenuItemName);
 
                             subMenu.AddItem(
-                                new MenuItem("DangerLevel" + spell.MenuItemName, "危險級別").SetValue(
+                                new MenuItem("DangerLevel" + spell.MenuItemName, "Danger level").SetValue(
                                     new Slider(spell.DangerValue, 5, 1)));
 
                             subMenu.AddItem(
-                                new MenuItem("IsDangerous" + spell.MenuItemName, "是危險的").SetValue(
+                                new MenuItem("IsDangerous" + spell.MenuItemName, "Is Dangerous").SetValue(
                                     spell.IsDangerous));
 
-                            subMenu.AddItem(new MenuItem("Draw" + spell.MenuItemName, "顯示").SetValue(true));
-                            subMenu.AddItem(new MenuItem("Enabled" + spell.MenuItemName, "啟用").SetValue(!spell.DisabledByDefault));
+                            subMenu.AddItem(new MenuItem("Draw" + spell.MenuItemName, "Draw").SetValue(true));
+                            subMenu.AddItem(new MenuItem("Enabled" + spell.MenuItemName, "Enabled").SetValue(!spell.DisabledByDefault));
 
                             skillShots.AddSubMenu(subMenu);
                         }
@@ -109,7 +109,7 @@ using EloBuddy; namespace Evade
 
             Menu.AddSubMenu(skillShots);
 
-            var shielding = new Menu("隊友保護", "Shielding");
+            var shielding = new Menu("Ally shielding", "Shielding");
 
             foreach (var ally in ObjectManager.Get<AIHeroClient>())
             {
@@ -121,31 +121,31 @@ using EloBuddy; namespace Evade
             }
             Menu.AddSubMenu(shielding);
 
-            var collision = new Menu("碰撞", "Collision");
-            collision.AddItem(new MenuItem("MinionCollision", "小兵碰撞").SetValue(false));
-            collision.AddItem(new MenuItem("HeroCollision", "英雄碰撞").SetValue(false));
-            collision.AddItem(new MenuItem("YasuoCollision", "犽宿風牆停止攻擊").SetValue(true));
-            collision.AddItem(new MenuItem("EnableCollision", "啟用").SetValue(false));
+            var collision = new Menu("Collision", "Collision");
+            collision.AddItem(new MenuItem("MinionCollision", "Minion collision").SetValue(false));
+            collision.AddItem(new MenuItem("HeroCollision", "Hero collision").SetValue(false));
+            collision.AddItem(new MenuItem("YasuoCollision", "Yasuo wall collision").SetValue(true));
+            collision.AddItem(new MenuItem("EnableCollision", "Enabled").SetValue(false));
             //TODO add mode.
             Menu.AddSubMenu(collision);
 
-            var drawings = new Menu("顯示", "Drawings");
-            drawings.AddItem(new MenuItem("EnabledColor", "啟用技能顏色").SetValue(Color.White));
-            drawings.AddItem(new MenuItem("DisabledColor", "關閉技能顏色").SetValue(Color.Red));
-            drawings.AddItem(new MenuItem("MissileColor", "彈道顏色").SetValue(Color.LimeGreen));
-            drawings.AddItem(new MenuItem("Border", "邊框寬度").SetValue(new Slider(2, 5, 1)));
+            var drawings = new Menu("Drawings", "Drawings");
+            drawings.AddItem(new MenuItem("EnabledColor", "Enabled spell color").SetValue(Color.White));
+            drawings.AddItem(new MenuItem("DisabledColor", "Disabled spell color").SetValue(Color.Red));
+            drawings.AddItem(new MenuItem("MissileColor", "Missile color").SetValue(Color.LimeGreen));
+            drawings.AddItem(new MenuItem("Border", "Border Width").SetValue(new Slider(2, 5, 1)));
 
-            drawings.AddItem(new MenuItem("EnableDrawings", "啟用").SetValue(true));
+            drawings.AddItem(new MenuItem("EnableDrawings", "Enabled").SetValue(true));
             Menu.AddSubMenu(drawings);
 
-            var misc = new Menu("雜項", "Misc");
-            misc.AddItem(new MenuItem("BlockSpells", "打斷技能，同時躲避").SetValue(new StringList(new []{"不要", "只有危險", "總是"}, 1)));
-            misc.AddItem(new MenuItem("DisableFow", "關閉戰爭迷霧中躲避").SetValue(false));
-            misc.AddItem(new MenuItem("ShowEvadeStatus", "顯示躲避狀態").SetValue(false));
+            var misc = new Menu("Misc", "Misc");
+            misc.AddItem(new MenuItem("BlockSpells", "Block spells while evading").SetValue(new StringList(new []{"No", "Only dangerous", "Always"}, 1)));
+            misc.AddItem(new MenuItem("DisableFow", "Disable fog of war dodging").SetValue(false));
+            misc.AddItem(new MenuItem("ShowEvadeStatus", "Show Evade Status").SetValue(false));
             if (ObjectManager.Player.CharData.BaseSkinName == "Olaf")
             {
                 misc.AddItem(
-                    new MenuItem("DisableEvadeForOlafR", "自動禁用當歐拉夫開啟大招狀態時躲避!")
+                    new MenuItem("DisableEvadeForOlafR", "Automatic disable Evade when Olaf's ulti is active!")
                         .SetValue(true));
             }
 
@@ -153,10 +153,10 @@ using EloBuddy; namespace Evade
             Menu.AddSubMenu(misc);
 
             Menu.AddItem(
-                new MenuItem("Enabled", "啟用").SetValue(new KeyBind("K".ToCharArray()[0], KeyBindType.Toggle, true))).Permashow(true, "Evade");
+                new MenuItem("Enabled", "Enabled").SetValue(new KeyBind("K".ToCharArray()[0], KeyBindType.Toggle, true))).Permashow(true, "Evade");
 
             Menu.AddItem(
-                new MenuItem("OnlyDangerous", "躲避危險技能的熱鍵").SetValue(new KeyBind(32, KeyBindType.Press))).Permashow();
+                new MenuItem("OnlyDangerous", "Dodge only dangerous").SetValue(new KeyBind(32, KeyBindType.Press))).Permashow();
 
             Menu.AddToMainMenu();
         }

@@ -218,17 +218,17 @@ using EloBuddy; namespace ElUtilitySuite.Trackers
                            ? rootMenu.AddSubMenu(new Menu("Trackers", "Trackers"))
                            : rootMenu.Children.First(predicate);
 
-            var cooldownMenu = menu.AddSubMenu(new Menu("冷卻時間計時器", "cdddddtracker"));
+            var cooldownMenu = menu.AddSubMenu(new Menu("Cooldown tracker", "cdddddtracker"));
             {
                 cooldownMenu.AddItem(
-                    new MenuItem("cooldown-tracker-TimeFormat", "文字格式").SetValue(
+                    new MenuItem("cooldown-tracker-TimeFormat", "Time Format").SetValue(
                         new StringList(new[] { "mm:ss", "ss" })));
-                cooldownMenu.AddItem(new MenuItem("cooldown-tracker-FontSize", "文字大小").SetValue(new Slider(13, 3, 30)));
-                cooldownMenu.AddItem(new MenuItem("cooldown-tracker-Enemy", "敵人").SetValue(true));
-                cooldownMenu.AddItem(new MenuItem("cooldown-tracker-Ally", "隊友").SetValue(true));
-                cooldownMenu.AddItem(new MenuItem("cooldown-tracker-Self", "自身").SetValue(true));
+                cooldownMenu.AddItem(new MenuItem("cooldown-tracker-FontSize", "Font Size").SetValue(new Slider(13, 3, 30)));
+                cooldownMenu.AddItem(new MenuItem("cooldown-tracker-Enemy", "Enemy").SetValue(true));
+                cooldownMenu.AddItem(new MenuItem("cooldown-tracker-Ally", "Ally").SetValue(true));
+                cooldownMenu.AddItem(new MenuItem("cooldown-tracker-Self", "Self").SetValue(true));
 
-                cooldownMenu.AddItem(new MenuItem("cooldown-tracker-Enabled", "啟用").SetValue(true));
+                cooldownMenu.AddItem(new MenuItem("cooldown-tracker-Enabled", "Enabled").SetValue(true));
             }
 
             this.Menu = cooldownMenu;

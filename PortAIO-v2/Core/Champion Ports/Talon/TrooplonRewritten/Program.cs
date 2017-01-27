@@ -7,9 +7,9 @@ using LeagueSharp;
 using LeagueSharp.Common;
 using Color = System.Drawing.Color;
 
-using EloBuddy; 
- using LeagueSharp.Common; 
- namespace TrooplonRewritten
+using EloBuddy;
+using LeagueSharp.Common;
+namespace TrooplonRewritten
 {
     class Program
     {
@@ -35,8 +35,6 @@ using EloBuddy;
 
         public static Spell W;
 
-        public static Spell E;
-
         public static Spell R;
 
         private static Items.Item cutlass;
@@ -60,10 +58,10 @@ using EloBuddy;
         {
             if (Player.ChampionName != "Talon") return;
 
-            Q = new Spell(SpellSlot.Q);
-            W = new Spell(SpellSlot.W, 700f);
-            E = new Spell(SpellSlot.E, 720f);
-            R = new Spell(SpellSlot.R, 600f);
+            Q = new Spell(SpellSlot.Q, 550);
+            W = new Spell(SpellSlot.W, 900);
+            R = new Spell(SpellSlot.R, 500);
+            W.SetSkillshot(0.25f, 75, 2300, false, SkillshotType.SkillshotLine);
 
             Menu = new Menu(Player.ChampionName, Player.ChampionName, true);
             Menu orbwalkerMenu = Menu.AddSubMenu(new Menu("Orbwalker", "Orbwalker"));
@@ -72,14 +70,12 @@ using EloBuddy;
             Menu spellMenu = Menu.AddSubMenu(new Menu("Combo", "Combo"));
             spellMenu.AddItem(new MenuItem("useQ", "Use Q").SetValue(true));
             spellMenu.AddItem(new MenuItem("useW", "Use W").SetValue(true));
-            spellMenu.AddItem(new MenuItem("useE", "Use E").SetValue(true));
             spellMenu.AddItem(new MenuItem("useR", "Use R").SetValue(true));
             //Harass
             var harass = new Menu("Harass", "Harass");
             Menu.AddSubMenu(harass);
             harass.AddItem(new MenuItem("harassQ", "Use Q to harass").SetValue(true));
             harass.AddItem(new MenuItem("harassW1", "Use W to harass").SetValue(true));
-            harass.AddItem(new MenuItem("harassE", "Use E to harass").SetValue(true));
             //LaneClear
             Menu.AddSubMenu(new Menu("Laneclear", "laneclear"));
             Menu.SubMenu("laneclear").AddItem(new MenuItem("laneW", "use W+Q to Laneclear").SetValue(true));
@@ -88,7 +84,6 @@ using EloBuddy;
             Menu.SubMenu("Drawings").AddItem(new MenuItem("Draw_Disabled", "Disable all Drawings").SetValue(false));
             Menu.SubMenu("Drawings").AddItem(new MenuItem("Qdraw", "Draw Q Range").SetValue(true));
             Menu.SubMenu("Drawings").AddItem(new MenuItem("Wdraw", "Draw W Range").SetValue(true));
-            Menu.SubMenu("Drawings").AddItem(new MenuItem("Edraw", "Draw E Range").SetValue(true));
             Menu.SubMenu("Drawings").AddItem(new MenuItem("Rdraw", "Draw R Range").SetValue(true));
             //KS
             Menu.AddSubMenu(new Menu("Misc", "Misc"));
@@ -121,7 +116,6 @@ using EloBuddy;
 
             if (Menu.Item("Qdraw").GetValue<bool>()) Render.Circle.DrawCircle(Player.Position, Q.Range, System.Drawing.Color.CadetBlue, 3);
             if (Menu.Item("Wdraw").GetValue<bool>()) Render.Circle.DrawCircle(Player.Position, W.Range, System.Drawing.Color.IndianRed, 3);
-            if (Menu.Item("Edraw").GetValue<bool>()) Render.Circle.DrawCircle(Player.Position, E.Range, System.Drawing.Color.DarkSeaGreen, 3);
             if (Menu.Item("Rdraw").GetValue<bool>()) Render.Circle.DrawCircle(Player.Position, R.Range, System.Drawing.Color.BurlyWood, 3);
         }
 
@@ -157,12 +151,10 @@ using EloBuddy;
 
         private static void Combo()
         {
-            var e = TargetSelector.GetTarget(E.Range, TargetSelector.DamageType.Physical);
-            var useE = (Menu.Item("useE").GetValue<bool>());
+            var e = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Physical);
             var useQ = (Menu.Item("useQ").GetValue<bool>());
             var useW = (Menu.Item("useW").GetValue<bool>());
             var useR = (Menu.Item("useR").GetValue<bool>());
-
 
 
             //Itemusage
@@ -190,10 +182,6 @@ using EloBuddy;
             //combo
             if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
             {
-                if (useE && E.IsReady())
-                {
-                    E.CastOnBestTarget();
-                }
                 if (useW && W.IsReady() && !Q.IsReady())  //W
                 {
                     W.CastOnBestTarget();
@@ -202,7 +190,6 @@ using EloBuddy;
                 {
                     R.CastOnBestTarget();
                 }
-
             }
         }
 
@@ -215,16 +202,10 @@ using EloBuddy;
                     {
                         W.Cast(c);
                     }
-                    if (Menu.Item("harassE").GetValue<bool>())
+                    if (Menu.Item("harassQ").GetValue<bool>())
                     {
                         {
-                            E.Cast(c);
-                        }
-                        if (Menu.Item("harassQ").GetValue<bool>())
-                        {
-                            {
-                                Q.Cast(c);
-                            }
+                            Q.Cast(c);
                         }
                     }
                 }
@@ -234,8 +215,8 @@ using EloBuddy;
         {
             if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
             {
-                if (Menu.Item("useQ").GetValue<bool>() && E.IsReady()) ;
-                Q.Cast();
+                if (Menu.Item("useQ").GetValue<bool>())
+                    Q.Cast(attackableUnit as AIHeroClient);
             }
         }
 

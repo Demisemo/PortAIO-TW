@@ -64,33 +64,33 @@ namespace Activator
                 GetComboDamage();
                 Helpers.CreateLogPath();
 
-                Origin = new Menu("活化劑#", "activator", true);
+                Origin = new Menu("Activator", "activator", true);
 
-                Menu cmenu = new Menu("淨化", "cmenu");
+                Menu cmenu = new Menu("Cleansers", "cmenu");
                 GetItemGroup("Items.Cleansers").ForEach(t => NewItem((CoreItem) NewInstance(t), cmenu));
                 CreateSubMenu(cmenu, false);
                 Origin.AddSubMenu(cmenu);
 
-                Menu dmenu = new Menu("防禦物品使用", "dmenu");
+                Menu dmenu = new Menu("Defensives", "dmenu");
                 GetItemGroup("Items.Defensives").ForEach(t => NewItem((CoreItem) NewInstance(t), dmenu));
                 CreateSubMenu(dmenu, false);
                 Origin.AddSubMenu(dmenu);
 
-                Menu smenu = new Menu("召喚師技能", "smenu");
+                Menu smenu = new Menu("Summoners", "smenu");
                 GetItemGroup("Summoners").ForEach(t => NewSumm((CoreSum) NewInstance(t), smenu));
                 CreateSubMenu(smenu, true, true);
                 Origin.AddSubMenu(smenu);
 
-                Menu omenu = new Menu("攻擊物品使用", "omenu");
+                Menu omenu = new Menu("Offensives", "omenu");
                 GetItemGroup("Items.Offensives").ForEach(t => NewItem((CoreItem) NewInstance(t), omenu));
                 CreateSubMenu(omenu, true);
                 Origin.AddSubMenu(omenu);
 
-                Menu imenu = new Menu("消耗物品", "imenu");
+                Menu imenu = new Menu("Consumables", "imenu");
                 GetItemGroup("Items.Consumables").ForEach(t => NewItem((CoreItem) NewInstance(t), imenu));
                 Origin.AddSubMenu(imenu);
 
-                Menu amenu = new Menu("自動使用技能", "amenu");
+                Menu amenu = new Menu("Auto Spells", "amenu");
                 GetItemGroup("Spells.Evaders").ForEach(t => NewSpell((CoreSpell) NewInstance(t), amenu));
                 GetItemGroup("Spells.Shields").ForEach(t => NewSpell((CoreSpell) NewInstance(t), amenu));
                 GetItemGroup("Spells.Health").ForEach(t => NewSpell((CoreSpell) NewInstance(t), amenu));
@@ -101,21 +101,21 @@ namespace Activator
                 
                 GetPriority();
 
-                Menu zmenu = new Menu("雜項設置", "settings");
+                Menu zmenu = new Menu("Misc/Settings", "settings");
 
                 if (SmiteInGame)
                 {
-                    Menu ddmenu = new Menu("顯示", "drawings");
-                    ddmenu.AddItem(new MenuItem("drawsmitet", "顯示重擊文字")).SetValue(true);
-                    ddmenu.AddItem(new MenuItem("drawfill", "顯示重擊填足")).SetValue(true);
-                    ddmenu.AddItem(new MenuItem("drawsmite", "顯示重擊範圍")).SetValue(true);
+                    Menu ddmenu = new Menu("Drawings", "drawings");
+                    ddmenu.AddItem(new MenuItem("drawsmitet", "Draw Smite Text")).SetValue(true);
+                    ddmenu.AddItem(new MenuItem("drawfill", "Draw Smite Fill")).SetValue(true);
+                    ddmenu.AddItem(new MenuItem("drawsmite", "Draw Smite Range")).SetValue(true);
                     zmenu.AddSubMenu(ddmenu);
                 }
 
-                var bbmenu = new Menu("調試工具", "bbmenu");
+                var bbmenu = new Menu("Debug Tools", "bbmenu");
 
-                var premenu = new Menu("調試血量預判", "dhp");
-                premenu.AddItem(new MenuItem("testdamage", "測試損傷")).SetValue(false).ValueChanged +=
+                var premenu = new Menu("Debug Health Prediction", "dhp");
+                premenu.AddItem(new MenuItem("testdamage", "Test Damage")).SetValue(false).ValueChanged +=
                     (sender, eventArgs) =>
                     {
                         if (eventArgs.GetNewValue<bool>())
@@ -134,33 +134,33 @@ namespace Activator
                         }
                     };
 
-                premenu.AddItem(new MenuItem("testdamagetype", "命中"))
+                premenu.AddItem(new MenuItem("testdamagetype", "HitType"))
                     .SetValue(new StringList(Enum.GetValues(typeof(HitType)).Cast<HitType>().Select(v => v.ToString()).ToArray(), 0));
-                premenu.AddItem(new MenuItem("testdamagetarget", "目標"))
+                premenu.AddItem(new MenuItem("testdamagetarget", "Target"))
                     .SetValue(new StringList(Heroes.Select(x => x.Player.ChampionName).ToArray()));
 
                 bbmenu.AddSubMenu(premenu);
 
 
-                bbmenu.AddItem(new MenuItem("acdebug", "調試受到損傷")).SetValue(false);
-                bbmenu.AddItem(new MenuItem("acdebug2", "調試項目優先級")).SetValue(false);
-                bbmenu.AddItem(new MenuItem("acdebug3", "調試水銀/淨化")).SetValue(false);
-                bbmenu.AddItem(new MenuItem("dumpdata", "技能數據")).SetValue(false);
+                bbmenu.AddItem(new MenuItem("acdebug", "Debug Income Damage")).SetValue(false);
+                bbmenu.AddItem(new MenuItem("acdebug2", "Debug Item Priority")).SetValue(false);
+                bbmenu.AddItem(new MenuItem("acdebug3", "Debug QSS/Cleanse")).SetValue(false);
+                bbmenu.AddItem(new MenuItem("dumpdata", "Dump Spell Data")).SetValue(false);
                 zmenu.AddSubMenu(bbmenu);
 
-                zmenu.AddItem(new MenuItem("autolevelup", "自動升級大招")).SetValue(true).SetTooltip("在等級六等時");
-                zmenu.AddItem(new MenuItem("autotrinket", "自動升級飾品")).SetValue(true);
-                zmenu.AddItem(new MenuItem("healthp", "隊友優先:")).SetValue(new StringList(new[] { "低血量", "最 AD/AP", "Most HP" }, 1));
-                zmenu.AddItem(new MenuItem("weightdmg", "傷害受到 (%)"))
+                zmenu.AddItem(new MenuItem("autolevelup", "Auto Level Ultimate")).SetValue(true).SetTooltip("Level 6 Only");
+                zmenu.AddItem(new MenuItem("autotrinket", "Auto Upgrade Trinket")).SetValue(true);
+                zmenu.AddItem(new MenuItem("healthp", "Ally Priority:")).SetValue(new StringList(new[] { "Low HP", "Most AD/AP", "Most HP" }, 1));
+                zmenu.AddItem(new MenuItem("weightdmg", "Weight Income Damage (%)"))
                     .SetValue(new Slider(115, 100, 150))
-                    .SetTooltip("使用活化劑#時認為你受到的傷害比計算的多");
-                zmenu.AddItem(new MenuItem("lagtolerance", "Lag寬限(%)"))
+                    .SetTooltip("Make Activator# think you are taking more damage than calulated.");
+                zmenu.AddItem(new MenuItem("lagtolerance", "Lag Tolerance (%)"))
                     .SetValue(new Slider(25))
                     .SetTooltip("Make Activator# think you are taking damage longer than intended");
-                zmenu.AddItem(new MenuItem("usecombo", "連招使用 (使用)"))
+                zmenu.AddItem(new MenuItem("usecombo", "Combo (active)"))
                     .SetValue(new KeyBind(32, KeyBindType.Press, true));
 
-                Menu uumenu = new Menu("技能數據庫", "evadem");
+                Menu uumenu = new Menu("Spell Database", "evadem");
                 LoadSpellMenu(uumenu);
                 zmenu.AddSubMenu(uumenu);
 

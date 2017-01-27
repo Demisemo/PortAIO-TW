@@ -199,7 +199,7 @@ using EloBuddy;
                     var enemy in
                         HeroManager.Enemies.Where(
                             x => x.IsValidTarget(Q.Range) && Q.GetPrediction(x).Hitchance >= HikiChance("hikiChance")
-                                 && x.HasBuff("brandablaze") && Q.GetPrediction(x).CollisionObjects.Count == 0))
+                                 && x.HasBuff("BrandABlaze")))
                 {
                     Q.Cast(enemy);
                 }

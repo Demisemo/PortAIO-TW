@@ -357,7 +357,7 @@
             }
             config.AddItem(autoPriorityItem);
             config.AddItem(
-                new MenuItem("TargetingMode", "Target Mode").SetShared()
+                new MenuItem("TargetingMode", "選擇目標模式：").SetShared()
                     .SetValue(new StringList(Enum.GetNames(typeof(TargetingMode)))));
 
             CommonMenu.Instance.AddSubMenu(config);

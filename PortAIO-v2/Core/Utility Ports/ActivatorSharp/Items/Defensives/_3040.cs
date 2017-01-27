@@ -10,7 +10,7 @@ namespace Activator.Items.Defensives
     {
         internal override int Id => 3040;
         internal override int Priority => 6;
-        internal override string Name => "熾天使的擁抱";
+        internal override string Name => "Seraphs";
         internal override string DisplayName => "Seraph's Embrace";
         internal override int Duration => 250;
         internal override float Range => 750f;

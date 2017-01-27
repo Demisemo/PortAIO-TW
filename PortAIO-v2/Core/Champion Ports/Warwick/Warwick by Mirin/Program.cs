@@ -51,7 +51,7 @@ namespace Warwick
                 {
                     return false;
                 }
-                return Equals((Tuple<TA, TB, TC>) obj);
+                return Equals((Tuple<TA, TB, TC>)obj);
             }
 
             public bool Equals(Tuple<TA, TB, TC> other)
@@ -104,10 +104,11 @@ namespace Warwick
             if (ObjectManager.Player.ChampionName != ChampionName)
                 return;
 
-            Q = new Spell(SpellSlot.Q, 400);
-            W = new Spell(SpellSlot.W, 1250);
-            E = new Spell(SpellSlot.E, 4500);
-            R = new Spell(SpellSlot.R, 700);
+            Q = new Spell(SpellSlot.Q, 350);
+            W = new Spell(SpellSlot.W, 4000);
+            E = new Spell(SpellSlot.E, 375);
+            R = new Spell(SpellSlot.R, 335);
+            R.SetSkillshot(0.25f, 90f, 2200f, false, SkillshotType.SkillshotLine);
             SpellList.Add(Q);
             SpellList.Add(W);
             SpellList.Add(E);
@@ -167,21 +168,15 @@ namespace Warwick
             }
             var menuCombo = new Menu("Combo", "Combo");
             {
-                menuCombo.AddItem(
-                    new MenuItem("Combo.W.Use", "Use W:").SetValue(
-                        new StringList(new[] {"Off", "Just for me", "Just for Allies", "Smart W (Recommend!)"}, 3)));
-
                 Config.AddSubMenu(menuCombo);
-             
+
                 PlayerSpells.Initialize();
             }
-            
+
             var menuHarass = new Menu("Harass", "Harass");
             {
                 menuHarass.AddItem(new MenuItem("Harass.Q.Use", "Use Q").SetValue(true));
-                menuHarass.AddItem(
-                    new MenuItem("Harass.Q.UseT", Tab + "Toggle").SetValue(new KeyBind("T".ToCharArray()[0],
-                        KeyBindType.Toggle)));
+                menuHarass.AddItem(new MenuItem("Harass.Q.UseT", Tab + "Toggle").SetValue(new KeyBind("T".ToCharArray()[0], KeyBindType.Toggle)));
                 menuHarass.AddItem(new MenuItem("Harass.Q.UseTEnemyUn", Tab + "Don't Use Q Under Turret").SetValue(true));
                 menuHarass.AddItem(new MenuItem("Harass.Q.MinMana", Tab + "Min. Mana Per.:").SetValue(new Slider(20, 1)));
 
@@ -192,13 +187,8 @@ namespace Warwick
             {
                 menuLane.AddItem(
                     new MenuItem("Lane.Q.Use", "Use Q").SetValue(
-                        new StringList(new[] {"Off", "Last Hit", "Only out of AA Range", "Everytime"}, 1)));
+                        new StringList(new[] { "Off", "Last Hit", "Only out of AA Range", "Everytime" }, 1)));
                 menuLane.AddItem(new MenuItem("Lane.Q.MinMana", Tab + "Min. Mana Per.:").SetValue(new Slider(35, 1)));
-
-                menuLane.AddItem(new MenuItem("Lane.W.Use", "Use W").SetValue(true));
-                menuLane.AddItem(new MenuItem("Lane.W.MinObj", Tab + "Min. Farm Count:").SetValue(new Slider(3, 1, 6)));
-                menuLane.AddItem(new MenuItem("Lane.W.MinMana", Tab + "Min. Mana Per.:").SetValue(new Slider(35, 1)));
-                menuLane.AddItem(new MenuItem("Lane.Items.Use", "Use Items").SetValue(true));
                 Config.AddSubMenu(menuLane);
             }
 
@@ -206,10 +196,6 @@ namespace Warwick
             {
                 menuJungle.AddItem(new MenuItem("Jungle.Q.Use", "Use Q").SetValue(true));
                 menuJungle.AddItem(new MenuItem("Jungle.Q.MinMana", Tab + "Min. Mana Per.:").SetValue(new Slider(20, 1)));
-
-                menuJungle.AddItem(new MenuItem("Jungle.W.Use", "Use W").SetValue(true));
-                menuJungle.AddItem(new MenuItem("Jungle.W.MinMana", Tab + "Min. Mana Per.:").SetValue(new Slider(20, 1)));
-                menuJungle.AddItem(new MenuItem("Jungle.Items.Use", "Use Items").SetValue(true));
                 Config.AddSubMenu(menuJungle);
             }
 
@@ -217,11 +203,12 @@ namespace Warwick
             {
                 menuAuto.AddItem(new MenuItem("Auto.Q.UseQHp", "Keep-Up My Heal with Q").SetValue(true));
                 menuAuto.AddItem(new MenuItem("Auto.Q.UseQHpMinHp", Tab + "Min. Heal:").SetValue(new Slider(70, 1)));
-                menuAuto.AddItem(
-                    new MenuItem("Auto.Q.UseQHpEnemyUn", Tab + "Check Enemy Under Turret Position").SetValue(true));
+                menuAuto.AddItem(new MenuItem("Auto.Q.UseQHpEnemyUn", Tab + "Check Enemy Under Turret Position").SetValue(true));
+
                 menuAuto.AddItem(new MenuItem("Auto.E.Title", "E Settings"));
                 {
-                    menuAuto.AddItem(new MenuItem("Auto.E.Use", Tab + "Always Turn On E Spell").SetValue(true));
+                    menuAuto.AddItem(new MenuItem("Auto.E.Use", Tab + "Auto E < %HP?").SetValue(true));
+                    menuAuto.AddItem(new MenuItem("Auto.E.HP", Tab + "HP% : ").SetValue(new Slider(35, 1)));
                 }
 
                 Config.AddSubMenu(menuAuto);
@@ -233,12 +220,10 @@ namespace Warwick
 
                 Config.AddSubMenu(menuInterrupt);
             }
-            
+
             var menuDraw = new Menu("Draw/Notification", "Draw");
             {
                 menuDraw.AddItem(new MenuItem("Draw.Disable", "Disable All Drawings").SetValue(false));
-
-                menuDraw.AddItem(new MenuItem("Draw.E.Show", "Show Blood Scent (E) Marked Enemy").SetValue(true));
 
                 if (PlayerSpells.SmiteSlot != SpellSlot.Unknown)
                 {
@@ -281,18 +266,9 @@ namespace Warwick
                 menuDraw.AddItem(new MenuItem("Draw.E.Mini", "Draw E on Mini-Map").SetValue(new Circle(true, Color.Aqua)));
                 menuDraw.AddItem(new MenuItem("Draw.R", "Draw R").SetValue(new Circle(true, Color.Chartreuse)));
 
-                var dmgAfterComboItem = new MenuItem("DamageAfterCombo", "Draw Damage After Combo").SetValue(true);
-                //LeagueSharp.Common.Utility.HpBar//DamageIndicator.DamageToUnit = GetComboDamage;
-                //LeagueSharp.Common.Utility.HpBar//DamageIndicator.Enabled = dmgAfterComboItem.GetValue<bool>();
-                dmgAfterComboItem.ValueChanged += delegate(object sender, OnValueChangeEventArgs eventArgs)
-                {
-                    //LeagueSharp.Common.Utility.HpBar//DamageIndicator.Enabled = eventArgs.GetNewValue<bool>();
-                };
-                menuDraw.AddItem(dmgAfterComboItem);
-
                 Config.AddSubMenu(menuDraw);
             }
-            
+
             Config.AddToMainMenu();
 
             Drawing.OnDraw += Drawing_OnDraw;
@@ -335,24 +311,12 @@ namespace Warwick
             return false;
         }
 
-        public static Vector3 CenterOfVectors(Vector3[] vectors)
-        {
-            var sum = Vector3.Zero;
-            if (vectors == null || vectors.Length == 0)
-                return sum;
-
-            sum = vectors.Aggregate(sum, (current, vec) => current + vec);
-            return sum/vectors.Length;
-        }
-
         private static void Game_OnUpdate(EventArgs args)
         {
 
-            if (E.Level > 0)
-                E.Range = 700 + 800*E.Level;
+            R.Range = Player.MoveSpeed * 2.5f;
 
-            if (Config.Item("Auto.E.Use").GetValue<bool>() && Player.Spellbook.GetSpell(SpellSlot.E).ToggleState == 1 &&
-                E.IsReady())
+            if (Config.Item("Auto.E.Use").GetValue<bool>() && E.IsReady() && Player.HealthPercent < Config.Item("Auto.E.HP").GetValue<int>())
                 E.Cast();
 
             if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
@@ -367,23 +331,23 @@ namespace Warwick
                         ((from obj in
                             MinionManager.GetMinions(ObjectManager.Player.Position, Q.Range, MinionTypes.All,
                                 MinionTeam.NotAlly)
-                            select obj)
+                          select obj)
                             .Union
                             (from obj in HeroManager.Enemies
-                                where obj.IsValidTarget(Q.Range) && !obj.IsDead && obj.IsZombie
-                                select obj)
+                             where obj.IsValidTarget(Q.Range) && !obj.IsDead && obj.IsZombie
+                             select obj)
                             .Union
                             (from obj in
                                 MinionManager.GetMinions(Player.ServerPosition, Q.Range, MinionTypes.All,
                                     MinionTeam.Neutral, MinionOrderTypes.MaxHealth)
-                                select obj))
+                             select obj))
                             .ToList();
                     if (Q.IsReady() && enemyObjects[0] != null)
                     {
                         if (enemyObjects[0] is AIHeroClient && Config.Item("Auto.Q.UseQHpEnemyUn").GetValue<bool>() &&
                             (enemyObjects[0] as AIHeroClient).UnderTurret())
                             return;
-                        Q.CastOnUnit(enemyObjects[0]);
+                        Q.Cast(enemyObjects[0]);
                     }
                 }
             }
@@ -416,61 +380,6 @@ namespace Warwick
                 R.Cast(unit);
         }
 
-        private static bool enemyInAutoAttackRange
-        {
-            get
-            {
-                var t = TargetSelector.GetTarget(E.Range, TargetSelector.DamageType.Physical);
-                return t.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + 65);
-            }
-        }
-
-        private static AIHeroClient UseWforAlly
-        {
-            get
-            {
-                return
-                    (from ally in
-                        HeroManager.Allies.Where(
-                            a => a.Distance(Player.Position) < W.Range && GetPriorityAllies(a.ChampionName))
-                        from enemies in
-                            HeroManager.Enemies.Where(
-                                e => e.Distance(ally) < ally.AttackRange + ally.BoundingRadius && !e.IsDead)
-                        select ally).FirstOrDefault();
-            }
-        }
-
-        private static float GetWTotalDamage
-        {
-            get
-            {
-                if (!W.IsReady())
-                    return 0;
-
-                var baseAttackSpeed = 0.679348;
-                var wCdTime = 5;
-                var passiveDamage = 0; //2.5 + (Player.Level * 0.5);
-
-                var attackSpeed =
-                    (float) Math.Round(Math.Floor(1/Player.AttackDelay*100)/100, 2, MidpointRounding.ToEven);
-
-                var aDmg = Math.Round(Math.Floor(Player.TotalAttackDamage*100)/100, 2, MidpointRounding.ToEven);
-                aDmg = Math.Floor(aDmg);
-
-                int[] wAttackSpeedLevel = {40, 50, 60, 70, 80};
-                var totalAttackSpeedWithWActive =
-                    (float)
-                        Math.Round((attackSpeed + baseAttackSpeed/100*wAttackSpeedLevel[W.Level - 1])*100/100, 2,
-                            MidpointRounding.ToEven);
-
-                var totalPossibleDamage =
-                    (float)
-                        Math.Round((totalAttackSpeedWithWActive*wCdTime*aDmg)*100/100, 2,
-                            MidpointRounding.ToEven);
-                return totalPossibleDamage + (float) passiveDamage;
-            }
-        }
-
         private static float GetComboDamage(Obj_AI_Base t)
         {
             var fComboDamage = 0d;
@@ -478,17 +387,10 @@ namespace Warwick
             if (Q.IsReady())
                 fComboDamage += Player.GetSpellDamage(t, SpellSlot.Q);
 
-            if (W.IsReady())
-                fComboDamage += GetWTotalDamage;
-
             if (R.IsReady())
                 fComboDamage += Player.GetSpellDamage(t, SpellSlot.R) + Player.TotalAttackDamage;
 
-            if (PlayerSpells.IgniteSlot != SpellSlot.Unknown &&
-                Player.Spellbook.CanUseSpell(PlayerSpells.IgniteSlot) == SpellState.Ready)
-                fComboDamage += Player.GetSummonerSpellDamage(t, Damage.SummonerSpell.Ignite);
-
-            return (float) fComboDamage;
+            return (float)fComboDamage;
         }
 
         public static int GetClosesAlliesToEnemy(AIHeroClient t)
@@ -499,112 +401,90 @@ namespace Warwick
             return (from ally in
                 HeroManager.Allies.Where(
                     a =>
-                        !a.IsMe && !a.IsDead && !a.IsZombie && a.Distance(t) < 1200 && a.Health > t.Health/2 &&
-                        a.Health > a.Level*40)
-                let aMov = ally.MoveSpeed
-                let aPos = ally.Position
-                let tPos = t.Position
-                where aPos.Distance(tPos) < aMov*1.8
-                select aMov).Any()
+                        !a.IsMe && !a.IsDead && !a.IsZombie && a.Distance(t) < 1200 && a.Health > t.Health / 2 &&
+                        a.Health > a.Level * 40)
+                    let aMov = ally.MoveSpeed
+                    let aPos = ally.Position
+                    let tPos = t.Position
+                    where aPos.Distance(tPos) < aMov * 1.8
+                    select aMov).Any()
                 ? 1
                 : 0;
         }
 
         private static void Combo()
         {
-            var t = TargetSelector.GetTarget(E.Range, TargetSelector.DamageType.Physical);
+            var t = TargetSelector.GetTarget(R.Range, TargetSelector.DamageType.Physical);
             if (!t.IsValidTarget())
                 return;
 
             if (R.IsReady())
             {
-                var tR = SpellR.GetTarget(R.Range, TargetSelector.DamageType.Physical);
-                if (Q.IsReady() && tR.Health < Player.GetSpellDamage(t, SpellSlot.Q))
+                var pred = R.GetPrediction(t);
+                if (Q.IsReady() && t.Health < Player.GetSpellDamage(t, SpellSlot.Q))
                     return;
 
-                if (tR.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + 65) &&
-                    tR.Health < Player.TotalAttackDamage)
+                if (t.IsValidTarget(Orbwalking.GetRealAutoAttackRange(null) + 65) &&
+                    t.Health < Player.TotalAttackDamage)
                     return;
 
                 if (PlayerSpells.IgniteSlot != SpellSlot.Unknown &&
                     Player.Spellbook.CanUseSpell(PlayerSpells.IgniteSlot) == SpellState.Ready &&
-                    tR.Health < Player.GetSummonerSpellDamage(tR, Damage.SummonerSpell.Ignite))
+                    t.Health < Player.GetSummonerSpellDamage(t, Damage.SummonerSpell.Ignite))
                     return;
 
-                if (tR.HasBuff("bansheeveil")) // don't use R if enemy's banshee is active!
+                if (t.HasBuff("bansheeveil") || t.IsInvulnerable) // don't use R if enemy's banshee is active!
                     return;
 
                 var useR = Config.Item("R.Use").GetValue<StringList>().SelectedIndex;
                 switch (useR)
                 {
                     case 1:
-                    {
-                        if (tR.IsValidTarget(R.Range))
                         {
-                            R.Cast(tR);
+                            if (t.IsValidTarget(R.Range))
+                            {
+                                R.Cast(pred.CastPosition);
+                            }
+                            break;
                         }
-                        break;
-                    }
                     case 2:
-                    {
-                        if (tR.IsValidTarget(R.Range) &&
-                            tR.Health <
-                            GetComboDamage(tR) + Player.TotalAttackDamage +
-                            (Q.IsReady() ||
-                             Player.Spellbook.GetSpell(SpellSlot.Q).CooldownExpires < 1.8 &&
-                             Player.Mana > Player.Spellbook.GetSpell(SpellSlot.Q).SData.Mana + Player.Spellbook.GetSpell(SpellSlot.R).SData.Mana
-                                ? Player.GetSpellDamage(t, SpellSlot.Q)
-                                : 0))
-                            R.Cast(tR);
-                        break;
-                    }
+                        {
+                            if (t.IsValidTarget(R.Range) &&
+                                t.Health <
+                                GetComboDamage(t) + Player.TotalAttackDamage +
+                                (Q.IsReady() ||
+                                 Player.Spellbook.GetSpell(SpellSlot.Q).CooldownExpires < 1.8 &&
+                                 Player.Mana > Player.Spellbook.GetSpell(SpellSlot.Q).SData.Mana + Player.Spellbook.GetSpell(SpellSlot.R).SData.Mana
+                                    ? Player.GetSpellDamage(t, SpellSlot.Q)
+                                    : 0))
+                                R.Cast(pred.CastPosition);
+                            break;
+                        }
                     case 3:
-                    {
-                        if (tR.IsValidTarget(R.Range) &&
-                            ((tR.Health <
-                              GetComboDamage(tR) + Player.TotalAttackDamage +
-                              (Q.IsReady() ||
-                               Player.Spellbook.GetSpell(SpellSlot.Q).CooldownExpires < 1.8 &&
-                               Player.Mana > Player.Spellbook.GetSpell(SpellSlot.Q).SData.Mana + Player.Spellbook.GetSpell(SpellSlot.R).SData.Mana
-                                  ? Player.GetSpellDamage(t, SpellSlot.Q)
-                                  : 0)) || tR.CountAlliesInRange(800) >= 2 ||
-                             GetClosesAlliesToEnemy(tR) > 0))
-                            R.Cast(tR);
-                        break;
-                    }
+                        {
+                            if (t.IsValidTarget(R.Range) &&
+                                ((t.Health <
+                                  GetComboDamage(t) + Player.TotalAttackDamage +
+                                  (Q.IsReady() ||
+                                   Player.Spellbook.GetSpell(SpellSlot.Q).CooldownExpires < 1.8 &&
+                                   Player.Mana > Player.Spellbook.GetSpell(SpellSlot.Q).SData.Mana + Player.Spellbook.GetSpell(SpellSlot.R).SData.Mana
+                                      ? Player.GetSpellDamage(t, SpellSlot.Q)
+                                      : 0)) || t.CountAlliesInRange(800) >= 2 ||
+                                 GetClosesAlliesToEnemy(t) > 0))
+                                R.Cast(pred.CastPosition);
+                            break;
+                        }
                 }
             }
 
             if (Q.IsReady() && t.IsValidTarget(Q.Range))
             {
-                Q.CastOnUnit(t);
+                Q.Cast(t);
             }
 
-            var useW = Config.Item("Combo.W.Use").GetValue<StringList>().SelectedIndex;
-
-            if (W.IsReady())
+            if (E.IsReady() && t.IsValidTarget(E.Range - 25))
             {
-                switch (useW)
-                {
-                    case 1:
-                    {
-                        if (enemyInAutoAttackRange)
-                            W.Cast();
-                        break;
-                    }
-                    case 2:
-                    {
-                        if (UseWforAlly != null)
-                            W.Cast();
-                    }
-                        break;
-                    case 3:
-                    {
-                        if (enemyInAutoAttackRange || UseWforAlly != null)
-                            W.Cast();
-                        break;
-                    }
-                }
+                E.Cast();
             }
 
             CastItems(t);
@@ -624,15 +504,13 @@ namespace Warwick
 
             if (Q.IsReady() && Config.Item("Harass.Q.Use").GetValue<bool>())
             {
-                Q.CastOnUnit(t);
+                Q.Cast(t);
             }
         }
 
         private static void Laneclear()
         {
             var useQ = Q.IsReady() && Player.ManaPercent > Config.Item("Lane.Q.MinMana").GetValue<Slider>().Value;
-            var useW = W.IsReady() && Player.ManaPercent > Config.Item("Lane.W.MinMana").GetValue<Slider>().Value &&
-                       Config.Item("Lane.W.Use").GetValue<bool>();
 
             var qSelectedIndex = Config.Item("Lane.Q.Use").GetValue<StringList>().SelectedIndex;
 
@@ -645,50 +523,25 @@ namespace Warwick
                 switch (qSelectedIndex)
                 {
                     case 1:
-                    {
-                        if (Q.GetDamage(qMinions[0]) > qMinions[0].Health)
-                            Q.CastOnUnit(qMinions[0]);
-                        break;
-                    }
+                        {
+                            if (Q.GetDamage(qMinions[0]) > qMinions[0].Health)
+                                Q.Cast(qMinions[0]);
+                            break;
+                        }
 
                     case 2:
-                    {
-                        if (Q.GetDamage(qMinions[0]) > qMinions[0].Health &&
-                            Player.Distance(qMinions[0]) > Orbwalking.GetRealAutoAttackRange(null) + 65)
-                            Q.CastOnUnit(qMinions[0]);
-                        break;
-                    }
+                        {
+                            if (Q.GetDamage(qMinions[0]) > qMinions[0].Health &&
+                                Player.Distance(qMinions[0]) > Orbwalking.GetRealAutoAttackRange(null) + 65)
+                                Q.Cast(qMinions[0]);
+                            break;
+                        }
 
                     case 3:
-                    {
-                        Q.CastOnUnit(qMinions[0]);
-                        break;
-                    }
-                }
-            }
-
-            if (useW)
-            {
-                var minMinion = Config.Item("Lane.W.MinObj").GetValue<Slider>().Value;
-                if (qMinions.Count >= minMinion)
-                {
-                    W.Cast();
-                }
-            }
-
-            if (Config.Item("Lane.Items.Use").GetValue<bool>())
-            {
-                foreach (var item in from item in ItemDb
-                    where
-                        item.Value.ItemType == EnumItemType.AoE &&
-                        item.Value.TargetingType == EnumItemTargettingType.EnemyObjects
-                    let iMinions = MinionManager.GetMinions(ObjectManager.Player.ServerPosition, item.Value.Item.Range)
-                    where
-                        iMinions.Count >= Config.Item("Lane.W.MinObj").GetValue<Slider>().Value &&
-                        item.Value.Item.IsReady()
-                    select item)
-                {
-                    item.Value.Item.Cast();
+                        {
+                            Q.Cast(qMinions[0]);
+                            break;
+                        }
                 }
             }
         }
@@ -697,9 +550,6 @@ namespace Warwick
         {
             var useQ = Q.IsReady() && Player.ManaPercent > Config.Item("Jungle.Q.MinMana").GetValue<Slider>().Value &&
                        Config.Item("Jungle.Q.Use").GetValue<bool>();
-
-            var useW = W.IsReady() && Player.ManaPercent > Config.Item("Jungle.W.MinMana").GetValue<Slider>().Value &&
-                       Config.Item("Jungle.W.Use").GetValue<bool>();
 
             var qMobs = MinionManager.GetMinions(Player.ServerPosition, Q.Range + 300, MinionTypes.All,
                 MinionTeam.Neutral,
@@ -724,32 +574,12 @@ namespace Warwick
                 {
                     if (qMobs[0].IsValidTarget(Q.Range))
                     {
-                        Q.CastOnUnit(qMobs[0]);
+                        Q.Cast(qMobs[0]);
                     }
                 }
                 else
                 {
-                    Q.CastOnUnit(qMobs[0]);
-                }
-            }
-
-            if (useW && qMobs[0].IsValidTarget(Q.Range))
-            {
-                W.Cast();
-            }
-
-            if (Config.Item("Jungle.Items.Use").GetValue<bool>())
-            {
-                foreach (var item in from item in ItemDb
-                    where
-                        item.Value.ItemType == EnumItemType.AoE &&
-                        item.Value.TargetingType == EnumItemTargettingType.EnemyObjects
-                    let iMinions = MinionManager.GetMinions(ObjectManager.Player.ServerPosition, item.Value.Item.Range)
-                    where
-                        item.Value.Item.IsReady()
-                    select item)
-                {
-                    item.Value.Item.Cast();
+                    Q.Cast(qMobs[0]);
                 }
             }
         }
@@ -780,26 +610,6 @@ namespace Warwick
 
             if (Config.Item("Draw.Disable").GetValue<bool>())
                 return;
-
-            if (Config.Item("Draw.E.Show").GetValue<bool>() && E.IsReady())
-            {
-                foreach (var enemy in HeroManager.Enemies.Where(e => e.IsValidTarget(E.Range) && !e.IsDead))
-                {
-                    foreach (var d in from buff in enemy.Buffs
-                        where buff.Name == "bloodscent_target"
-                        select
-                            new Geometry.Polygon.Line(Player.Position, enemy.Position, Player.Distance(enemy.Position)))
-                    {
-                        d.Draw(Color.Red, 2);
-
-                        Vector3[] x = new[] {Player.Position, enemy.Position};
-                        var aX =
-                            Drawing.WorldToScreen(new Vector3(CenterOfVectors(x).X, CenterOfVectors(x).Y,
-                                CenterOfVectors(x).Z));
-                        Drawing.DrawText(aX.X - 15, aX.Y - 15, Color.GreenYellow, enemy.ChampionName);
-                    }
-                }
-            }
 
             foreach (var spell in SpellList)
             {

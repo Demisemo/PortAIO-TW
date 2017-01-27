@@ -20,25 +20,20 @@ using EloBuddy;
         private static Orbwalking.Orbwalker Orbwalker;
         private static AIHeroClient Player = ObjectManager.Player;
         
-        private static Spell Q, W, E, R;
-        private static String IsFirstR = "TalonShadowAssault";
-        private static String IsSecondR = "talonshadowassaulttoggle";
+        private static Spell Q, W, R;
+        private static String IsFirstR = "TalonR";
+        private static String IsSecondR = "TalonRToggle";
         static bool Dind { get { return Menu.Item("Dind").GetValue<bool>(); } }
         static bool DW { get { return Menu.Item("DW").GetValue<bool>(); } }
-        static bool DE { get { return Menu.Item("DE").GetValue<bool>(); } }
-        static bool DR { get { return Menu.Item("DR").GetValue<bool>(); } }
         static bool KSW { get { return Menu.Item("KSW").GetValue<bool>(); } }
-        static bool KSEW { get { return Menu.Item("KSEW").GetValue<bool>(); } }
         static bool KSR { get { return Menu.Item("KSR").GetValue<bool>(); } }
         static bool CQ { get { return Menu.Item("CQ").GetValue<bool>(); } }
         static bool CW { get { return Menu.Item("CW").GetValue<bool>(); } }
-        static bool CE { get { return Menu.Item("CE").GetValue<bool>(); } }
         static bool CR { get { return Menu.Item("CR").GetValue<bool>(); } }
         static int CRS { get { return Menu.Item("CRS").GetValue<StringList>().SelectedIndex; } }
         static bool CAR { get { return Menu.Item("CAR").GetValue<bool>(); } }
         static bool HQ { get { return Menu.Item("HQ").GetValue<bool>(); } }
         static bool HW { get { return Menu.Item("HW").GetValue<bool>(); } }
-        static bool HE { get { return Menu.Item("HE").GetValue<bool>(); } }
         static bool LQ { get { return Menu.Item("LQ").GetValue<bool>(); } }
         static bool LW { get { return Menu.Item("LW").GetValue<bool>(); } }
         static int minhit { get { return Menu.Item("minhit").GetValue<Slider>().Value; } }
@@ -48,13 +43,10 @@ using EloBuddy;
             if (Player.ChampionName != "Talon") return;
             Chat.Print("Hoola Talon - Loaded Successfully, Good Luck! :)");
 
-            Q = new Spell(SpellSlot.Q);
-            W = new Spell(SpellSlot.W, 720f);
-            E = new Spell(SpellSlot.E, 700f);
-            R = new Spell(SpellSlot.R, 600f) { Delay = 0.1f, Speed = 902f * 2 };
-
-            W.SetSkillshot(0.25f, 52f * (float)Math.PI / 180, 902f * 2, false, SkillshotType.SkillshotCone);
-            E.SetTargetted(0.25f, float.MaxValue);
+            Q = new Spell(SpellSlot.Q, 550);
+            W = new Spell(SpellSlot.W, 900);
+            R = new Spell(SpellSlot.R, 500);
+            W.SetSkillshot(0.25f, 75, 2300, false, SkillshotType.SkillshotLine);
 
             Game.OnUpdate += OnTick;
             Obj_AI_Base.OnSpellCast += OnSpellCast;
@@ -67,9 +59,7 @@ using EloBuddy;
 
         private static void OnDraw(EventArgs args)
         {
-            if(DR)Render.Circle.DrawCircle(Player.Position, E.Range + W.Range, E.IsReady() && W.IsReady() ? Color.LimeGreen : Color.IndianRed);
             if(DW)Render.Circle.DrawCircle(Player.Position, W.Range, W.IsReady() ? Color.LimeGreen : Color.IndianRed);
-            if(DE)Render.Circle.DrawCircle(Player.Position, E.Range, E.IsReady() ? Color.LimeGreen : Color.IndianRed);
         }
 
         private static void OnCast(Spellbook sender, SpellbookCastSpellEventArgs args)
@@ -92,7 +82,7 @@ using EloBuddy;
                     var target = (AIHeroClient) args.Target;
                     if (!target.IsDead)
                     {
-                        if (Q.IsReady() && CQ) Q.Cast();
+                        if (Q.IsReady() && CQ) Q.Cast(target);
                         UseCastItem(300);
                         if ((!Q.IsReady() || (Q.IsReady() && !CQ)) && CW) W.Cast(target.ServerPosition);
                     }
@@ -105,7 +95,7 @@ using EloBuddy;
                     var target = (AIHeroClient)args.Target;
                     if (!target.IsDead)
                     {
-                        if (Q.IsReady() && CQ) Q.Cast();
+                        if (Q.IsReady() && CQ) Q.Cast(target);
                         UseCastItem(300);
                         if ((!Q.IsReady() || (Q.IsReady() && !CQ)) && CW) W.Cast(target.ServerPosition);
                     }
@@ -118,7 +108,7 @@ using EloBuddy;
                     var target = (AIHeroClient)args.Target;
                     if (!target.IsDead)
                     {
-                        if (Q.IsReady() && HQ) Q.Cast();
+                        if (Q.IsReady() && HQ) Q.Cast(target);
                         UseCastItem(300);
                         if ((!Q.IsReady() || (Q.IsReady() && !HQ)) && HW) W.Cast(target.ServerPosition);
                     }
@@ -131,7 +121,7 @@ using EloBuddy;
                     var target = (Obj_AI_Minion)args.Target;
                     if (!target.IsDead)
                     {
-                        if (Q.IsReady() && LQ) Q.Cast();
+                        if (Q.IsReady() && LQ) Q.Cast(target);
                         UseCastItem(300);
                     }
                 }
@@ -149,7 +139,7 @@ using EloBuddy;
 
         private static void Killsteal()
         {
-            var targets = HeroManager.Enemies.Where(x => x.IsValidTarget() && Player.Distance(x.ServerPosition) <= E.Range + W.Range && !x.IsZombie && !x.IsDead);
+            var targets = HeroManager.Enemies.Where(x => x.IsValidTarget() && Player.Distance(x.ServerPosition) <= R.Range && !x.IsZombie && !x.IsDead);
             if (W.IsReady() && KSW)
             {
                 foreach (var target in targets)
@@ -160,41 +150,6 @@ using EloBuddy;
                         {
                             W.Cast(target.ServerPosition);
                         }
-                        else if (E.IsReady() && Player.Distance(target.ServerPosition) > W.Range && Player.Mana >= E.ManaCost + W.ManaCost && KSEW)
-                        {
-                            var minions = MinionManager.GetMinions(E.Range);
-                            if (minions.Count != 0)
-                            {
-                                foreach (var minion in minions)
-                                {
-                                    if (minion.IsValidTarget(E.Range) &&
-                                        minion.Distance(target.ServerPosition) <= W.Range)
-                                    {
-                                        TacticalMap.ShowPing(PingCategory.Normal, minion.Position);
-                                        E.Cast(minion);
-                                        LeagueSharp.Common.Utility.DelayAction.Add(10, ()=> W.Cast(target.ServerPosition));
-                                    }
-
-                                }
-                            }
-                            if (minions.Count == 0)
-                            {
-                                var heros = HeroManager.Enemies;
-                                if (heros.Count != 0)
-                                {
-                                    foreach (var hero in heros)
-                                    {
-                                        if (hero.IsValidTarget(E.Range) &&
-                                            hero.Distance(target.ServerPosition) <= W.Range)
-                                        {
-                                            TacticalMap.ShowPing(PingCategory.Normal, hero.Position);
-                                            E.Cast(hero);
-                                            LeagueSharp.Common.Utility.DelayAction.Add(10, () => W.Cast(target.ServerPosition));
-                                        }
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -202,14 +157,11 @@ using EloBuddy;
 
         private static void Combo()
         {
-            var target = TargetSelector.GetTarget(E.Range, TargetSelector.DamageType.Physical);
-            if (CR && CRS == 0 && R.IsReady() && Player.Distance(target.ServerPosition) <= R.Range &&
-                (E.IsReady() || (!E.IsReady() && !CE)) && R.Instance.Name == IsFirstR) R.Cast();
-            if (!Orbwalker.InAutoAttackRange(target) && E.IsReady() && CE && ((CR && CRS == 0 && R.IsReady() && R.Instance.Name == IsSecondR) || (CR && CRS == 1 && R.IsReady() && R.Instance.Name == IsFirstR) || !R.IsReady() || (R.IsReady() && !CR))) E.Cast(target);
-            if ((!E.IsReady() || (E.IsReady() && !CE)) && CW && !Orbwalker.InAutoAttackRange(target) && Player.Distance(target) <= W.Range) W.Cast(target.ServerPosition);
+            var target = TargetSelector.GetTarget(R.Range, TargetSelector.DamageType.Physical);
+            if (CR && CRS == 0 && R.IsReady() && Player.Distance(target.ServerPosition) <= R.Range && R.Instance.Name == IsFirstR) R.Cast();
+            if (CW && !Orbwalker.InAutoAttackRange(target) && Player.Distance(target) <= W.Range) W.Cast(target.ServerPosition);
             if (target.Health < R.GetDamage2(target) && Player.Distance(target.Position) <= R.Range - 50 && KSR) R.Cast();
-            if (R.IsReady() && CR && CRS == 1 && Player.Distance(target.ServerPosition) <= R.Range &&
-                (!E.IsReady() || (E.IsReady() && !CE)) && (!W.IsReady() || (W.IsReady() && !CW)))
+            if (R.IsReady() && CR && CRS == 1 && Player.Distance(target.ServerPosition) <= R.Range && (!W.IsReady() || (W.IsReady() && !CW)))
             {
                 R.Cast();
                 R.Cast();
@@ -218,9 +170,8 @@ using EloBuddy;
 
         private static void Harass()
         {
-            var target = TargetSelector.GetTarget(E.Range, TargetSelector.DamageType.Physical);
-            if (!Orbwalker.InAutoAttackRange(target) && E.IsReady() && HE) E.Cast(target);
-            if ((!E.IsReady() || (E.IsReady() && !HE)) && HW && !Orbwalker.InAutoAttackRange(target) && Player.Distance(target) <= W.Range) W.Cast(target.ServerPosition);
+            var target = TargetSelector.GetTarget(W.Range, TargetSelector.DamageType.Physical);
+            if (HW && !Orbwalker.InAutoAttackRange(target) && Player.Distance(target) <= W.Range) W.Cast(target.ServerPosition);
         }
 
         private static void JungleClear()
@@ -313,16 +264,14 @@ using EloBuddy;
             var Combo = new Menu("Combo", "Combo");
             Combo.AddItem(new MenuItem("CQ", "Use Q").SetValue(true));
             Combo.AddItem(new MenuItem("CW", "Use W").SetValue(true));
-            Combo.AddItem(new MenuItem("CE", "Use E").SetValue(true));
             Combo.AddItem(new MenuItem("CR", "Use R").SetValue(true));
-            Combo.AddItem(new MenuItem("CRS", "R Option").SetValue(new StringList(new[] {"First (R E Q W)", "Last (E Q W R)"})));
+            Combo.AddItem(new MenuItem("CRS", "R Option").SetValue(new StringList(new[] {"First (R Q W)", "Last (Q W R)"})));
             Combo.AddItem(new MenuItem("CAR", "Auto R Can Hit > X (0 = Don't)").SetValue(new Slider(3,0,5)));
             Menu.AddSubMenu(Combo);
 
             var Harass = new Menu("Harass", "Harass");
             Harass.AddItem(new MenuItem("HQ", "Use Q").SetValue(true));
             Harass.AddItem(new MenuItem("HW", "Use W").SetValue(true));
-            Harass.AddItem(new MenuItem("HE", "Use E").SetValue(false));
             Menu.AddSubMenu(Harass);
 
             var LaneClear = new Menu("LaneClear", "LaneClear");
@@ -334,14 +283,11 @@ using EloBuddy;
             var Draw = new Menu("Draw", "Draw");
             Draw.AddItem(new MenuItem("Dind", "Draw Damage Indicator").SetValue(true));
             Draw.AddItem(new MenuItem("DW", "Draw W Range").SetValue(false));
-            Draw.AddItem(new MenuItem("DE", "Draw E Range").SetValue(false));
-            Draw.AddItem(new MenuItem("DR", "Draw E W Killsteal Range").SetValue(false));
             Menu.AddSubMenu(Draw);
 
 
             var Killsteal = new Menu("Killsteal", "Killsteal");
             Killsteal.AddItem(new MenuItem("KSW", "Killsteal W").SetValue(true));
-            Killsteal.AddItem(new MenuItem("KSEW", "Killsteal EW").SetValue(true));
             Killsteal.AddItem(new MenuItem("KSR", "Killsteal R (While Combo Only)").SetValue(true));
             Menu.AddSubMenu(Killsteal);
 

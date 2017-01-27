@@ -78,12 +78,12 @@ namespace ElUtilitySuite.Utility
         {
             var predicate = new Func<Menu, bool>(x => x.Name == "MiscMenu");
             var menu = !rootMenu.Children.Any(predicate)
-                           ? rootMenu.AddSubMenu(new Menu("雜項", "MiscMenu"))
+                           ? rootMenu.AddSubMenu(new Menu("Misc", "MiscMenu"))
                            : rootMenu.Children.First(predicate);
 
-            var autoTrinketMenu = menu.AddSubMenu(new Menu("自動更換鷹眼晶球", "bluetrinket"));
+            var autoTrinketMenu = menu.AddSubMenu(new Menu("Blue trinket", "bluetrinket"));
             {
-                autoTrinketMenu.AddItem(new MenuItem("AutoTrinket", "自動購買應眼晶球").SetValue(false));
+                autoTrinketMenu.AddItem(new MenuItem("AutoTrinket", "Auto buy blue trinket").SetValue(false));
             }
 
             this.Menu = autoTrinketMenu;

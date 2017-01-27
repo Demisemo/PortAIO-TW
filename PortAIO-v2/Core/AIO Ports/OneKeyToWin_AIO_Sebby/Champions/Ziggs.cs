@@ -27,9 +27,9 @@ namespace OneKeyToWin_AIO_Sebby.Champions
             E = new Spell(SpellSlot.E, 900f);
             R = new Spell(SpellSlot.R, 5300f);
 
-            Q1.SetSkillshot(0.26f, 95f, 1650f, false, SkillshotType.SkillshotCircle);
-            Q2.SetSkillshot(0.4f, 50f, 1650f, false, SkillshotType.SkillshotCircle);
-            Q3.SetSkillshot(0.6f, 50f, 1650f, false, SkillshotType.SkillshotCircle);
+            Q1.SetSkillshot(0.3f, 130f, 1700f, false, SkillshotType.SkillshotCircle);
+            Q2.SetSkillshot(0.25f + Q1.Delay, 130f, 1700f, false, SkillshotType.SkillshotCircle);
+            Q3.SetSkillshot(0.3f + Q2.Delay, 130f, 1700f, false, SkillshotType.SkillshotCircle);
 
             W.SetSkillshot(0.25f, 275f, 1750f, false, SkillshotType.SkillshotCircle);
             E.SetSkillshot(1f, 150f, 1750f, false, SkillshotType.SkillshotCircle);
@@ -431,54 +431,126 @@ namespace OneKeyToWin_AIO_Sebby.Champions
         }
         private static void CastQ(Obj_AI_Base target)
         {
-            SebbyLib.Prediction.PredictionOutput prediction = GetPred(Q1,target);
+            SebbyLib.Prediction.PredictionOutput prediction;
 
-            Vector3 pos1 = Vector3.Zero, pos2 = Vector3.Zero, pos3 = Vector3.Zero;
-
-            SebbyLib.Prediction.HitChance hitchance = SebbyLib.Prediction.HitChance.Low;
-
-            if (Config.Item("QHitChance", true).GetValue<StringList>().SelectedIndex == 0)
-                hitchance = SebbyLib.Prediction.HitChance.VeryHigh;
-            else if (Config.Item("QHitChance", true).GetValue<StringList>().SelectedIndex == 1)
-                hitchance = SebbyLib.Prediction.HitChance.High;
-            else if (Config.Item("QHitChance", true).GetValue<StringList>().SelectedIndex == 2)
-                hitchance = SebbyLib.Prediction.HitChance.Medium;
-            
-            if (prediction.Hitchance == SebbyLib.Prediction.HitChance.OutOfRange)
+            if (ObjectManager.Player.Distance(target) < Q1.Range)
             {
+                var oldrange = Q1.Range;
+                Q1.Range = Q2.Range;
+                prediction = GetPred(Q1, target);
+                Q1.Range = oldrange;
+            }
+            else if (ObjectManager.Player.Distance(target) < Q2.Range)
+            {
+                var oldrange = Q2.Range;
+                Q2.Range = Q3.Range;
                 prediction = GetPred(Q2, target);
-                pos1 = Player.Position.Extend(prediction.CastPosition, Q1.Range);
-                if (Cache.GetMinions(pos1, 280).Any())
-                    return;
-                if (OktwCommon.CirclePoints(10, 150, pos1).Any(x => x.IsWall()))
-                    return;
-                if (prediction.Hitchance == SebbyLib.Prediction.HitChance.OutOfRange)
-                {
-                    prediction = GetPred(Q3, target);
-                    pos2 = Player.Position.Extend(prediction.CastPosition, Q2.Range);
-                    if (Cache.GetMinions(pos2, 280).Any())
-                        return;
-                    if (OktwCommon.CirclePoints(10, 150, pos2).Any(x => x.IsWall()))
-                        return;
-                    if (prediction.Hitchance == SebbyLib.Prediction.HitChance.OutOfRange)
-                    {
-                        return;
-                    }
-                    else if (prediction.Hitchance >= hitchance )
-                    {
-                        Q3.Cast(prediction.CastPosition);
-                    }
-                }
-                else if (prediction.Hitchance >= hitchance )
-                {
-                    Q2.Cast(prediction.CastPosition);
-                }
+                Q2.Range = oldrange;
             }
-            else if (prediction.Hitchance >= hitchance)
+            else if (ObjectManager.Player.Distance(target) < Q3.Range)
             {
-                Q1.Cast(prediction.CastPosition);
+                prediction = GetPred(Q3, target);
+            }
+            else
+            {
+                return;
             }
 
+            if (prediction.Hitchance >= SebbyLib.Prediction.HitChance.High)
+            {
+                if (ObjectManager.Player.ServerPosition.Distance(prediction.CastPosition) <= Q1.Range + Q1.Width)
+                {
+                    Vector3 p;
+                    if (ObjectManager.Player.ServerPosition.Distance(prediction.CastPosition) > 300)
+                    {
+                        p = prediction.CastPosition -
+                            100 *
+                            (prediction.CastPosition.To2D() - ObjectManager.Player.ServerPosition.To2D()).Normalized()
+                                .To3D();
+                    }
+                    else
+                    {
+                        p = prediction.CastPosition;
+                    }
+
+                    Q1.Cast(p);
+                }
+                else if (ObjectManager.Player.ServerPosition.Distance(prediction.CastPosition) <=
+                         ((Q1.Range + Q2.Range) / 2))
+                {
+                    var p = ObjectManager.Player.ServerPosition.To2D()
+                        .Extend(prediction.CastPosition.To2D(), Q1.Range - 100);
+
+                    if (!CheckQCollision(target, prediction.UnitPosition, p.To3D()))
+                    {
+                        Q1.Cast(p.To3D());
+                    }
+                }
+                else
+                {
+                    var p = ObjectManager.Player.ServerPosition.To2D() +
+                            Q1.Range *
+                            (prediction.CastPosition.To2D() - ObjectManager.Player.ServerPosition.To2D()).Normalized
+                                ();
+
+                    if (!CheckQCollision(target, prediction.UnitPosition, p.To3D()))
+                    {
+                        Q1.Cast(p.To3D());
+                    }
+                }
+            }
+        }
+
+        private static bool CheckQCollision(Obj_AI_Base target, Vector3 targetPosition, Vector3 castPosition)
+        {
+            var direction = (castPosition.To2D() - ObjectManager.Player.ServerPosition.To2D()).Normalized();
+            var firstBouncePosition = castPosition.To2D();
+            var secondBouncePosition = firstBouncePosition +
+                                       direction * 0.4f *
+                                       ObjectManager.Player.ServerPosition.To2D().Distance(firstBouncePosition);
+            var thirdBouncePosition = secondBouncePosition +
+                                      direction * 0.6f * firstBouncePosition.Distance(secondBouncePosition);
+
+            //TODO: Check for wall collision.
+
+            if (thirdBouncePosition.Distance(targetPosition.To2D()) < Q1.Width + target.BoundingRadius)
+            {
+                //Check the second one.
+                foreach (var minion in ObjectManager.Get<Obj_AI_Minion>())
+                {
+                    if (minion.IsValidTarget(3000))
+                    {
+                        var predictedPos = GetPred(Q2, minion);
+                        if (predictedPos.UnitPosition.To2D().Distance(secondBouncePosition) <
+                            Q2.Width + minion.BoundingRadius)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            if (secondBouncePosition.Distance(targetPosition.To2D()) < Q1.Width + target.BoundingRadius ||
+                thirdBouncePosition.Distance(targetPosition.To2D()) < Q1.Width + target.BoundingRadius)
+            {
+                //Check the first one
+                foreach (var minion in ObjectManager.Get<Obj_AI_Minion>())
+                {
+                    if (minion.IsValidTarget(3000))
+                    {
+                        var predictedPos = GetPred(Q1, minion);
+                        if (predictedPos.UnitPosition.To2D().Distance(firstBouncePosition) <
+                            Q1.Width + minion.BoundingRadius)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+            }
+
+            return true;
         }
 
         private static SebbyLib.Prediction.PredictionOutput GetPred(Spell QWER , Obj_AI_Base target)

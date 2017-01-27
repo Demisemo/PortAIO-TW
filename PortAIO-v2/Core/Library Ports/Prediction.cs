@@ -712,20 +712,6 @@ namespace PortAIO
                 {
                     result.Hitchance = HitChance.OutOfRange;
                 }
-
-                if (input.RangeCheckFrom.Distance(result.CastPosition, true) > Math.Pow(input.Range, 2))
-                {
-                    if (result.Hitchance != HitChance.OutOfRange)
-                    {
-                        result.CastPosition = input.RangeCheckFrom
-                                              + input.Range
-                                              * (result.UnitPosition - input.RangeCheckFrom).To2D().Normalized().To3D();
-                    }
-                    else
-                    {
-                        result.Hitchance = HitChance.OutOfRange;
-                    }
-                }
             }
 
             //Check for collision

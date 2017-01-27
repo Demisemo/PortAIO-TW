@@ -20,7 +20,7 @@
         /// <value>
         ///     The E spell
         /// </value>
-        private static Spell E { get; set; }
+        //private static Spell E { get; set; }
 
         /// <summary>
         ///     Gets Ravenous Hydra
@@ -170,10 +170,9 @@
                     IgniteSpell = new Spell(igniteSlot, 600f);
                 }
 
-                Q = new Spell(SpellSlot.Q, Orbwalking.GetRealAutoAttackRange(Player) + 100);
-                W = new Spell(SpellSlot.W, 600f);
-                E = new Spell(SpellSlot.E, 700f);
-                R = new Spell(SpellSlot.R, 650f);
+                Q = new Spell(SpellSlot.Q, 550f);
+                W = new Spell(SpellSlot.W, 900f);
+                R = new Spell(SpellSlot.R, 500f);
 
                 W.SetSkillshot(0.25f, 75, 2300, false, SkillshotType.SkillshotLine);
 
@@ -181,7 +180,6 @@
 
                 Game.OnUpdate += OnUpdate;
                 Drawing.OnDraw += OnDraw;
-                AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
                 Orbwalking.AfterAttack += OrbwalkingAfterAttack;
             }
             catch (Exception exception)
@@ -194,24 +192,6 @@
 
         #region Methods
 
-        private static void AntiGapcloser_OnEnemyGapcloser(ActiveGapcloser gapcloser)
-        {
-            try
-            {
-                if (IsActive("GFUELTalon.Misc.Antigapcloser") && E.IsReady())
-                {
-                    if (gapcloser.Sender.IsValidTarget(E.Range))
-                    {
-                        E.CastOnUnit(gapcloser.Sender);
-                    }
-                }
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception);
-            }
-        }
-
         /// <summary>
         ///     Combo logic
         /// </summary>
@@ -219,24 +199,10 @@
         {
             try
             {
-                var target = TargetSelector.GetTarget(E.Range, TargetSelector.DamageType.Physical);
+                var target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Physical);
                 if (target == null)
                 {
                     return;
-                }
-
-                if (IsActive("GFUELTalon.Combo.E") && target.IsValidTarget(E.Range) && E.IsReady())
-                {
-                    if (IsActive("GFUELTalon.Combo.Towercheck"))
-                    {
-                        var underTower = target.UnderTurret();
-                        if (underTower)
-                        {
-                            return;
-                        }
-                    }
-
-                    E.Cast(target);
                 }
 
                 if (IsActive("GFUELTalon.Combo.R") && R.IsReady())
@@ -246,7 +212,7 @@
                         if (IsActive("GFUELTalon.Combo.Overkill.R"))
                         {
                             if (Player.GetSpellDamage(target, SpellSlot.R) > target.Health + 75
-                                && (Q.IsReady() || E.IsReady() || W.IsReady()))
+                                && (Q.IsReady() || W.IsReady()))
                             {
                                 return;
                             }
@@ -284,7 +250,7 @@
 
                 if (IsActive("GFUELTalon.Combo.Q") && target.IsValidTarget(Q.Range) && Q.IsReady())
                 {
-                    Q.Cast();
+                    Q.Cast(target);
                 }
 
                 if (Player.GetSummonerSpellDamage(target, Damage.SummonerSpell.Ignite) >= target.Health)
@@ -308,7 +274,7 @@
         {
             try
             {
-                var target = TargetSelector.GetTarget(E.Range, TargetSelector.DamageType.Physical);
+                var target = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Physical);
                 if (target == null)
                 {
                     return;
@@ -336,7 +302,7 @@
                 var minion =
                     MinionManager.GetMinions(
                         Player.ServerPosition,
-                        E.Range,
+                        Q.Range,
                         MinionTypes.All,
                         MinionTeam.Neutral,
                         MinionOrderTypes.MaxHealth).OrderByDescending(x => x.MaxHealth).FirstOrDefault();
@@ -351,12 +317,6 @@
                     return;
                 }
 
-
-                if (IsActive("GFUELTalon.jungleclear.E") && E.IsReady())
-                {
-                    E.CastOnUnit(minion);
-                }
-
                 if (IsActive("GFUELTalon.jungleclear.W") && W.IsReady() && minion.IsValidTarget(W.Range)) 
                 {
                     W.Cast(minion);
@@ -364,7 +324,7 @@
 
                 if (IsActive("GFUELTalon.jungleclear.Q") && Q.IsReady() && minion.IsValidTarget(Q.Range))
                 {
-                    Q.Cast();
+                    Q.Cast(minion);
                 }
 
                 var min =
@@ -396,7 +356,7 @@
         {
             try
             {
-                var minion = MinionManager.GetMinions(Player.Position, E.Range).MinOrDefault(x => x.Health);
+                var minion = MinionManager.GetMinions(Player.Position, W.Range).MinOrDefault(x => x.Health);
                 if (minion == null)
                 {
                     return;
@@ -431,14 +391,6 @@
                     if (Hydra.IsReady())
                     {
                         Hydra.Cast();
-                    }
-                }
-
-                if (IsActive("GFUELTalon.laneclear.E") && E.IsReady())
-                {
-                    if (E.GetDamage(minion) > minion.Health)
-                    {
-                        E.CastOnUnit(minion);
                     }
                 }
             }
@@ -478,7 +430,6 @@
                 {
                     comboMenu.AddItem(new MenuItem("GFUELTalon.Combo.Q", "Use Q").SetValue(true));
                     comboMenu.AddItem(new MenuItem("GFUELTalon.Combo.W", "Use W").SetValue(true));
-                    comboMenu.AddItem(new MenuItem("GFUELTalon.Combo.E", "Use E").SetValue(true));
                     comboMenu.AddItem(new MenuItem("GFUELTalon.Combo.Items", "Use Items").SetValue(true));
                     comboMenu.AddItem(new MenuItem("GFUELTalon.Combo.Towercheck", "Check under tower").SetValue(false));
 
@@ -503,7 +454,6 @@
 
                 var laneclearMenu = new Menu("Laneclear", "Laneclear");
                 {
-                    laneclearMenu.AddItem(new MenuItem("GFUELTalon.laneclear.E", "Use E").SetValue(false));
                     laneclearMenu.AddItem(new MenuItem("GFUELTalon.laneclear.W", "Use W").SetValue(true));
 
                     laneclearMenu.AddItem(new MenuItem("GFUELTalon.laneclear.count", "Minimum minion count"))
@@ -518,7 +468,6 @@
                 var jungleclearMenu = new Menu("Jungleclear", "Jungleclear");
                 {
                     jungleclearMenu.AddItem(new MenuItem("GFUELTalon.jungleclear.Q", "Use Q").SetValue(false));
-                    jungleclearMenu.AddItem(new MenuItem("GFUELTalon.jungleclear.E", "Use E").SetValue(false));
                     jungleclearMenu.AddItem(new MenuItem("GFUELTalon.jungleclear.W", "Use W").SetValue(true));
                     jungleclearMenu.AddItem(
                         new MenuItem("GFUELTalon.jungleclear.Mana", "Minimum mana").SetValue(new Slider(20, 0, 100)));
@@ -536,34 +485,7 @@
                 var miscellaneousMenu = new Menu("Miscellaneous", "Miscellaneous");
                 {
                     miscellaneousMenu.AddItem(new MenuItem("GFUELTalon.Draw.Off", "Disable drawings").SetValue(false));
-                    miscellaneousMenu.AddItem(new MenuItem("GFUELTalon.Draw.W", "Draw E").SetValue(true));
-
-                    miscellaneousMenu.AddItem(
-                        new MenuItem("GFUELTalon.Misc.Antigapcloser", "Use E - Antigapcloser").SetValue(true));
-
-                    var dmgAfterE = new MenuItem("GFUELTalon.DrawComboDamage", "Draw combo damage").SetValue(true);
-                    var drawFill =
-                        new MenuItem("GFUELTalon.DrawColour", "Fill colour", true).SetValue(
-                            new Circle(true, Color.Goldenrod));
-                    miscellaneousMenu.AddItem(drawFill);
-                    miscellaneousMenu.AddItem(dmgAfterE);
-
-                    //DamageIndicator.DamageToUnit = GetComboDamage;
-                    //DamageIndicator.Enabled = dmgAfterE.IsActive();
-                    //DamageIndicator.Fill = drawFill.GetValue<Circle>().Active;
-                    //DamageIndicator.FillColor = drawFill.GetValue<Circle>().Color;
-
-                    dmgAfterE.ValueChanged +=
-                        delegate(object sender, OnValueChangeEventArgs eventArgs)
-                            {
-                                //DamageIndicator.Enabled = eventArgs.GetNewValue<bool>();
-                            };
-
-                    drawFill.ValueChanged += delegate(object sender, OnValueChangeEventArgs eventArgs)
-                        {
-                            //DamageIndicator.Fill = eventArgs.GetNewValue<Circle>().Active;
-                            //DamageIndicator.FillColor = eventArgs.GetNewValue<Circle>().Color;
-                        };
+                    miscellaneousMenu.AddItem(new MenuItem("GFUELTalon.Draw.W", "Draw W").SetValue(true));
                 }
 
                 Menu.AddSubMenu(miscellaneousMenu);
@@ -578,9 +500,9 @@
 
         private static Obj_AI_Base GetCenterMinion()
         {
-            var minions = MinionManager.GetMinions(E.Range);
+            var minions = MinionManager.GetMinions(W.Range);
             var centerlocation =
-                MinionManager.GetBestCircularFarmLocation(minions.Select(x => x.Position.To2D()).ToList(), 500, E.Range);
+                MinionManager.GetBestCircularFarmLocation(minions.Select(x => x.Position.To2D()).ToList(), 500, W.Range);
 
             return centerlocation.MinionsHit >= Menu.Item("GFUELTalon.laneclear.count").GetValue<Slider>().Value
                        ? MinionManager.GetMinions(1000)
@@ -623,11 +545,6 @@
                 if (Q.IsReady())
                 {
                     damage += Q.GetDamage(enemy);
-                }
-
-                if (E.IsReady())
-                {
-                    damage += E.GetDamage(enemy);
                 }
 
                 if (W.IsReady())
@@ -771,12 +688,11 @@
                     return;
                 }
 
-                if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo
-                    || Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed)
+                if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo || Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed)
                 {
-                    if (target.IsValidTarget(Q.Range))
+                    if (target.IsValidTarget(160))
                     {
-                        Q.Cast();
+                        Q.Cast(enemy);
                     }
                 }
 
