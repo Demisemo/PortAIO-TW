@@ -297,7 +297,7 @@
                         result.Add(first);
                     }
 
-                    for (var i = 1; i < path.Length; i++)
+                    for (int i = 1; i < path.Length; i++)
                     {
                         result.Add(path[i].To2D());
                     }

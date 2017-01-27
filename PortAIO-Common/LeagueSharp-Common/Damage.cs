@@ -1690,7 +1690,7 @@ namespace LeagueSharp.Common
                         source.CalcDamage(
                             target,
                             DamageType.Magical,
-                            2.5 + (source.Level < 10 ? 0.5 : 1) * source.Level)
+                            8 + (2 * source.Level))
             };
 
             AttackPassives.Add(p);
@@ -1958,7 +1958,7 @@ namespace LeagueSharp.Common
                         Damage =
                             (source, target, level) =>
                                 new double[] {50, 100, 150}[level]
-                                + 0.25*source.TotalMagicalDamage
+                                + 0.35*source.TotalMagicalDamage
                     },
                 });
 
@@ -4045,7 +4045,7 @@ namespace LeagueSharp.Common
                         Damage =
                             (source, target, level) =>
                                 new double[] {30, 45, 60, 75, 90}[level]
-                                + 0.25*source.TotalMagicalDamage + 0.65*source.TotalAttackDamage
+                                + 0.25*source.TotalMagicalDamage + 0.5*source.TotalAttackDamage
                     },
                     //R - per dagger
                     new DamageSpell
@@ -6467,7 +6467,7 @@ namespace LeagueSharp.Common
                         Damage =
                             (source, target, level) =>
                                 new double[] {110, 150, 190, 230, 270}[level]
-                                + 1.1*source.FlatPhysicalDamageMod
+                                + source.FlatPhysicalDamageMod
                     },
                     //R
                     new DamageSpell
@@ -7328,10 +7328,7 @@ namespace LeagueSharp.Common
                         DamageType = DamageType.Magical,
                         Damage =
                             (source, target, level) =>
-                                Math.Max(
-                                    new double[] {75, 125, 175, 225, 275}[level],
-                                    new double[] {8, 10, 12, 14, 16}[level]/100
-                                    *target.MaxHealth) + source.TotalMagicalDamage
+                                new double[] {6 , 7 , 8 , 9 , 10}[level]/100 *target.MaxHealth + (1.2*source.TotalAttackDamage + 0.9 * source.TotalMagicalDamage)
                     },
                     //R - max
                     new DamageSpell
@@ -7340,8 +7337,8 @@ namespace LeagueSharp.Common
                         DamageType = DamageType.Magical,
                         Damage =
                             (source, target, level) =>
-                                new double[] {150, 250, 350}[level]
-                                + 2*source.FlatPhysicalDamageMod
+                                new double[] {175,350,525}[level]
+                                + 1.67*source.FlatPhysicalDamageMod
                     },
                 });
 
@@ -7448,8 +7445,8 @@ namespace LeagueSharp.Common
                         DamageType = DamageType.Magical,
                         Damage =
                             (source, target, level) =>
-                                new double[] {70, 90, 110, 130, 150}[level]
-                                + 0.6*source.TotalMagicalDamage
+                                new double[] {60, 70, 80, 90, 100}[level]
+                                + 0.6*source.TotalMagicalDamage + 0.2 * source.FlatPhysicalDamageMod
                     },
                     //R
                     new DamageSpell
@@ -7873,6 +7870,7 @@ namespace LeagueSharp.Common
             Obj_AI_Base target,
             bool includePassive = false)
         {
+            //return EloBuddy.SDK.Damage.GetAutoAttackDamage(source, target, includePassive);
             double result = source.TotalAttackDamage;
             var k = 1d;
             if (source.BaseSkinName == "Kalista")

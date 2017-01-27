@@ -114,7 +114,7 @@
             Root.AddItem(new MenuItem("BackgroundAlpha", "菜單透明度")).SetValue(new Slider(165, 55, 255));
             Root.AddItem(
                 new MenuItem("FontName", "字體名稱:").SetValue(
-                    new StringList(new[] { "Tahoma", "Calibri", "Segoe UI" }, 1)));
+                    new StringList(new[] { "宋體", "無襯線字體", "西文字體" }, 1)));
             Root.AddItem(new MenuItem("FontSize", "字體大小:").SetValue(new Slider(15, 12, 20)));
             Root.AddItem(
                 new MenuItem("FontQuality", "字體質量").SetValue(

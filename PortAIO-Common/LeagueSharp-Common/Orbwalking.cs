@@ -9,6 +9,7 @@ namespace LeagueSharp.Common
 
     using Color = System.Drawing.Color;
     using EloBuddy.SDK;
+    using EloBuddy.SDK.Constants;
 
     /// <summary>
     ///     This class offers everything related to auto-attacks and orbwalking.
@@ -391,6 +392,7 @@ namespace LeagueSharp.Common
             {
                 return false;
             }
+
             /*if (Player.ChampionName == "Graves")
             {
                 var attackDelay = 1.0740296828d * 1000 * Player.AttackDelay - 716.2381256175d;
@@ -409,10 +411,21 @@ namespace LeagueSharp.Common
                 }
             }
 
-            //            if (Player.IsCastingInterruptableSpell())
-            //            {
-            //                return false;
-            //            }
+            if (Player.ChampionName == "Darius")
+            {
+                if (Player.HasBuff("dariusqcast"))
+                {
+                    return false;
+                }
+            }
+
+            if (Player.ChampionName == "Kalista")
+            {
+                if (Player.IsDashing())
+                {
+                    return false;
+                }
+            }
 
             return Core.GameTickCount + Game.Ping / 2 + 25 >= LastAATick + Player.AttackDelay * 1000;
         }
@@ -775,9 +788,9 @@ namespace LeagueSharp.Common
             if (sender.IsMe)
             {
                 var ping = Game.Ping;
-                if (ping <= 30) //First world problems kappa
+                if (ping <= 50) //First world problems kappa
                 {
-                    Utility.DelayAction.Add(30 - ping, () => Obj_AI_Base_OnDoCast_Delayed(sender, args));
+                    Utility.DelayAction.Add(50 - ping, () => Obj_AI_Base_OnDoCast_Delayed(sender, args));
                     return;
                 }
 
@@ -795,7 +808,7 @@ namespace LeagueSharp.Common
 
             if (IsAutoAttackReset(args.SData.Name))
             {
-                ResetAutoAttackTimer();
+                Core.DelayAction(ResetAutoAttackTimer, 30);
             }
 
             if (IsAutoAttack(args.SData.Name))
@@ -816,14 +829,9 @@ namespace LeagueSharp.Common
             {
                 var spellName = Spell.SData.Name;
 
-                if (unit.IsMe && IsAutoAttackReset(spellName) && Math.Abs(Spell.SData.CastTime) < 1.401298E-45f)
+                if (unit.IsMe && IsAutoAttackReset(spellName) && (Math.Abs(Spell.SData.CastTime) < float.Epsilon || Spell.SData.CastTime > 0.2f))
                 {
-                    ResetAutoAttackTimer();
-                }
-
-                if (!IsAutoAttack(spellName))
-                {
-                    return;
+                    Core.DelayAction(ResetAutoAttackTimer, 30);
                 }
             }
             catch (Exception e)
@@ -870,8 +878,7 @@ namespace LeagueSharp.Common
         {
             if (spellbook.IsValid && spellbook.IsMe && EloBuddy.SDK.Orbwalker.IsRanged && args.DestroyMissile && args.StopAnimation && !EloBuddy.SDK.Orbwalker.CanBeAborted)// CanCancelAttack)
             {
-                ResetAutoAttackTimer();
-                //EloBuddy.SDK.Orbwalker.ResetAutoAttack();
+                Core.DelayAction(ResetAutoAttackTimer, 30);
             }
         }
 
@@ -1051,7 +1058,7 @@ namespace LeagueSharp.Common
                  new MenuItem("Flee", "逃跑").SetShared().SetValue(new KeyBind('U', KeyBindType.Press)));
 
                 _config.AddItem(
-                 new MenuItem("WallJump", "過強").SetShared().SetValue(new KeyBind('K', KeyBindType.Press))).SetTooltip("Made for Flowers' Riven");
+                 new MenuItem("WallJump", "過牆").SetShared().SetValue(new KeyBind('K', KeyBindType.Press))).SetTooltip("Made for Flowers' Riven");
 
                 _config.AddItem(
                  new MenuItem("QuickHarass", "快速騷擾").SetShared().SetValue(new KeyBind('L', KeyBindType.Press))).SetTooltip("Made for Flowers & Nechrito Riven");
@@ -1393,7 +1400,7 @@ namespace LeagueSharp.Common
                             .Where(
                                 mob =>
                                 mob.IsValidTarget() && mob.Team == GameObjectTeam.Neutral && this.InAutoAttackRange(mob)
-                                && mob.CharData.BaseSkinName != "gangplankbarrel" && mob.Name != "WardCorpse");
+                                && mob.CharData.BaseSkinName != "gangplankbarrel" && mob.Name != "WardCorpse" && !mob.BaseSkinName.Contains("Plant"));
 
                     result = _config.Item("Smallminionsprio").GetValue<bool>()
                                  ? jminions.MinOrDefault(mob => mob.MaxHealth)
@@ -1620,7 +1627,7 @@ namespace LeagueSharp.Common
                                       ObjectManager.Get<Obj_AI_Minion>()
                                       .Where(
                                           minion => minion.IsValidTarget() && this.InAutoAttackRange(minion)
-                                          && this.ShouldAttackMinion(minion))
+                                          && this.ShouldAttackMinion(minion) && !minion.BaseSkinName.Contains("Plant"))
                                   let predHealth =
                                       HealthPrediction.LaneClearHealthPrediction(
                                           minion,

@@ -216,7 +216,7 @@
                 }
 
                 var targets =
-                    EloBuddy.SDK.EntityManager.Heroes.Enemies.FindAll(
+                    EloBuddy.SDK.EntityManager.Heroes.Enemies.Where(
                         hero =>
                         ignoredChamps.All(ignored => ignored.NetworkId != hero.NetworkId)
                         && IsValidTarget(hero, range, type, ignoreShieldSpells, rangeCheckFrom)
@@ -357,7 +357,7 @@
             }
             config.AddItem(autoPriorityItem);
             config.AddItem(
-                new MenuItem("TargetingMode", "選擇目標 模式").SetShared()
+                new MenuItem("TargetingMode", "Target Mode").SetShared()
                     .SetValue(new StringList(Enum.GetNames(typeof(TargetingMode)))));
 
             CommonMenu.Instance.AddSubMenu(config);
