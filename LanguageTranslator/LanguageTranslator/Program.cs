@@ -18,8 +18,8 @@ namespace LanguageTranslator
 {
     internal static class Program
     {
-        private const string VersionUrl = "https://raw.githubusercontent.com/finndev/iCreative-Mirror/master/LanguageTranslator/LanguageTranslator/Properties/AssemblyInfo.cs";
-        private const string JsonUrl = "https://raw.githubusercontent.com/finndev/iCreative-Mirror/master/LanguageTranslator/LanguageTranslator/Translations.json";
+        private const string VersionUrl = "https://raw.githubusercontent.com/Demisemo/PortAIO-TW/master/LanguageTranslator/LanguageTranslator/Properties/AssemblyInfo.cs";
+        private const string JsonUrl = "https://raw.githubusercontent.com/Demisemo/PortAIO-TW/master/LanguageTranslator/LanguageTranslator/Translations.json";
         private const string VersionRegex = @"\[assembly\: AssemblyVersion\(""(\d+\.\d+\.\d+\.\d+)""\)\]";
         private static string _jsonPath;
         private static string _programDirectory;
@@ -146,12 +146,12 @@ namespace LanguageTranslator
             {
                 _ready = false;
                 _loaded = true;
-                _menu = MainMenu.AddMenu("LanguageTranslator", "LanguageTranslator");
+                _menu = MainMenu.AddMenu("LanguageTranslator", "語言翻譯");
                 var languagesAvailable = Enum.GetValues(typeof (Language)).Cast<Language>().ToArray().Select(i => i.ToString());
                 var currentLanguage = (int) CurrentCulture;
-                var comboBox = _menu.Add("Language", new ComboBox("Language:", languagesAvailable, currentLanguage));
+                var comboBox = _menu.Add("Language", new ComboBox("語言:", languagesAvailable, currentLanguage));
                 comboBox.OnValueChange += delegate(ValueBase<int> sender, ValueBase<int>.ValueChangeArgs args) { Translate((Language) args.OldValue, (Language) args.NewValue); };
-                var saveCheckBox = _menu.Add("Save", new CheckBox("Save Current Addons Names", false));
+                var saveCheckBox = _menu.Add("Save", new CheckBox("保存當前附件名稱", false));
                 saveCheckBox.OnValueChange += delegate(ValueBase<bool> sender, ValueBase<bool>.ValueChangeArgs args)
                 {
                     if (sender.CurrentValue)
