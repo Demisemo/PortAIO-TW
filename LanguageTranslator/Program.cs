@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using EloBuddy;
 using EloBuddy.Sandbox;
@@ -19,8 +18,8 @@ namespace LanguageTranslator
 {
     internal static class Program
     {
-        private const string VersionUrl = "https://raw.githubusercontent.com/Demisemo/PortAIO-TW/master/LanguageTranslator/Properties/AssemblyInfo.cs";
-        private const string JsonUrl = "https://raw.githubusercontent.com/Demisemo/PortAIO-TW/master/LanguageTranslator/Translations.json";
+        private const string VersionUrl = "https://raw.githubusercontent.com/jachicao/EloBuddy/master/LanguageTranslator/LanguageTranslator/Properties/AssemblyInfo.cs";
+        private const string JsonUrl = "https://raw.githubusercontent.com/finndev/iCreative-Mirror/master/LanguageTranslator/LanguageTranslator/Translations.json";
         private const string VersionRegex = @"\[assembly\: AssemblyVersion\(""(\d+\.\d+\.\d+\.\d+)""\)\]";
         private static string _jsonPath;
         private static string _programDirectory;
@@ -43,9 +42,7 @@ namespace LanguageTranslator
             { "tr-TR", Language.Turkish },
             { "zh-CHS", Language.Chinese },
             { "zh-CHT", Language.ChineseTraditional },
-            { "ko-KR", Language.Korean },
-            { "ro-RO", Language.Romanian },
-            { "vi-VN", Language.Vietnamese },
+            { "ko-KR", Language.Korean }
         };
         private static bool _jsonPathExists;
         private static Language CurrentCulture
@@ -82,10 +79,9 @@ namespace LanguageTranslator
                             {
                                 Translations = jsonConvert;
                             }
-                            DownloadNewJson();
-                            //var webClient = new WebClient { Encoding = Encoding.UTF8 };
-                            //webClient.DownloadStringCompleted += VersionCompleted;
-                            //webClient.DownloadStringAsync(new Uri(VersionUrl, UriKind.Absolute));
+                            var webClient = new WebClient();
+                            webClient.DownloadStringCompleted += VersionCompleted;
+                            webClient.DownloadStringAsync(new Uri(VersionUrl, UriKind.Absolute));
                         }
                     }
                     if (_ready)
@@ -119,7 +115,7 @@ namespace LanguageTranslator
 
         private static void DownloadNewJson()
         {
-            var webClient = new WebClient { Encoding = Encoding.UTF8 };
+            var webClient = new WebClient();
             webClient.DownloadStringCompleted += JsonDownloaded;
             webClient.DownloadStringAsync(new Uri(JsonUrl, UriKind.Absolute));
         }
@@ -136,7 +132,7 @@ namespace LanguageTranslator
                 return;
             }
             File.WriteAllText(_jsonPath, args.Result);
-            var jsonConvert = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<Language, Dictionary<int, string>>>>(args.Result);
+            var jsonConvert = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<Language, Dictionary<int, string>>>>(File.ReadAllText(_jsonPath));
             if (jsonConvert != null)
             {
                 Translations = jsonConvert;
@@ -361,8 +357,7 @@ namespace LanguageTranslator
             Chinese,
             ChineseTraditional,
             Korean,
-            Romanian,
-            Vietnamese
+            Romanian
         }
     }
 }
