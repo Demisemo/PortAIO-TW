@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using EloBuddy;
 using EloBuddy.Sandbox;
@@ -18,8 +19,8 @@ namespace LanguageTranslator
 {
     internal static class Program
     {
-        private const string VersionUrl = "https://raw.githubusercontent.com/Demisemo/PortAIO-TW/master/LanguageTranslator/LanguageTranslator/Properties/AssemblyInfo.cs";
-        private const string JsonUrl = "https://raw.githubusercontent.com/Demisemo/PortAIO-TW/master/LanguageTranslator/LanguageTranslator/Translations.json";
+        private const string VersionUrl = "https://raw.githubusercontent.com/finndev/iCreative-Mirror/master/LanguageTranslator/LanguageTranslator/Properties/AssemblyInfo.cs";
+        private const string JsonUrl = "https://raw.githubusercontent.com/finndev/iCreative-Mirror/master/LanguageTranslator/LanguageTranslator/Translations.json";
         private const string VersionRegex = @"\[assembly\: AssemblyVersion\(""(\d+\.\d+\.\d+\.\d+)""\)\]";
         private static string _jsonPath;
         private static string _programDirectory;
@@ -42,7 +43,9 @@ namespace LanguageTranslator
             { "tr-TR", Language.Turkish },
             { "zh-CHS", Language.Chinese },
             { "zh-CHT", Language.ChineseTraditional },
-            { "ko-KR", Language.Korean }
+            { "ko-KR", Language.Korean },
+            { "ro-RO", Language.Romanian },
+            { "vi-VN", Language.Vietnamese },
         };
         private static bool _jsonPathExists;
         private static Language CurrentCulture
@@ -79,9 +82,10 @@ namespace LanguageTranslator
                             {
                                 Translations = jsonConvert;
                             }
-                            var webClient = new WebClient();
-                            webClient.DownloadStringCompleted += VersionCompleted;
-                            webClient.DownloadStringAsync(new Uri(VersionUrl, UriKind.Absolute));
+                            DownloadNewJson();
+                            //var webClient = new WebClient { Encoding = Encoding.UTF8 };
+                            //webClient.DownloadStringCompleted += VersionCompleted;
+                            //webClient.DownloadStringAsync(new Uri(VersionUrl, UriKind.Absolute));
                         }
                     }
                     if (_ready)
@@ -115,7 +119,7 @@ namespace LanguageTranslator
 
         private static void DownloadNewJson()
         {
-            var webClient = new WebClient();
+            var webClient = new WebClient { Encoding = Encoding.UTF8 };
             webClient.DownloadStringCompleted += JsonDownloaded;
             webClient.DownloadStringAsync(new Uri(JsonUrl, UriKind.Absolute));
         }
@@ -132,7 +136,7 @@ namespace LanguageTranslator
                 return;
             }
             File.WriteAllText(_jsonPath, args.Result);
-            var jsonConvert = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<Language, Dictionary<int, string>>>>(File.ReadAllText(_jsonPath));
+            var jsonConvert = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<Language, Dictionary<int, string>>>>(args.Result);
             if (jsonConvert != null)
             {
                 Translations = jsonConvert;
@@ -146,10 +150,10 @@ namespace LanguageTranslator
             {
                 _ready = false;
                 _loaded = true;
-                _menu = MainMenu.AddMenu("LanguageTranslator", "語言翻譯");
+                _menu = MainMenu.AddMenu("LanguageTranslator", "LanguageTranslator");
                 var languagesAvailable = Enum.GetValues(typeof (Language)).Cast<Language>().ToArray().Select(i => i.ToString());
                 var currentLanguage = (int) CurrentCulture;
-                var comboBox = _menu.Add("Language", new ComboBox("語言:", languagesAvailable, currentLanguage));
+                var comboBox = _menu.Add("Language", new ComboBox("選擇語言:", languagesAvailable, currentLanguage));
                 comboBox.OnValueChange += delegate(ValueBase<int> sender, ValueBase<int>.ValueChangeArgs args) { Translate((Language) args.OldValue, (Language) args.NewValue); };
                 var saveCheckBox = _menu.Add("Save", new CheckBox("保存當前附件名稱", false));
                 saveCheckBox.OnValueChange += delegate(ValueBase<bool> sender, ValueBase<bool>.ValueChangeArgs args)
@@ -357,7 +361,8 @@ namespace LanguageTranslator
             Chinese,
             ChineseTraditional,
             Korean,
-            Romanian
+            Romanian,
+            Vietnamese
         }
     }
 }
